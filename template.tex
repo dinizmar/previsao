@@ -85,7 +85,7 @@
 %=================================================================
 
 % Full title of the paper (Capitalized)
-\Title{Comparing Probabilistic Predictive Models}
+\Title{Comparing probabilistic predictive models applied to football}
 
 % Authors (Add full first names)
 \Author{Marcio A. Diniz $^{1,}$*, Rafael Izbicki $^{1}$, Danilo Lopes $^{1}$ and Luis Ernesto Salasar $^{1}$}
@@ -121,27 +121,27 @@ The famous saying of John von Neumann: {\it ``With four parameters I can fit an 
 {\it``Entities are not to be multiplied without necessity''}, but illustrates very well a principle that is not often followed by researchers, especially when building predictive models. 
 This is true also in the literature of probabilistic sports predictions, particularly regarding models devoted to football predictions.
 
-Bothered by such concerns, we tried to answer the following question: is it possible, using a simple probabilistic model, to predict results of football matches better than more sophisticated or complex models?
-To answer this question we compared two sophisticated models with simple multinomial-Dirichlet models that consider only the number of matches won, drawn or lost by each team as inputs.
-The models were tested for the second round of the Brazilian football championships of first and second divisions and compared using standard metrics or scoring rules (Brier, logarithmic and spherical).
+Bothered by such concerns, our goal was to answer the following question: is it possible, using a simple probabilistic model, to predict results of football matches better than more sophisticated or complex models?
+To answer this, we compared two sophisticated models with simple multinomial-Dirichlet models that consider only the number of matches won, drawn or lost by each team as inputs.
+The models were tested for the second round of the Brazilian football championships of first and second divisions and compared using standard metrics or scoring rules.
 We also used other criteria such as the proportion of matches that were predicted ``correctly'' by each model and a measure of calibration, both explained in detail below.
-According to the adopted criteria, the simple models showed a predictive performance quite similar to the complex ones.
+According to the adopted criteria, the simple models showed a similar predictive performance to the complex ones.
 
-The complex models used here as benchmarks publish their predictions on Internet websites for every matchday and are treated by us as black-box models, since we were not interested in how they were built or the assumptions on which they are based.
+The predictions of the complex models used here as benchmarks are published on Internet websites for every matchday, and are treated by us as black-box models since we are not interested in how they were built or the assumptions on which they are based.
 We know that\footnote{One of the authors is responsible for one of these models and the other was described in a dissertation.} both models are based on the bivariate Poisson or Holgate distribution, being able to predict the final score of a match given explanatory variables.
 \footnote{For more details see \cite{arruda2000}.}
-Simulating the model a given number of times, the estimated probability that, for instance, the home team will win, draw or loose is the proportion of times the simulated score favors the home team, were equal or favors the visiting team, respectively.
-Therefore, knowing that both model are based on an elaborate parametric model, they are suitable for the comparison we are proposing: simple versus complex models.
+Therefore, to estimate the probability that, for instance, the home team will win, the estimated model---the model estimated with available information---is simulated a given number of times and the proportion of simulated scores favoring the home team will be the predicted probability of the model.
+Knowing that both models are based on an elaborate parametric model, they are suitable for the comparison we are proposing: simple versus complex models.
 
-There are several ways to score or classify predictions of categorical events like football matches, that assume one out of three possible modes.
+There are several ways to score or classify predictions of categorical events that assume one out of three possible outcomes, like football matches.
 See \cite{constantinou} for a brief survey of such measures applied to football.
-We decided to, primarily, score the previsions for each match in terms of its distance from the truth, i.e. the verified event, once it has occurred, and chose the most used distances in the literature: Brier (\cite{brier1950}), logarithmic and spherical.
+We decided to score the previsions for each match in terms of their distances from the truth, i.e. the verified event, once it has occurred, and chose the most used distances in the literature: Brier (\cite{brier1950}), logarithmic and spherical.
 The total inaccuracy of each model is then defined as the sum of the point-wise scores of all its previsions.
 
 This paper is organized as follows.
 Section 1 describes the proposed models, Section 2 presents the scoring rules and criteria used in this work to classify the models.
 Section 3 reports the performance of the models predicting 380 matches comprising the second half of Brazilian championships of first and second divisions.
-In Section 4 we discuss the results and Section 5 closes with some remarks and proposals for future research.
+In Section 4 we discuss the results, and Section 5 closes with some remarks and proposals for future research.
 
 
 
@@ -186,7 +186,7 @@ $n_1$ is the number of matches won, $n_2$ the matches drawn and $n_3=n-n_1-n_2$ 
 
 {\bf Summary}: under the given assumptions, the vector of matches won, drawn or lost by some team, has multinomial distribution with parameters $n$ and $\theta$.
 
-We want to compute: 
+Our goal is to compute: 
 
 \[P(X_{n+1}=W|M_1=n_1,M_2=n_2,M_3=n_3)=p_1;\]
 
@@ -195,24 +195,21 @@ We want to compute:
 \[P(X_{n+1}=L|M_1=n_1,M_2=n_2,M_3=n_3)=p_3.\]
 
 
-Using Bayesian inference these probabilities are easily computed. 
-
-
-If the prior for $\theta$ is Dirichlet with parameter vector $(\alpha_1,\alpha_2,\alpha_3)$, its density function is:
+Using Bayesian inference these probabilities are easily computed: if the prior for $\theta$ is Dirichlet with parameter vector $(\alpha_1,\alpha_2,\alpha_3)$, i.e. its density function is
 
 \[
 f(\theta|\alpha)=\frac{\Gamma(\alpha_1+\alpha_2+\alpha_3)}{\Gamma(\alpha_1)\Gamma(\alpha_2)\Gamma(\alpha_3)}\theta_1^{\alpha_1-1}\theta_2^{\alpha_2-1}(1-\theta_1-\theta_2)^{\alpha_3-1}
 \]
 
 \noindent
-for $\alpha_1$, $\alpha_2$, $\alpha_3 > 0$, then the posterior is Dirichlet with parameters $(n_1+\alpha_1,n_2+\alpha_2,n_3+\alpha_3)$ and it is easy to show that
+for $\alpha_1$, $\alpha_2$, $\alpha_3 > 0$, then the posterior is Dirichlet with parameters $(n_1+\alpha_1,n_2+\alpha_2,n_3+\alpha_3)$, and hence
 
 \[p_1=P(X_{n+1}=W|M_1=n_1,M_2=n_2,M_3=n_3)=\frac{n_1+\alpha_1}{n+\alpha};\]
 
 \noindent
 where $n=n_1+n_2+n_3$ and $\alpha=\alpha_1+\alpha_2+\alpha_3$.
 
-Similarly:
+Similarly
 
 \[p_2=P(X_{n+1}=D|M_1=n_1,M_2=n_2,M_3=n_3)=\frac{n_2+\alpha_2}{n+\alpha};\]
 
@@ -222,8 +219,9 @@ Parameters of the prior: (1,1,1), uniform on the simplex.
 
 \section{Scoring rules}
 
-\subsection{Brier score or de Finetti measure}
+\subsection{Brier score}
 
+\begin{figure}
 \begin{center}
 \begin{tikzpicture}[scale=2,tdplot_main_coords,axis/.style={->},thick]
 
@@ -266,13 +264,14 @@ Parameters of the prior: (1,1,1), uniform on the simplex.
 \node[label={right:$(0.25,0.35,0.40)$: prediction}] at (1,.9,1.2) {};
 
 \end{tikzpicture}
+\caption{Bi-dimensional simplex (green surface): area of possible predictions}\label{fig:simplex}
 \end{center}
+\end{figure}
 
-The green surface is the 2-simplex, i.e. the set of point such that $p_1+p_2+p_3=1$ for non-negative values of $p_1$, $p_2$ and $p_3$.
-
-Now let us look just to the simplex (green triangle).
-Its sides have length $\sqrt{2}$ and its height is $\sqrt{6}/2$.
-Drawing a similar equilateral triangle with height 1 and sides $2\sqrt{3}/3$, all the points originally represented in the simplex can still be represented.
+The green surface represents the 2-simplex, i.e. the set of points such that $p_1+p_2+p_3=1$ for non-negative values of $p_1$, $p_2$ and $p_3$.
+The triangle representing the simplex has sides of length $\sqrt{2}$ and its height is $\sqrt{6}/2$.
+Drawing a similar equilateral triangle with height 1 and sides $2\sqrt{3}/3$, it is possible to represent all the points of the simplex.
+This new triangle is usually used to graphically display the predictions as internal points because the sum of the distances of every point inside it to each side is always one representing the probability of each event.
 
 \begin{figure}[!ht]
     \centering
@@ -307,7 +306,7 @@ Drawing a similar equilateral triangle with height 1 and sides $2\sqrt{3}/3$, al
 \end{tikzpicture}
 
 
-        \caption{Caption A}
+        \caption{Normalized simplex: $p_1+p_2+p_3=1$}
         \label{fig:A}
     \end{subfigure}
     \begin{subfigure}[b]{0.48\linewidth}        %% or \columnwidth
@@ -342,11 +341,11 @@ Drawing a similar equilateral triangle with height 1 and sides $2\sqrt{3}/3$, al
 \end{tikzpicture}
 
 
-        \caption{Caption B}
+        \caption{Original simplex: used to compute the Brier score}
         \label{fig:B}
     \end{subfigure}
-    \caption{ROC curve of failure detection;}
-    \label{fig:roc_curve}
+    \caption{Normalized and standard simplexes}
+    \label{fig:norm_stand}
 \end{figure}
 
 
