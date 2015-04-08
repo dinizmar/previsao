@@ -219,7 +219,31 @@ Similarly
 
 Parameters of the prior: (1,1,1), uniform on the simplex.
 
-\section{Scoring rules}
+\section{Scoring rules and calibration}
+
+How can we fairly distinguish better-informed states of knowledge from more poorly informed states?
+Using proper scoring rules for evaluating states of uncertain knowledge.
+A scoring rule is a function of two variables (or vectors, matrices etc) that accords a real number (score) to each pair of numbers that could represent the value of X and the prevision value, P(X).
+It is maximum for each x when x=P(X) and nonincreasing as x departs from P(X) for each P(X), and as P(X) departs from x for each x.
+The best score is achieved when knowledge of X is asserted as the value of X itself, whatever it might be.
+Most of the scoring rules exhibit an arbitrary normalizing feature, that S[x,P(X)]=0 for each x.
+Many functions satisfy the criteria for a scoring rule specified above, but not every scoring rule would be regarded as providing a fair assessment of the assertion P(X).
+Proper scoring rules encourages honesty and accuracy in assessing numerical values for their previsions.
+
+One usage of a scoring function could be to give a reward of $S(\mathbf{r},i)$ if the ith event occurs. If a proper scoring rule is used, then the highest expected reward is obtained by reporting the true probability distribution. The use of a proper scoring rule encourages the forecaster to be honest to maximize the expected reward.
+
+The scoring rule is constructed according to the basic idea that the resulting device should oblige each participant to express his true feelings, because any departure from his own personal probability results in a diminution of his own average score as he sees it.
+
+Moreover, this method leads automatically to an overall comparison between the outcomes of different personal evaluations concerned with the same totality of events.
+The accumulated loss is indeed a throughly concrete measure of success.
+
+Proper scoring rules are devised so that no one previses (expects) that intrigue in falsely announcing some other number as P(X) would be advantageous for achieving a better score.
+The particular scoring functions we study in the generic form S(X,P(X)) can also be considered as utility functions, U(X,P(X)).
+The principle of asserting numerical values for P(X) in such a way as to maximize your prevision for your score is equivalent to acting in a decision problem so as to maximize your expected utility.
+
+Probability assertions are said to be well calibrated at the level of probability p if the observed proportion of all propositions that are assessed with probability p equals p.
+
+A person's probability assertions are said to be well calibrated at the value p if the limiting frequency of occurrence of events that are assessed with probability p, equals p.
 
 \subsection{Brier score}
 
@@ -614,21 +638,28 @@ BB1 & $Mn-Dir_1$ & $Mn-Dir_2$ & $Mn-Dir_3$\\
 It is possible to interpret the score as a numerical measure of how inaccurate was the 
 prevision. 
 
-\begin{itemize}
-
-\item Markov chain: the transitions ($W\to D$, $W \to L$ etc) have multinomial distribution;
-
-\item other weights to combine the predictions from both teams;
-
-\item other distances;
-
-\item \dots  
-\end{itemize}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Conclusions}
+
+We compared the probabilistic predictions of three simple models with the ones provided by two more complex models for the second round of the 2014 Brazilian football championships of first and second divisions.
+According to standard scoring rules and other criteria here adopted to qualify the predictions, our results show that the predictive power of all models was quite similar.
+
+On the one hand, our findings appear as another supportive example of Ockham's razor but, on the other, poses several questions about probabilistic prediction of sport events.
+We mention just a couple of them, raised by the similar performance of the considered models: is there an irreducible ``randomness'' or ``degree of unpredictability'' implicit in these events?
+Is this degree an indicator of how close is the championship being studied?
+To answer these questions we would have to consider more championships and models and compare them using other scoring rules, being a suggestion for further research.
+Also as future research we would like to test other weights and study their impact on the predictive power of models 1 and 2 here proposed.
+
+
+%The most useful statement of the principle for scientists is
+%"when you have two competing theories that make exactly the same predictions, the simpler one is the better."
+
+%What to infer from known recorded measurements about the values of yet unrecorded measurements is the responsibility of each knowing person.
+%There is general agreement in evaluating the evidence that the measured observations provide for yet unmeasured experiences.
+%There have been controversies among very respected scientists regarding what conclusions are to be drawn from observations.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
