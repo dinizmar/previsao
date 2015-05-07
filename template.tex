@@ -16,6 +16,15 @@
 \usepackage{amsmath}
 \usepackage{graphicx,subcaption}
 
+\usepackage{color}
+\newcommand{\red}[1]{\textbf{\color{red} ***ATT*** #1}}
+
+
+\usepackage{changes}
+\definechangesauthor[name={Rafael}, color=blue]{raf}
+\setremarkmarkup{(#2)}
+
+
 %--------------------
 % Class Options:
 %--------------------
@@ -122,39 +131,41 @@ The famous saying of John von Neumann: {\it ``With four parameters I can fit an 
 This is true also in the literature of probabilistic sports predictions, particularly regarding models devoted to football predictions.
 
 Bothered by such concerns, our goal was to answer the following question: is it possible, using a simple probabilistic model, to predict results of football matches better than more sophisticated or complex models?
-To answer this, we compared two sophisticated models with simple multinomial-Dirichlet models that consider only the number of matches won, drawn or lost by each team as inputs.
+To answer this, we compared two sophisticated models \added{that consider several covariates} with simple multinomial-Dirichlet models that consider only the number of matches won, drawn or lost by each team as inputs.
 The models were tested for the second round of the Brazilian football championships of first and second divisions and compared using standard metrics or scoring rules.
-We also used other criteria such as the proportion of matches that were predicted ``correctly'' by each model and a measure of calibration, both explained in detail below.
+We also used other criteria such as the proportion of matches that were predicted ``correctly'' by each model and a measure of calibration, both explained in details below.
 According to the adopted criteria, the simple models showed a similar predictive performance to the complex ones.
 
 The predictions of the complex models used here as benchmarks are published on Internet websites for every matchday, and are treated by us as black-box models since we are not interested in how they were built or the assumptions on which they are based.
-We know that\footnote{One of the authors is responsible for one of these models and the other was described in a dissertation.} both models are based on the bivariate Poisson or Holgate distribution, being able to predict the final score of a match given explanatory variables.
-\footnote{For more details see \cite{arruda2000}.}
-Therefore, to estimate the probability that, for instance, the home team will win, the estimated model---the model estimated with available information---is simulated a given number of times and the proportion of simulated scores favoring the home team will be the predicted probability of the model.
-Knowing that both models are based on an elaborate parametric model, they are suitable for the comparison we are proposing: simple versus complex models.
+We know that\footnote{One of the authors is responsible for one of these models and the other was described in a dissertation.} both models are based on the bivariate Poisson or Holgate distributions, and are able to predict the final score of a match given explanatory variables.\footnote{For more details see \cite{arruda2000}.}
+\deleted[remark={acho que essa parte nao eh tao simples de entender e nao eh vital para o artigo}]{Therefore, to estimate the probability that, for instance, the home team will win, the estimated model---the model estimated with available information---is simulated a given number of times and the proportion of simulated scores favoring the home team will be the predicted probability of the model.} \added{Both models output three probabilities for each match: the probability that the house team wins, the probability that 
+the visitor wins, and the probability that there is a draw.} \red{usei a nomenclatura correta na frase anterior?}
+\replaced{Because both}{Knowing that both} models are based on an elaborate parametric model, they are suitable for the comparison we are proposing: simple versus complex models. 
+
 
 There are several ways to score or classify predictions of categorical events that assume one out of three possible outcomes, like football matches.
 See \cite{constantinou} for a brief survey of such measures applied to football.
 We decided to score the previsions for each match in terms of their distances from the truth, i.e. the verified event, once it has occurred, and chose the most used distances in the literature: Brier (\cite{brier1950}), logarithmic and spherical.
-The total inaccuracy of each model is then defined as the sum of the point-wise scores of all its previsions.
+\deleted{The total inaccuracy of each model is then defined as the sum of the point-wise scores of all its previsions.}
 
 This paper is organized as follows.
-Section 1 describes the proposed models, Section 2 presents the scoring rules and criteria used in this work to classify the models.
-Section 3 reports the performance of the models predicting 380 matches comprising the second half of Brazilian championships of first and second divisions.
-In Section 4 we discuss the results, and Section 5 closes with some remarks and proposals for future research.
-
-
-TEST
+Section \ref{sec::experimental} describes the proposed models, Section \ref{sec::scoring} presents the scoring rules and criteria used in this work to classify the models.
+Section \ref{sec::results} reports the performance of the models predicting 380 matches comprising the second half of Brazilian championships of first and second divisions.
+In Section \ref{sec::discussion} we discuss the results, and Section \ref{sec::conclusions} closes with some remarks and proposals for future research.
+\red{talvez juntar as duas ultimas secoes?}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Experimental Section}
+\label{sec::experimental}
 %% Only for the journal Gels: Please place the Experimental Section after the Conclusions
 
-The black-box models used as benchmarks make their predictions available at {chancedegol.uol.com.br} and {www.previsaoesportiva.com.br}.
+The black-box models used as benchmarks make their predictions available at \url{chancedegol.uol.com.br} and \url{www.previsaoesportiva.com.br}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\red{nao olhei o resto desta secao}
 
 \subsection{Multinomial-Dirichlet}
 
@@ -221,32 +232,40 @@ Similarly
 Parameters of the prior: (1,1,1), uniform on the simplex.
 
 \section{Scoring rules and calibration}
+\label{sec::scoring}
 
 How can we fairly distinguish better-informed states of knowledge from more poorly informed states?
-Using proper scoring rules for evaluating states of uncertain knowledge.
-A scoring rule is a function of two variables (or vectors, matrices etc) that accords a real number (score) to each pair of numbers that could represent the value of X and the prevision value, P(X).
-It is maximum for each x when x=P(X) and nonincreasing as x departs from P(X) for each P(X), and as P(X) departs from x for each x.
-The best score is achieved when knowledge of X is asserted as the value of X itself, whatever it might be.
-Most of the scoring rules exhibit an arbitrary normalizing feature, that S[x,P(X)]=0 for each x.
-Many functions satisfy the criteria for a scoring rule specified above, but not every scoring rule would be regarded as providing a fair assessment of the assertion P(X).
-Proper scoring rules encourages honesty and accuracy in assessing numerical values for their previsions.
+\replaced{A way of doing this is to use proper scoring rules for evaluating states of uncertain knowledge.}{Using proper scoring rules for evaluating states of uncertain knowledge.}
+A scoring rule is a function of two variables (or vectors, matrices etc) that \replaced{assigns}{accords} a real number (score) 
+\replaced{to each
+possible outcome $X$ and its respective prevision value, $P(X)$.}{
+to each pair of numbers that could represent the value of $X$ and the prevision value $P(X)$.}
+\replaced{ It is maximum for each $x$ when $x=P(X)$, and is nonincreasing both as $x$ departs from $P(X)$ (for each $P(X)$) and as $P(X)$ departs from $x$ (for each $x$).}{It is maximum for each $x$ when $x=P(X)$, and nonincreasing as $x$ departs from $P(X)$ for each $P(X)$, and as $P(X)$ departs from $x$ for each $x$. } \added{Thus},
+the best score is achieved when knowledge of $X$ is asserted as the value of $X$ itself, whatever it might be. Most of the scoring rules \added{also} exhibit an arbitrary normalizing feature \added{such that} $S[x,P(X)]=0$ for each $x$.
 
-One usage of a scoring function could be to give a reward of $S(\mathbf{r},i)$ if the ith event occurs. If a proper scoring rule is used, then the highest expected reward is obtained by reporting the true probability distribution. The use of a proper scoring rule encourages the forecaster to be honest to maximize the expected reward.
+Although many functions satisfy the criteria for a scoring rule specified above, not every scoring rule \replaced{can}{would} be regarded as providing a fair assessment of the assertion $P(X)$. That is, 
+not all scoring rules encourage honesty and accuracy in assessing numerical values for their   previsions.
+Those that do encourage a fair assessment are named \emph{proper scoring rules} \red{colocar referencia}. 
 
-The scoring rule is constructed according to the basic idea that the resulting device should oblige each participant to express his true feelings, because any departure from his own personal probability results in a diminution of his own average score as he sees it.
+\added{Say a forecaster's uncertainty about $X$ is $P_0$. A proper scoring rule is a scoring rule $S$ such that the prevision value $P(X)$ that minimizes $E_{P_0}[S(X,P(X))]$ is $P_0$. } \replaced{In other words, if one receives a reward $S(x,P(x))$ when $x$ happens and if $S$ is a proper scoring rule, then the highest expected reward is obtained by reporting one's  true uncertainty about $X$}{Imagine one receives a reward of $S(\mathbf{r},i)$ if the $i$-th event occurs.} The use of a proper scoring rule \added{thus} encourages the forecaster to be honest \deleted{to maximize the expected reward}.
+
+The scoring rule is constructed according to the basic idea that the resulting device should oblige each participant to express his true feelings, because any departure from his own personal probability results in a diminution of his own average score as he sees it. \red{esse paragrafo me parece um pouco redundante, serah que eh melhor tirar?}
 
 Moreover, this method leads automatically to an overall comparison between the outcomes of different personal evaluations concerned with the same totality of events.
-The accumulated loss is indeed a throughly concrete measure of success.
+The accumulated loss is indeed a \replaced{truly?}{throughly} concrete measure of success.
 
-Proper scoring rules are devised so that no one previses (expects) that intrigue in falsely announcing some other number as P(X) would be advantageous for achieving a better score.
-The particular scoring functions we study in the generic form S(X,P(X)) can also be considered as utility functions, U(X,P(X)).
-The principle of asserting numerical values for P(X) in such a way as to maximize your prevision for your score is equivalent to acting in a decision problem so as to maximize your expected utility.
+\added{In what follows, we describe in detais three proper scoring rules we use to asses the various models considered. We also 
+recall the concept of calibration.}
 
-Probability assertions are said to be well calibrated at the level of probability p if the observed proportion of all propositions that are assessed with probability p equals p.
+\red{parei de rever essa secao aqui}
 
-A person's probability assertions are said to be well calibrated at the value p if the limiting frequency of occurrence of events that are assessed with probability p, equals p.
+Proper scoring rules are devised so that no one previses (expects) that intrigue in falsely announcing some other number as $P(X)$ would be advantageous for achieving a better score.
+The particular scoring functions we study in the generic form $S(X,P(X))$ can also be considered as utility functions, $U(X,P(X))$.
+The principle of asserting numerical values for $P(X)$ in such a way as to maximize your prevision for your score is equivalent to acting in a decision problem so as to maximize your expected utility.
 
-\subsection{Brier score}
+
+
+\subsection{Brier \replaced{scoring rule}{score}}
 
 \begin{figure}
 \begin{center}
@@ -295,7 +314,7 @@ A person's probability assertions are said to be well calibrated at the value p 
 \end{center}
 \end{figure}
 
-The green surface represents the 2-simplex, i.e. the set of points such that $p_1+p_2+p_3=1$ for non-negative values of $p_1$, $p_2$ and $p_3$.
+The green surface \added{in Figure \ref{fig:simplex}} represents the 2-simplex, i.e. the set of points such that $p_1+p_2+p_3=1$ for non-negative values of $p_1$, $p_2$ and $p_3$.
 The triangle representing the simplex has sides of length $\sqrt{2}$ and its height is $\sqrt{6}/2$.
 Drawing a similar equilateral triangle with height 1 and sides $2\sqrt{3}/3$, it is possible to represent all the points of the simplex.
 This new triangle is usually used to graphically display the predictions as internal points because the sum of the distances of every point inside it to each side is always one representing the probability of each event.
@@ -377,16 +396,31 @@ This new triangle is usually used to graphically display the predictions as inte
 
 
 
-For every point inside this triangle $p_1+p_2+p_3=1$.
+For every point inside this triangle, $p_1+p_2+p_3=1$.
 
-
+\red{parei aqui}
 
 \[p=(0.25,0.35,0.40)\]
 \[d^2=(0-0.25)^2+(0-0.35)^2+(1-0.40)^2=0.545\]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+\subsection{Logarithmic scoring rule} 
+
+\subsection{Spherical scoring rule}
+
+
+\subsection{Calibration}
+
+Probability assertions are said to be well calibrated at the level of probability p if the observed proportion of all propositions that are assessed with probability $p$ equals $p$.
+
+A person's probability assertions are said to be well calibrated at the value p if the limiting frequency of occurrence of events that are assessed with probability $p$, equals $p$.
+
+
 \section{Example}
+
+\red{temos que descrever o que esta aqui (nao li essa secao)}
 
 Gr\^emio $\times$ Atl\'etico-PR (Matchday 20), at Gr\^emio.
 
@@ -547,10 +581,15 @@ $Mn-Dir_3$ & 0.524 & 0.286 & 0.190 & 0.345\\
 
 
 \section{Results}
+\label{sec::results}
 
-\subsection{First Division (S\'erie A)}
+We display only the results for the first division
+of the Brazilian football championship; the second
+division yielded similar results.
+There is a total of \red{xxxx} games and \red{xxxx}
+teams. \red{descrever mais alguma coisa sobre o campionato?}
 
-\begin{table}[h]
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{cccccc}
 
@@ -579,56 +618,116 @@ Mean & 0.5844 & 0.5859 & 0.6076 & 0.6072 & 0.6068 \\
 \end{table}
 
 
-\subsection{Second Division (S\'erie B)}
+%\begin{table}[h]
+%\begin{center}
+%\begin{tabular}{ccccc}
 
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{ccccc}
+%\hline
+%Matchday & BB1 & $Mn-Dir_1$ & $Mn-Dir_2$ & $Mn-Dir_3$\\
+%\hline
+%\hline
+%1$^{st}$ & 7.267 & 8.003 & 8.131 & 8.263 \\
+%2$^{nd}$ & 5.633 & 6.073 & 6.119 & 6.057 \\
+%3$^{rd}$ & 7.183 & 7.086 & 7.384 & 7.183 \\
+%4$^{th}$ & 7.458 & 6.776 & 6.731 & 6.829 \\
+%5$^{th}$ & 5.246 & 5.492 & 5.494 & 5.414 \\
+%6$^{th}$ & 5.126 & 5.169 & 5.589 & 5.043 \\
+%7$^{th}$ & 5.837 & 5.033 & 4.939 & 4.897 \\
+%8$^{th}$ & 7.462 & 6.616 & 6.509 & 6.667 \\
+%9$^{th}$ & 8.223 & 7.520 & 7.733 & 7.671 \\
+%10$^{th}$ & 4.818 & 5.623 & 5.825 & 5.578 \\
+%\hline
+%Total & 118.00 & 117.68 & 119.33 & 117.70 \\
+%\hline
+%Mean & 0.6178 & 0.6161 & 0.6248 & 0.6162 \\
 
-\hline
-Matchday & BB1 & $Mn-Dir_1$ & $Mn-Dir_2$ & $Mn-Dir_3$\\
-\hline
-\hline
-1$^{st}$ & 7.267 & 8.003 & 8.131 & 8.263 \\
-2$^{nd}$ & 5.633 & 6.073 & 6.119 & 6.057 \\
-3$^{rd}$ & 7.183 & 7.086 & 7.384 & 7.183 \\
-4$^{th}$ & 7.458 & 6.776 & 6.731 & 6.829 \\
-5$^{th}$ & 5.246 & 5.492 & 5.494 & 5.414 \\
-6$^{th}$ & 5.126 & 5.169 & 5.589 & 5.043 \\
-7$^{th}$ & 5.837 & 5.033 & 4.939 & 4.897 \\
-8$^{th}$ & 7.462 & 6.616 & 6.509 & 6.667 \\
-9$^{th}$ & 8.223 & 7.520 & 7.733 & 7.671 \\
-10$^{th}$ & 4.818 & 5.623 & 5.825 & 5.578 \\
-\hline
-Total & 118.00 & 117.68 & 119.33 & 117.70 \\
-\hline
-Mean & 0.6178 & 0.6161 & 0.6248 & 0.6162 \\
-
-\hline
-\end{tabular}
-\caption{Score of the ten first rounds and mean score per match after 191 matches}
-\end{center}
-\end{table}
+%\hline
+%\end{tabular}
+%\caption{Score of the ten first rounds and mean score per match after 191 matches}
+%\end{center}
+%\end{table}
 
 
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{ccccc}
 
-\hline
-BB1 & $Mn-Dir_1$ & $Mn-Dir_2$ & $Mn-Dir_3$\\
-\hline
-\hline
-0.6011 & 0.6119 & 0.6159 & 0.6115\\
-\hline
-\multicolumn{4}{c}{Chance de gol historic mean (1998-2015): 0.5977}\\
-\hline
-\end{tabular}
-\caption{First and Second Divisions means}
-\end{center}
-\end{table}
+%\begin{table}[h]
+%\begin{center}
+%\begin{tabular}{ccccc}
+%
+%\hline
+%BB1 & $Mn-Dir_1$ & $Mn-Dir_2$ & $Mn-Dir_3$\\
+%\hline
+%\hline
+%0.6011 & 0.6119 & 0.6159 & 0.6115\\
+%\hline
+%\multicolumn{4}{c}{Chance de gol historic mean (1998-2015): 0.5977}\\
+%\hline
+%\end{tabular}
+%\caption{First and Second Divisions means}
+%\end{center}
+%\end{table}
+
+
+Figure \ref{fig::scores} displays the boxplots of the scores and proportion of errors of the predictive models considered.
+It also shows an horizontal line with the score of the trivial prediction $(1/3,1/3,1/3)$. 
+All methods have similar performance, and they are more accurate than the trivial prediction, displayed in the plots
+as an horizontal line.\footnote{None of the 95\% confidence intervals for the mean score contain the score given by the trivial prediction.}
+
+Figure \ref{fig::entropy} presents the boxplots of the entropy of each prediction for the predictive models considered.\footnote{Recall
+that the entropy of a prediction $(p_1,p_2,p_3)$ is given by $- \sum_{i=1}^3 p_i \log{p_i}$} It shows that the predictions
+are typically more informative than $(1/3,1/3,1/3)$, but overall all methods yield similar entropies in average.
+
+We evaluate how reasonable
+predictions  by assessing the calibration of the methods considered,
+i.e., by evaluating how often events which have assigned probability $p$ (for each $0<p<1$) happen (Section \ref{sec::scoring}).
+If these probabilities are close to $p$, one concludes that the methods are well-calibrated. 
+Results are displayed in Figure \ref{fig::calibration}.
+Because we typically do not have several
+predictions with the same assigned probability $p$, we obtain the plot by smoothing the indicator function of whether
+a given event happened on  the assigned  probability of that event. The smoothing is done via smoothing splines 
+\cite{wahba}, with tuning parameters chosen by cross-validation.
+Because the curves obtain are close to the identity, we conclude that all methods are well-calibrate, except perhaps BB1, in which events with both low and high estimated probabilities happen more often 
+than predicted.
+
+
+\begin{figure}[H]
+  \centering
+\includegraphics[page=1,scale=0.3]{futebolComparacaoModelosForPaper.pdf}
+\includegraphics[page=2,scale=0.3]{futebolComparacaoModelosForPaper.pdf}\\
+\includegraphics[page=3,scale=0.3]{futebolComparacaoModelosForPaper.pdf}
+\includegraphics[page=4,scale=0.3]{futebolComparacaoModelosForPaper.pdf}
+  \caption{Scores and proportion of errors of the various predictive methods. Horizontal line represents the score of the trivial prediction $(1/3,1/3,1/3)$.}
+  \label{fig::scores}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+\includegraphics[page=10,scale=0.3]{futebolComparacaoModelosForPaper.pdf}
+  \caption{Entropy of the predictions of the various methods. Horizontal line represents the entropy of the trivial prediction $(1/3,1/3,1/3)$.}
+  \label{fig::entropy}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+\includegraphics[page=5,scale=0.3]{futebolComparacaoModelosForPaper.pdf}
+\includegraphics[page=6,scale=0.3]{futebolComparacaoModelosForPaper.pdf}\\
+\includegraphics[page=7,scale=0.3]{futebolComparacaoModelosForPaper.pdf}
+\includegraphics[page=8,scale=0.3]{futebolComparacaoModelosForPaper.pdf}
+\includegraphics[page=9,scale=0.3]{futebolComparacaoModelosForPaper.pdf}
+  \caption{Calibration of the various predictive methods: estimates of occurrence frequency obtained by smoothing splines, with 95\% confidence bands. Black line is the identity $y=x$.}
+  \label{fig::calibration}
+\end{figure}
+
+
+\red{incluir envoltorio convexo para mostrar que probs estimadas sao relativamente parecidas, talvez colocar os 4, 5 exemplos com maiores envoltorios?}
+
 
 \section{Discussion}
+\label{sec::discussion}
+
+\red{talvez juntar com as conclusoes?}
+
 %De Finetti was a radical subjectivist and pragmatist about probability and did not believe that it even made sense to talk about credences as being ``accurate'' or ``inaccurate''. 
 %Like Ramsey and Savage, he offered pragmatic arguments for probabilism. 
 %As a result, de Finetti did not speak of ``measures of inaccuracy'' or ``measures of distance from the truth'': he used the terms ``scoring rule'' and ``loss function''.
@@ -643,15 +742,38 @@ prevision.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Conclusions}
+\label{sec::conclusions}
+
 
 We compared the probabilistic predictions of three simple models with the ones provided by two more complex models for the second round of the 2014 Brazilian football championships of first and second divisions.
 According to standard scoring rules and other criteria here adopted to qualify the predictions, our results show that the predictive power of all models was quite similar.
 
-On the one hand, our findings appear as another supportive example of Ockham's razor but, on the other, poses several questions about probabilistic prediction of sport events.
-We mention just a couple of them, raised by the similar performance of the considered models: is there an irreducible ``randomness'' or ``degree of unpredictability'' implicit in these events?
-Is this degree an indicator of how close is the championship being studied?
-To answer these questions we would have to consider more championships and models and compare them using other scoring rules, being a suggestion for further research.
-Also as future research we would like to test other weights and study their impact on the predictive power of models 1 and 2 here proposed.
+
+
+\added{This work thus indicates that while there has been a boom in the literature with the proposal of several
+ fancy and involved models, especially in the era
+ of big data, simple models
+ can many times do as well as their complex counterparts. This is many time
+ unnoticed by users of such methods, which
+leads to the overuse of  models that are hard to interpret and to implement, and that also require
+one to keep track of several covariates. This 
+phenomenon is \red{nao consegui ligar as ideias formalmente, nao sei se vale a pena mencionar algo assim}
+  ''But he isn't wearing anything at all!" Anderson's "The Emperor's New Clothes" \cite{emperor}.
+Although we have explored only models for
+football games,
+we believe the same extends to other fields as, for instance, \red{exemplos}}
+
+
+On the one hand, our findings appear as another supportive example of Ockham's razor but, on the other, \replaced{they pose}{poses} several questions about probabilistic prediction of sport events.
+\replaced{In particular, based on the fact that
+the models has similar performance, one may ask:}{We mention just a couple of them, raised by the similar performance of the considered models:}
+ is there an irreducible ``randomness'' or ``degree of unpredictability'' implicit in these events?
+Is this degree an indicator of how close is the championship being studied? \red{nao entendi bem a segunda pergunta!}
+\replaced{A suggestion to future research
+is to answer these questions by considering more championships and models, and  by comparing them using other scoring rules.}{To answer these questions we would have to consider more championships and models and compare them using other scoring rules, being a suggestion for further research.}
+\replaced{Another direction we would like to address is to test other weighting methods 
+in models 1 and 2 we propose, and to evaluate
+their impact on the predictive power of the resulting predictions.}{Also as future research we would like to test other weights and study their impact on the predictive power of models 1 and 2 here proposed.}
 
 
 %The most useful statement of the principle for scientists is
@@ -712,6 +834,12 @@ Brier, G. Verification of forecasts expressed in terms of probability. {\em Mont
 \bibitem{constantinou}
 Constantinou, A. and Fenton, N. E. Evaluating the Predictive Accuracy of Association Football Forecasting Systems. Unpublished paper.
 
+\bibitem{wahba}
+Wahba, G. Spline models for observational data.
+SIAM, Philadelphia, 1990.
+
+\bibitem{emperor}
+Andersen, H.  C. The emperor's new clothes. Genesis Publishing Pvt Ltd, 1987.
 
 \end{thebibliography}
 
@@ -736,4 +864,3 @@ Constantinou, A. and Fenton, N. E. Evaluating the Predictive Accuracy of Associa
 %Main text.
 
 \end{document}
-
