@@ -16,6 +16,8 @@
 \usepackage{amsmath}
 \usepackage{graphicx,subcaption}
 
+\usepackage{amssymb}
+
 \usepackage{color}
 \newcommand{\red}[1]{\textbf{\color{red} ***ATT*** #1}}
 
@@ -235,16 +237,33 @@ How can we fairly distinguish better-informed states of knowledge from more poor
 A way of doing this is to use proper scoring rules for evaluating states of uncertain knowledge, where 
 the score may be interpreted as a numerical measure of how inaccurate was the prevision.
 
-More precisely, a scoring rule is a function of two variables (or vectors, matrices etc) that assigns a real number (score) to each possible outcome $X$ and its respective prevision value, $P(X)$.
-It is maximum for each $x$ when $x=P(X)$, and is nonincreasing both as $x$ departs from $P(X)$ (for each $P(X)$) and as $P(X)$ departs from $x$ (for each $x$).
-Thus, the best score is achieved when knowledge of $X$ is asserted as the value of $X$ itself, whatever it might be. Most of the scoring rules also exhibit an arbitrary normalizing feature such as $S[x,P(X)]=0$ for each $x$.
+%More precisely, a scoring rule is a function of two variables (or vectors, matrices etc) that assigns a real number (score) to each possible outcome $X$ and its respective prevision value, $P(X)$.
+%It is maximum for each $x$ when $x=P(X)$, and is nonincreasing both as $x$ departs from $P(X)$ (for each $P(X)$) and as $P(X)$ departs from $x$ (for each $x$).
+%Thus, the best score is achieved when knowledge of $X$ is asserted as the value of $X$ itself, whatever it might be. Most of the scoring rules also exhibit an arbitrary normalizing feature such as $S[x,P(X)]=0$ for each $x$.
 
-Although many functions satisfy the criteria for a scoring rule specified above, not every scoring rule can be regarded as providing a fair assessment of the assertion $P(X)$, that is, not all scoring rules encourage honesty and accuracy in assessing numerical values for their previsions.
-Those that do encourage a fair assessment are named \emph{proper scoring rules} \red{colocar referencia}. 
+%Although many functions satisfy the criteria for a scoring rule specified above, not every scoring rule can be regarded as providing a fair assessment of the assertion $P(X)$, that is, not all scoring rules encourage honesty and accuracy in assessing numerical values for their previsions.
+%Those that do encourage a fair assessment are named \emph{proper scoring rules} \cite{lad}.
 
-Say a forecaster's uncertainty about $X$ is $P_0$. A proper scoring rule is a scoring rule $S$ such that the prevision value $P(X)$ that minimizes $E_{P_0}[S(X,P(X))]$ is $P_0$. 
-In other words, if one receives a reward $S(x,P(x))$ when $x$ happens and if $S$ is a proper scoring rule, then the highest expected reward is obtained by reporting one's  true uncertainty about $X$.
-The use of a proper scoring rule thus encourages the forecaster to be honest to maximize the expected reward.
+%Say a forecaster's uncertainty about $X$ is $P_0$. A proper scoring rule is a scoring rule $S$ such that the prevision value $P(X)$ that minimizes $E_{P_0}[S(X,P(X))]$ is $P_0$. 
+%In other words, if one receives a reward $S(x,P(x))$ when $x$ happens and if $S$ is a proper scoring rule, then the highest expected reward is obtained by reporting one's  true uncertainty about $X$.
+%The use of a proper scoring rule thus encourages the forecaster to be honest to maximize the expected reward.
+%Moreover, this method leads automatically to an overall comparison between the outcomes of different personal evaluations concerned with the same totality of events.
+%Therefore, the accumulated score may be considered a concrete measure of success of each forecaster or model.
+
+
+More precisely, a scoring rule is a function of two variables (or vectors, matrices etc) that assigns a real number (score) to each possible outcome $X$ and its respective prevision value, $P_X$. That is, $P_X$ is the probability assigned to each possible
+outcome $X$.
+It is minimum for each $x$ when $P_X$ is such that $P_X(X=x)=1$, and is nondecreasing both as $x$ departs from $P_X$ (for each $P_X$) and as $P_X$ departs from $x$ (for each $x$).
+Thus, the best score (the smaller value of $S$) is achieved when knowledge of $X$ is asserted as the value of $X$ itself, whatever it might be.\footnote{A scoring rule can also be defined to be such that a \emph{large}
+value of $S$ indicates good predictions.} 
+%Most of the scoring rules also exhibit an arbitrary normalizing feature such as $S(x,P_X)=0$ for each $x$.
+
+Although many functions satisfy the criteria for a scoring rule specified above, not every scoring rule can be regarded as providing a fair assessment of the assertion $P_X$, that is, not all scoring rules encourage honesty and accuracy in assessing numerical values for their previsions.
+Those that do encourage a fair assessment are named \emph{proper scoring rules} \cite{lad}.
+
+Say a forecaster's uncertainty about $X$ is $P_0$. A proper scoring rule is a scoring rule $S$ such that the prevision value $P_X$ that minimizes $E_{P_0}[S(X,P_X)]$ is $P_0$. 
+In other words, if one receives a penalty $S(x,P_X)$ when $x$ happens and if $S$ is a proper scoring rule, then the lowest expected penalty is obtained by reporting one's  true uncertainty about $X$.
+The use of a proper scoring rule thus encourages the forecaster to be honest to minimize the expected penalty.
 Moreover, this method leads automatically to an overall comparison between the outcomes of different personal evaluations concerned with the same totality of events.
 Therefore, the accumulated score may be considered a concrete measure of success of each forecaster or model.
 
@@ -260,6 +279,12 @@ The principle of asserting numerical values for $P(X)$ in such a way as to maxim
 
 
 \subsection{Brier scoring rule}
+
+Let $P_X$ be a probability assignment for $X$.
+The Brier score is given by
+$$S(X;P_X)= \sum_{i}\mathbb{I}(X=x_i)(1- P_X(x_i))^2+\sum_{i}\mathbb{I}(X\neq x_i)P_X^2(x_i),$$
+where $\mathbb{I}$ is the indicator function. 
+
 
 \begin{figure}
 \begin{center}
@@ -308,6 +333,8 @@ The principle of asserting numerical values for $P(X)$ in such a way as to maxim
 \end{center}
 \end{figure}
 
+
+We interpret the Brier score in the case only three events can happen, the case of a football match.
 The green surface in Figure \ref{fig:simplex} represents the 2-simplex, i.e. the set of points such that $p_1+p_2+p_3=1$ for non-negative values of $p_1$, $p_2$ and $p_3$.
 The triangle representing the simplex has sides of length $\sqrt{2}$ and its height is $\sqrt{6}/2$.
 Drawing a similar equilateral triangle with height 1 and sides $2\sqrt{3}/3$, it is possible to represent all the points of the simplex.
@@ -333,7 +360,7 @@ This new triangle is used to graphically display the predictions as internal poi
 
 \node[label={below:Home wins}] at (0,0) {};
 \node[label={below:Draw}] at (1.1547,0) {};
-\node[label={above:Home looses}] at (0.57735,1) {};
+\node[label={above:Home loses}] at (0.57735,1) {};
 
 
 \draw[-,thick] (-.5,0) -- (-.5,1);
@@ -368,7 +395,7 @@ This new triangle is used to graphically display the predictions as internal poi
 
 \node[label={below:Home wins}] at (0,-0.05) {};
 \node[label={below:Draw}] at (1.1547,-0.05) {};
-\node[label={above:Home looses}] at (0.57735,1.05) {};
+\node[label={above:Home loses}] at (0.57735,1.05) {};
 
 \node[label={below:$(1,0,0)$}] at (0,0.05) {};
 \node[label={below:$(0,1,0)$}] at (1.1547,0.05) {};
@@ -393,19 +420,37 @@ This new triangle is used to graphically display the predictions as internal poi
     \label{fig:norm_stand}
 \end{figure}
 
-
-
-\red{parei aqui}
-
-\[p=(0.25,0.35,0.40)\]
-\[d^2=(0-0.25)^2+(0-0.35)^2+(1-0.40)^2=0.545\]
+The Brier score for the prediction $p=(0.25,0.35,0.40)$ when the home loses is therefore given by
+$d^2=(0-0.25)^2+(0-0.35)^2+(1-0.40)^2=0.545$. If the prediction was
+ $p=(0,0,1)$, the score would be 0 instead.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \subsection{Logarithmic scoring rule} 
 
+The logarithmic  score is given by
+$$S(X;P(X))=- \sum_{i}\mathbb{I}(X=x_i)\log(P(x_i)),$$
+
+This is the negative log likelihood
+of the event that occurred.
+
+The logarithmic score for the prediction $p=(0.25,0.35,0.40)$ when the home loses is therefore given by
+$-\log(0.4)\approx 0.91$. If the prediction was
+ $p=(0,0,1)$, the score would be $0$ instead.
+
+
 \subsection{Spherical scoring rule}
+
+The spherical score is given by
+$$S(X;P(X))=- \frac{1}{\sqrt{\sum_i P^2(x_i)}}\sum_{i}\mathbb{I}(X=x_i)P(x_i),$$
+
+This is the negative likelihood
+of the event that occurred, normalized by the square-root of the assigned probabilities.
+
+The logarithmic score for the prediction $p=(0.25,0.35,0.40)$ when the home loses is therefore given by
+$-0.4/\sqrt{0.25^2+0.35^2+0.40^2} \approx -0.68$. If the prediction was
+ $p=(0,0,1)$, the score would be $-1$ instead.
 
 
 \subsection{Calibration}
@@ -487,7 +532,7 @@ What's the probability that Gr\^emio wins: $p_{1h}=0.583$ or $p_{3a}=0.417$?
 
 What's the probability of a draw: $p_{2h}=0.25$ or $p_{2a}=0.333$?
 
-What's the probability that Gr\^emio looses: $p_{3h}=0.167$ or $p_{1a}=0.25$?
+What's the probability that Gr\^emio loses: $p_{3h}=0.167$ or $p_{1a}=0.25$?
 
 
 Three ways of combining these probabilities are proposed: (I) a mixture with equal weights to both teams; 
@@ -713,8 +758,25 @@ than predicted.
   \label{fig::calibration}
 \end{figure}
 
+In order to have a deeper understatement about the probabilities given by each method,
+Figure \ref{fig::probMandante} displays the estimated conditional probability that the home team wins given there is no draw.
+All models assign higher probabilities to the home team, a fact that illustrates that
+they capture \red{?the well known fact?} that it is easier for a team to win at home. 
+Morever, the outputs from the methods introduced in this paper
+are less dispersed than those from the other models used in the literature.
+
+\begin{figure}[H]
+  \centering
+\includegraphics[page=11,scale=0.4]{futebolComparacaoModelosForPaper.pdf}
+  \caption{Conditional probability that the home team wins given there is no draw. Horizontal line indicates a 50\%
+  probability.}
+  \label{fig::probMandante}
+\end{figure}
+
+
 We therefore conclude that all methods have similar predictive power, and none of them is more informative in average.
-Nevertheless, all methods yield better predictions than the non-informative vector of probabilities $(1/3,1/3,1/3)$, and they are well-calibrated.
+Nevertheless, all methods yield better predictions than the non-informative vector of probabilities $(1/3,1/3,1/3)$, and they are well-calibrated. 
+
 
 \red{incluir envoltorio convexo para mostrar que probs estimadas sao relativamente parecidas, talvez colocar os 4, 5 exemplos com maiores envoltorios?}
 
@@ -809,6 +871,9 @@ SIAM, Philadelphia, 1990.
 
 \bibitem{emperor}
 Andersen, H.  C. The emperor's new clothes. Genesis Publishing Pvt Ltd, 1987.
+
+\bibitem{lad}
+Lad, F. Operational Subjective Statistical Methods: a mathematical, philosophical, and historical introduction. New York: Wiley, 1996.
 
 \end{thebibliography}
 
