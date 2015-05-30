@@ -497,7 +497,7 @@ which is the negative log likelihood of the event that occurred.
 
 The logarithmic score for the prediction $P_X=(0.25,0.35,0.40)$, when the home team loses is therefore 
 $-\ln(0.4)\approx 0.91$. 
-If the prediction was $P_X=(0,0,1)$, the score would be zero, once more the minimum of this rule.
+If the prediction was $P_X=(0,0,1)$, the score would be zero, once again the minimum of this rule.
 For the logarithmic score, the trivial prediction gives a score of approximately $1.098$.
 
 \subsection{Spherical scoring rule}
@@ -514,11 +514,20 @@ If the prediction was $P_X=(0,0,1)$, the score would be $-1$ instead and, for th
 
 \subsection{Calibration and proportion of errors}
 
-Besides scoring rules, there are other criteria used to assess the quality of different predictions. One of them is the proportion of errors made by the model or assessor...***COMPLETAR DEFINICAO***.
+Besides scoring rules, there are other criteria used to assess the quality of different predictions. Here we explore to of them.
 
-Probability assertions are said to be well calibrated at the level of probability $p$ if the observed proportion of all propositions that are assessed with probability $p$ equals $p$.
+The first one is the proportion of errors made by the model or assessor. This is simply the proportion of mistakes made when considering the highest probability guess.
+More precisely, the proportion of errors of a given model $P_X$ is given by
+$$\frac{1}{n}\sum_{j=1}^n \mathbb{I}\left(X_j \neq \arg \max_{i} P_X(x_{j,i})\right),$$
+where $X_j$ is the outcome of the $j$-th game and $P_X(x_{j,i})$ is the probability attributed to event $i$ for the $j$-th game.
 
-***EXPLICAR COMO FOI AJUSTADA A CALIBRAGEM***
+The second concept we use is that of calibration \cite{Dawid}. Probability assertions are said to be well calibrated at the level of probability $p$ if the observed proportion of all propositions that are assessed with probability $p$ equals $p$.
+Because we typically do not have several predictions with the same assigned probability $p$, we obtain the plot by smoothing the indicator function of whether a given event happened on  the assigned  probability of that event.
+That is, we regress $\mathbb{I}(A_i)$ over $P_X(A_i)$ for each event $A_i$, i.e., each possible outcome of each match
+that occurred.
+The smoothing is done via smoothing splines \cite{wahba}, with tuning parameters chosen by cross-validation.
+
+
 %A person's probability assertions are said to be well calibrated at the value $p$ if the limiting frequency of occurrence of events that are assessed with probability $p$, equals $p$.
 
 
@@ -580,10 +589,10 @@ Therefore, in each championship there is a total of 380 matches, 190 in each rou
 %\end{table}
 
 
-Figure \ref{fig::scores} displays the boxplots of the scores and proportion of errors of the predictive models considered.
+Figure~\ref{fig::scores} displays the boxplots of the scores and proportion of errors of the predictive models considered.
 %It also shows an horizontal line with the score of the trivial prediction.
 According to all scoring rules, all methods have similar performance, and they are more accurate than the trivial prediction, displayed in the plots
-as an horizontal line\footnote{None of the 95\% confidence intervals for the mean score contain the score given by the trivial prediction.}. The Brier score for the first five matchdays, as well as the total Brier score is also displayed
+as an horizontal line\footnote{None of the 95\% confidence intervals for the mean score contain the score given by the trivial prediction.}. The mean scores and their standard errors are displayed
 in Table \ref{tab::brier}.
 
 
@@ -600,24 +609,17 @@ in Table \ref{tab::brier}.
 
 \begin{table}[H]
 \begin{center}
-\begin{tabular}{cccccc}
+\begin{tabular}{ccccccc}
 \hline
-Matchday & BB1 & BB2 & $Mn-Dir_1$ & $Mn-Dir_2$ & $Mn-Dir_3$\\
+Score & BB1 & BB2 & $Mn-Dir_1$ & $Mn-Dir_2$ & $Mn-Dir_3$ & Trivial \\
 \hline
 \hline
-1 &4.992 & 5.055 & 5.630 & 5.053 & 5.521 \\
-2 &5.006 & 5.328 & 5.327 & 5.533 & 5.201 \\
-3 &7.129 & 6.568 & 7.979 & 7.640 & 8.216 \\
-4 &5.941 & 5.782 & 6.513 & 6.848 & 6.564 \\
-5 &5.246 & 5.858 & 5.669 & 5.368 & 5.601 \\
-\hline
-Total & 111.04 & 111.32 & 115.45 & 115.36 & 115.29 \\
-\hline
-Mean & 0.5844 & 0.5859 & 0.6076 & 0.6072 & 0.6068 \\
+Brier &0.58 (0.02) & 0.59 (0.02)& 0.61 (0.02)& 0.61 (0.02) & 0.61  (0.02) & 0.67 \\
+Logarithmic & 0.98 (0.03) & 0.99 (0.03) & 1.02 (0.03)  & 1.02 (0.03)  & 1.02 (0.03) & 1.10  \\
+Spherical &  -0.64 (0.02)& -0.64 (0.02)& -0.62 (0.02)& -0.63 (0.02)& -0.63 (0.02)& -0.58\\
 \hline
 \end{tabular}
-\caption{Brier score of the five first matchdays and mean score per match after 190 matches.
-The score of the trivial prediction $(1/3,1/3,1/3)$ is 0.667.}
+\caption{Mean scores and their standard errors after 190 matches.}
 \label{tab::brier}
 \end{center}
 \end{table}
@@ -640,8 +642,6 @@ none of them seem to provide more informative probabilities.
 We evaluate how reasonable were the predictions by assessing the calibration of the methods considered, i.e., by evaluating how often events which have assigned probability $p$ (for each $0<p<1$) happened (Section \ref{sec::scoring}).
 If these probabilities are close to $p$, one concludes that the methods are well-calibrated.
 Results are displayed in Figure \ref{fig::calibration}.
-Because we typically do not have several predictions with the same assigned probability $p$, we obtain the plot by smoothing the indicator function of whether a given event happened on  the assigned  probability of that event.
-The smoothing is done via smoothing splines \cite{wahba}, with tuning parameters chosen by cross-validation.
 Because the curves we obtained are close to the identity ($45^{\text{o}}$ line), we conclude that all methods are well-calibrated, except perhaps BB1, in which events with both low and high estimated probabilities happen more often
 than predicted.
 
@@ -679,7 +679,6 @@ We therefore conclude that all methods have similar predictive power, and none o
 Nevertheless, all methods yielded better predictions than the non-informative vector of probabilities $(1/3,1/3,1/3)$, and they are well-calibrated.
 
 
-\red{incluir envoltorio convexo para mostrar que probs estimadas sao relativamente parecidas, talvez colocar os 4, 5 exemplos com maiores envoltorios?}
 
 
 \section{Final remarks}
@@ -790,6 +789,9 @@ Clarke, S. R.; Norman, J. N. Home ground advantage of individual clubs in Englis
 \bibitem{Crowder2002} Crowder, M.; Dixon, M.; Ledford, A.; Robinson, M. Dynamic modelling and prediction of English
 Football League matches for betting {\em Journal of the Royal
 Statistical Society - Series D} {\bf 2002}, {\em 51}, 157-168.
+
+\bibitem{Dawid} Dawid, A. P. The well-calibrated Bayesian. 
+{\em Journal of the American Statistical Association} {\em 1982}, {\em 77}, 605-610.
 
 \bibitem{Dixon97} Dixon, M. J.; Coles, S. C. Modelling association football scores and inefficiencies in the football betting market. {\em Applied Statistics} {\bf 1997}, {\em 46}, 265-280.
 
