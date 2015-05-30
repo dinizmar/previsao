@@ -132,41 +132,22 @@ $^{1}$ Department of Statistics, Federal University of S\~ao Carlos, Rod. Washin
 
 The famous saying of John von Neumann: {\it ``With four parameters I can fit an elephant, and with five I can make him wiggle his trunk''} is a perhaps just a humorous version of Ockham's razor:
 {\it``Entities are not to be multiplied without necessity''}, but illustrates very well a principle that is not often followed by researchers, especially when building predictive models.
-This is true also in the literature of probabilistic sports predictions, particularly regarding models devoted to football predictions.
+This is true also in the literature of probabilistic sports predictions, particularly regarding models devoted to football or soccer\footnote{Henceforth, football.} predictions.
 
 Bothered by such concerns, our goal was to answer the following question: is it possible, using a simple probabilistic model, to predict results of football matches better than more sophisticated or complex models?
-To answer this, we compared two sophisticated models that consider several covariates with simple multinomial-Dirichlet models that consider only the number of matches won, drawn or lost by each team as inputs.
+To answer this, we compared two sophisticated models that consider multiple covariates with simple multinomial-Dirichlet models that consider only the number of matches won, tied or lost by each team as inputs.
 The models were tested for the second round of the Brazilian football championships of first and second divisions and compared using standard metrics or scoring rules.
 We also used other criteria such as the proportion of matches that were predicted ``correctly'' by each model and a measure of calibration, both explained in detail below.
 According to the adopted criteria, the simple models showed a similar predictive performance to the complex ones.
 
-\added[id = {luis}]{In the statistical literature, football
-prediction models can be divided in two main approaches: (i)
-modeling the number of goals \citep{Maher82, Dixon97, Karlis2003}
-and (ii) modeling the final outcome (win, draw or lose) of the
-matches \citep{Forrest2000, Koning2000, Brillinger2008,
-Brillinger2009}. For a discussion of these two approaches see
-\cite{Goddard2005}. In this work, we are going to consider as
-benchmarcks two model pertaining to the former approach, which has
-been the most applied one.}
+The predictions of the two benchmark models were published on Internet websites before every matchday, and are treated by us as black-box models (BB1 and BB2). 
+We know that\footnote{One of the authors is responsible for one of these models and the other was described in a dissertation. See \cite{arruda2000}.} both models are based on Holgate bivariate Poisson regression considering as explanatory variables the home field advantage, attack and defense strength for each team, and provide the probabilities of all possible outcomes (home team wins, draws or loses) for each match.
+Because both models are based on an elaborate parametric assumptions, they are suitable for the comparison we are proposing: simple versus complex models\footnote{To be precise we would have to define what is a ``simple'' model and what is a ``complex'' model. Based on the opening quotations, one may say that the number of parameters defines the complexity of a model, which is not exactly the definition we will use, since we consider other criteria, like the interpretation of explanatory variables and mathematical structure of the statistical model.}.
 
-The predictions of the \added[id = {luis}]{two} \deleted[id = {luis}]{complex models used here as} benchmarks \added[id = {luis}]{models} are published on Internet websites for every matchday, and are treated by us as black-box models \added[id = {luis}]{.} \deleted[id = {luis}, remark = {como a seguir a gente comenta um pouco sobre as suposicoes dos modelos, talvez seja melhor omitir isto.}]{since we are not interested in how they were built or the assumptions on which they are based}. We know that \footnote{One of the authors is responsible for one of these models and the other was described in a dissertation.} both models are based \added[id = {luis}]{on Holgate bivariate Poisson regression considering as explanatory variables the home field advantage, and attack and defense strength for each team.} \added[id = {luis}]{Using} both models, \added[id = luis]{the probabilities of all possible outcomes (home team win, draw, away team win) can be calculated for each match.} \deleted[id = luis]{output three probabilities for each match: the probability that the home team wins, the probability that the away team wins, and the probability that there is a draw.}
-Because both models are based on an elaborate parametric assumptions, they are suitable for the comparison we are proposing: simple versus complex models.\footnote{To be precise we would have to define what is a ``simple'' model and what is a ``complex'' model. Based on the opening quotations, one may say that the number of parameters defines the complexity of a model. This is not the exactly the definition we will use since we consider other criteria, like the interpretation of explanatory variables and mathematical structure of the statistical model.}
 
-\added[id = {luis}]{Although the benchmark models are considered
-here complex ones, there exists in the literature even more complex
-models, hindering the estimation and prediction process. Among those
-very complex models we can cite those based on modeling the match as
-a stochastic process evolving through time \citep{Dixon98, Volf2009,
-Titman2015}, those allowing for the team performance parameters to
-change along the season \citep{Rue2000, Crowder2002, Owen2011,
-Koopman2015} and those modeling dependence between number of goals
-by means of bivariate count distribution \citep{Dixon97, Karlis2003,
-McHale2007, McHale2011}.}
-
-There are several ways to score or classify predictions of categorical events that assume one out of three possible outcomes, like football matches.
+There are several ways to score or classify predictions of categorical events that assume one result out of a discrete set of mutually exclusive possible outcomes, like football matches.
 See \cite{constantinou} for a brief survey of such measures applied to football.
-We decided to score the previsions for each match in terms of their distances from the truth, i.e. the verified event, once it has occurred, and chose the most used distances in the literature: Brier (\cite{brier1950}), logarithmic and spherical.
+We decided to score the previsions for each match in terms of their distances from the truth, i.e. the verified event, once it has occurred, and chose the most used distances in the literature: Brier \cite{brier1950}, logarithmic and spherical.
 
 This paper is organized as follows.
 Section \ref{sec::experimental} describes the proposed models, Section \ref{sec::scoring} presents the scoring rules and criteria used in this work to classify the models.
@@ -176,13 +157,13 @@ In Section \ref{sec::remarks} we discuss the results and close with proposals fo
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Experimental Section}
+\section{The models: theoretical background}
 \label{sec::experimental}
 %% Only for the journal Gels: Please place the Experimental Section after the Conclusions
 
-\deleted[id = {luis}]{The black-box models used as benchmarks make their predictions available at \url{chancedegol.uol.com.br} and \url{www.previsaoesportiva.com.br}.}
-\added[id = {luis}]{In the next subsections, we present the probabilistic justification for the three proposed models and present the predictive
-distribution for the outcomes of an upcoming match of A (home team) versus B (away team). The main idea is to combine the past performance of both teams in different ways in order to predict the outcome of the match. The predictions of the two black-box models used as benchmarks were published just before each match-day at \url{http://chancedegol.uol.com.br} and \url{http://www.previsaoesportiva.com.br}.}
+In this section we present the probabilistic justification for the three proposed models and the predictive distribution for the outcomes of an upcoming match of some team $A$ (home team) versus $B$ (away team). 
+The main idea is to combine the past performance of both teams in different ways in order to predict the outcome of the match. 
+The predictions of the two benchmark models were published before each matchday at \url{http://chancedegol.uol.com.br} and \url{http://www.previsaoesportiva.com.br}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -190,67 +171,127 @@ distribution for the outcomes of an upcoming match of A (home team) versus B (aw
 
 \subsection{Multinomial-Dirichlet}
 
-Considering team $A$: the result of its next match may be considered a categorical random quantity (r.q.) that may assume only three modes; win ($W$), draw ($D$) or loss ($L$).
-
-it is all wrong.
-
-If we denote the probability of $W$, by $\theta_1$, of $D$ by $\theta_2$ and of $L$ by $\theta_3=1-\theta_1-\theta_2$ where $\theta_1+\theta_2\leq 1$.
-
-The p.m.f of such r.q. is
+We want to compute the probability that team $A$ will win, draw or lose the match against team $B$ given that it has won, tied and lost a certain number of matches and to obtain this conditional probability we will use the Bayesian approach.
+Therefore, the result of the next match of team $A$, denoted by $X$, is a categorical random quantity that may assume only three modes; win ($W$), draw ($D$) or loss ($L$).
+If we denote the probability of $W$, by $\theta_1$, of $D$ by $\theta_2$ and of $L$ by $\theta_3=1-\theta_1-\theta_2$ where $\theta_1+\theta_2\leq 1$, the probability mass function of such random quantity is
 
 \[
-P(X=x|\theta)=\theta_1^{I(x=W)}\theta_2^{I(x=D)}(1-\theta_1-\theta_2)^{I(x=L)}
+P(X=x|\theta)=\theta_1^{\mathbb{I}(x=W)}\theta_2^{\mathbb{I}(x=D)}(1-\theta_1-\theta_2)^{\mathbb{I}(x=L)}
 \]
 
 \noindent
-where $\mathcal{X}=\{W,D,L\}$ and $I(x=i)$ is the indicator function, that takes value 1 if $x$ equals $i= W, D, L$ and 0 otherwise; $\theta=\{(\theta_1,\theta_2)\in\Re^2:\theta_1+\theta_2\leq1 ~ \text{and} ~ \theta_i\geq0 ~ \text{for} ~ i=1, 2\}$
+where $\mathcal{X}=\{W,D,L\}$ is the sample space of $X$; $\mathbb{I}(x=i)$ is the indicator function, that takes value 1 if $x$ equals $i= W, D, L$ and 0 otherwise and $\theta=\{(\theta_1,\theta_2)\in\Re^2:\theta_1+\theta_2\leq1 ~ \text{and} ~ \theta_i\geq0 ~ \text{for} ~ i=1, 2\}$ is the two-dimension simplex.
 
-We may also call it multivariate Bernoulli r.q.
-
-Assuming that the matches of team $A$, given $\theta$, are i.i.d. with categorical distribution, the sum of $n$ r.q.'s has multinomial distribution with parameters $\theta$ and $n$.
+Assuming that the matches of team $A$, given $\theta$, are i.i.d. with the above categorical distribution, the sum of $n$ such random quantities has multinomial distribution with parameters $\theta$ and $n$, i.e. the vector of matches won, drawn or lost by some team, denoted by $(M_1,M_2,M_3)$, has multinomial distribution with parameters $n$ and $\theta$.
 
 \[
-P(M_1=n_1,M_2=n_2,M_3=n_3|\theta,n)=\]
-\[
-\frac{n!}{n_1!n_2!(n-n_1-n_2)!}\theta_1^{n_1}\theta_2^{n_2}(1-\theta_1-\theta_2)^{n-n_1-n_2}
+P(M_1=n_1,M_2=n_2,M_3=n_3|\theta,n)= \frac{n!}{n_1!n_2!(n-n_1-n_2)!}\theta_1^{n_1}\theta_2^{n_2}(1-\theta_1-\theta_2)^{n-n_1-n_2}
 \]
 
-when $n_1+n_2+n_3=n$ and 0 otherwise, for non-negative integers $n_1$, $n_2$ and $n_3$.
+\noindent
+when $n_1+n_2+n_3=n$ and zero otherwise. 
+The numbers $n_1$, $n_2$ and $n_3$ are non-negative integers representing, respectively, the number of matches won, tied or lost by team $A$.
 
-$n_1$ is the number of matches won, $n_2$ the matches drawn and $n_3=n-n_1-n_2$ the matches lost.
-
-{\bf Summary}: under the given assumptions, the vector of matches won, drawn or lost by some team, has multinomial distribution with parameters $n$ and $\theta$.
-
-Our goal is to compute:
-
-\[P(X_{n+1}=W|M_1=n_1,M_2=n_2,M_3=n_3)=p_1;\]
-
-\[P(X_{n+1}=D|M_1=n_1,M_2=n_2,M_3=n_3)=p_2;\] and
-
-\[P(X_{n+1}=L|M_1=n_1,M_2=n_2,M_3=n_3)=p_3.\]
-
-
-Using Bayesian inference these probabilities are easily computed: if the prior for $\theta$ is Dirichlet with parameter vector $(\alpha_1,\alpha_2,\alpha_3)$, i.e. its density function is
+Our goal is to compute $P(X_{n+1}=x|M_1=n_1,M_2=n_2,M_3=n_3)$, for $x\in\mathcal{X}$.
+Using Bayesian inference these probabilities are easily computed: if the prior for $\theta$ is Dirichlet with parameter vector $(\alpha_1,\alpha_2,\alpha_3)$, denoted $\mathcal{D}(\alpha_1,\alpha_2,\alpha_3)$, its probability density function is
 
 \[
 f(\theta|\alpha)=\frac{\Gamma(\alpha_1+\alpha_2+\alpha_3)}{\Gamma(\alpha_1)\Gamma(\alpha_2)\Gamma(\alpha_3)}\theta_1^{\alpha_1-1}\theta_2^{\alpha_2-1}(1-\theta_1-\theta_2)^{\alpha_3-1}
 \]
 
 \noindent
-for $\alpha_1$, $\alpha_2$, $\alpha_3 > 0$, then the posterior is Dirichlet with parameters $(n_1+\alpha_1,n_2+\alpha_2,n_3+\alpha_3)$, and hence
+for $\alpha_1$, $\alpha_2$, $\alpha_3 > 0$, then the posterior is $\mathcal{D}(n_1+\alpha_1,n_2+\alpha_2,n_3+\alpha_3)$, and hence
 
-\[p_1=P(X_{n+1}=W|M_1=n_1,M_2=n_2,M_3=n_3)=\frac{n_1+\alpha_1}{n+\alpha};\]
+\[P(X_{n+1}=W|M_1=n_1,M_2=n_2,M_3=n_3)=\frac{n_1+\alpha_1}{n+\alpha};\]
 
 \noindent
-where $n=n_1+n_2+n_3$ and $\alpha=\alpha_1+\alpha_2+\alpha_3$.
+where $\alpha=\alpha_1+\alpha_2+\alpha_3$.
+In this work we used the uniform prior on the 2-simplex, i.e. $\mathcal{D}(1,1,1)$. 
+This is not a restrictive prior because, since we modeled just the second round of the championships, the counts of the first round were used to update this prior---thanks to the conjugacy property of Dirichlet priors---and we may say the actual prior we used is therefore the number of matches won, tied or lost by each team added by one.
+If we had started in the first round, this prior would not be give a good predictive performance but in this case we could use team rankings such the ones provided by federations and leagues to assess a more realistic prior for each team.
 
-Similarly
+Before explain and illustrate the proposed models with an example, we make two further remarks.
+The first one is that we will consider the matches played home and away, by each team, separately.
+This way the models can detect the different performances teams usually have when playing home and away.
+The second one is the following: each team (home and visitor) has, usually, different counts of matches won, tied or lost and, therefore, the predicted probabilities obtained conditioning on such counts are different.
+This means that we have two probabilities that the home team wins: one given its counts and the other given the counts of its opponent.
+To solve this problem, two of our models will be convex mixtures of Dirichlet distributions, the posterior distribution of each team playing against each other.
 
-\[p_2=P(X_{n+1}=D|M_1=n_1,M_2=n_2,M_3=n_3)=\frac{n_2+\alpha_2}{n+\alpha};\]
+\subsection{Model One: Multinomial-Dirichet $1$}
 
-\[p_3=P(X_{n+1}=L|M_1=n_1,M_2=n_2,M_3=n_3)=\frac{n_3+\alpha_3}{n+\alpha};\]
+Our first model is a simple mixture of two Dirichlets distributions: one is the posterior of the home team and the other is the posterior of the visiting team and both distributions are considered with equal weight.
+Each team has two posteriors, one regarding its performance when playing home and one when playing away.
+Then, considering where the match is played, the relevant distributions are mixed.
 
-Parameters of the prior: (1,1,1), uniform on the simplex.
+Consider, for example, the match Gr\^emio versus Atl\'etico-PR played for matchday 20, at Gr\^emio stadium.
+Table \ref{tab:counts} displays the performances of both teams, home and away, after 19 matches: 
+with these counts, Gr\^emio has as posterior, for matches played home, a $\mathcal{D}(7,3,2)$ and Atl\'etico has a $\mathcal{D}(3,4,5)$ as posterior for matches played away, recalling that both priors were $\mathcal{D}(1,1,1)$. 
+
+\begin{table}[!h]
+\begin{center}
+\begin{tabular}{lccccccccc}
+
+\hline
+ & \multicolumn{3}{c}{Home} & \multicolumn{3}{c}{Away}& \multicolumn{3}{c}{Overall} \\
+\hline
+\hline
+Team & W & D & L & W & D & L & W & D & L\\
+\hline
+Gr\^emio & 6 & 2 & 1 & 3 & 2 & 5 & 9 & 4 & 6\\
+Atl\'etico-PR & 4 & 4 & 2 & 2 & 3 & 4 & 6 & 7 & 6\\
+\hline
+\end{tabular}
+\caption{Gr\^emio and Atl\'etico-PR counts after 19 matchdays (first round)}\label{tab:counts}
+\end{center}
+\end{table}
+
+The first model will give, as probability that Gr\^emio wins, a mixture with equal weights of the predictive probabilities provided by $\mathcal{D}(7,3,2)$ and $\mathcal{D}(3,4,5)$, i.e.
+
+\[P(X_{n+1}=W|{\bf h}, {\bf a})=\frac{1}{2}\left(\frac{h_1+\alpha_1}{h+\alpha}\right)+\frac{1}{2}\left(\frac{a_3+\alpha_3}{a+\alpha}\right)=0.5\]
+
+\noindent
+where the vector ${\bf h}=(h_1,h_2,h_3)=(6,2,1)$ represents the number of matches won, tied or lost by Gr\^emio played in its stadium and $h=h_1+h_2+h_3$.
+Similarly, ${\bf a}=(a_1,a_2,a_3)=(2,3,4)$ represents the number of matches Atl\'etico won, tied or lost playing away before matchday 20 and $a=a_1+a_2+a_3$.
+
+Analogously, the probabilities of a draw and defeat of the home team are given by:
+
+\[P(X_{n+1}=D|{\bf h}, {\bf a})=\frac{1}{2}\left(\frac{h_2+\alpha_2}{h+\alpha}\right)+\frac{1}{2}\left(\frac{a_2+\alpha_2}{a+\alpha}\right)\simeq0.2917,\]
+
+\[P(X_{n+1}=L|{\bf h}, {\bf a})=\frac{1}{2}\left(\frac{h_3+\alpha_3}{h+\alpha}\right)+\frac{1}{2}\left(\frac{a_1+\alpha_1}{a+\alpha}\right)\simeq0.2083.\]
+
+\subsection{Model Two: Multinomial-Dirichlet $2$}
+
+The only difference between the first and the second models is the weights used to mix the posteriors.
+While the first model mixed the posteriors with equal weights, the second weights the posteriors of each team according to their ranks before the match is played.
+In the illustrative example, we know that after 19 matchdays, Gr\^emio was the $6^{th}$ place and Atl\'etico-PR the $11^{th}$.
+Therefore the weights will be
+
+\[w_1 = \frac{1/6}{1/6+1/11}=0.647 ~ ~ ~ ~ ~ w_2 = \frac{1/11}{1/6+1/11}=0.353\]
+
+\noindent
+for the Gr\^emio and Atl\'etico posteriors, respectively, and the probability that Gr\^emio wins is
+
+\[P(X_{n+1}=W|{\bf h}, {\bf a})=0.647\left(\frac{h_1+\alpha_1}{h+\alpha}\right)+0.353\left(\frac{a_3+\alpha_3}{a+\alpha}\right)=0.525,\]
+
+\noindent
+the other probabilities being computed similarly.
+
+\subsection{Model 3: Multinomial-Dirichlet 3}
+
+The last model we propose is not a mixture of two posteriors.
+To obtain one probability for both teams, we combine the counts of matches of both teams in the following way: add the number of matches won by the home team played in its own stadium with the number of matches lost by the visitor team played away, add the number of draws the home team obtained playing home and the number of draws the visitor team obtained playing away and, finally, add the number of matches the home team lost playing in its domains and the number of matches the visitor team won playing away.
+
+It is important to highlight that this model implicitly uses the strong assumption that the matches of the home team, when playing in its stadium, and the matches of the visitor team, when playing away, are independent and identically distributed.
+
+Considering the example we gave above, the counts of Gr\^emio and Atl\'etico are combined as described resulting in a vector ${\bf c}=(c_1,c_2,c_3)=(10,5,3)$, which leads to a posterior $\mathcal{D}(11,6,4)$ if $\mathcal{D}(1,1,1)$ is the prior.
+Therefore, the probability that Gr\^emio wins is
+
+\[P(X_{n+1}=W|{\bf c})=\frac{c_1+\alpha_1}{c+\alpha}\simeq0.524
+\]
+
+\noindent
+where $c=c_1+c_2+c_3$, $c_2=h_2+a_2$, $c_3=h_3+a_1$ and the other probabilities are computed similarly.
+
 
 \section{Scoring rules and calibration}
 \label{sec::scoring}
@@ -273,11 +314,9 @@ the score may be interpreted as a numerical measure of how inaccurate was the pr
 %Therefore, the accumulated score may be considered a concrete measure of success of each forecaster or model.
 
 
-More precisely, a scoring rule is a function of two variables (or vectors, matrices etc) that assigns a real number (score) to each possible outcome $X$ and its respective prevision value, $P_X$. That is, $P_X$ is the probability assigned to each possible
-outcome $X$.
+More precisely, a scoring rule is a function of two variables (or vectors, matrices etc) that assigns a real number (score) to each possible outcome of $X$ and its respective prevision value, $P_X$, i.e. $P_X$ is the probability assigned to each possible outcome of $X$.
 It is minimum for each $x$ when $P_X$ is such that $P_X(X=x)=1$, and is nondecreasing both as $x$ departs from $P_X$ (for each $P_X$) and as $P_X$ departs from $x$ (for each $x$).
-Thus, the best score (the smaller value of $S$) is achieved when knowledge of $X$ is asserted as the value of $X$ itself, whatever it might be.\footnote{A scoring rule can also be defined to be such that a \emph{large}
-value of $S$ indicates good predictions.}
+Thus, the best score (the smaller value of the score) is achieved when knowledge of $X$ is asserted as the value of $X$ itself, whatever it might be\footnote{A scoring rule can also be defined to be such that a \emph{large} value of the score indicates good predictions.}.
 %Most of the scoring rules also exhibit an arbitrary normalizing feature such as $S(x,P_X)=0$ for each $x$.
 
 Although many functions satisfy the criteria for a scoring rule specified above, not every scoring rule can be regarded as providing a fair assessment of the assertion $P_X$, that is, not all scoring rules encourage honesty and accuracy in assessing numerical values for their previsions.
@@ -286,17 +325,14 @@ Those that do encourage a fair assessment are named \emph{proper scoring rules} 
 Say a forecaster's uncertainty about $X$ is $P_0$. A proper scoring rule is a scoring rule $S$ such that the prevision value $P_X$ that minimizes $E_{P_0}[S(X,P_X)]$ is $P_0$.
 In other words, if one receives a penalty $S(x,P_X)$ when $x$ happens and if $S$ is a proper scoring rule, then the lowest expected penalty is obtained by reporting one's  true uncertainty about $X$.
 The use of a proper scoring rule thus encourages the forecaster to be honest to minimize the expected penalty.
-Moreover, this method leads automatically to an overall comparison between the outcomes of different personal evaluations concerned with the same totality of events.
-Therefore, the accumulated score may be considered a concrete measure of success of each forecaster or model.
+Moreover, this method leads automatically to an overall comparison between the outcomes of different personal evaluations concerned with the same totality of events and, therefore, the accumulated score may be considered a concrete measure of success of each forecaster or model.
 
 In what follows, we describe in detail three proper scoring rules we use to asses the various models considered.
-We also recall the concept of calibration.
+We also recall the concept of calibration and propose a way to measure the calibration degree of each model.
 
-\red{parei de rever essa secao aqui}
-
-Proper scoring rules are devised so that no one previses (expects) that intrigue in falsely announcing some other number as $P(X)$ would be advantageous for achieving a better score.
-The particular scoring functions we study in the generic form $S(X,P(X))$ can also be considered as utility functions, $U(X,P(X))$.
-The principle of asserting numerical values for $P(X)$ in such a way as to maximize your prevision for your score is equivalent to acting in a decision problem so as to maximize your expected utility.
+%Proper scoring rules are devised so that no one previses (expects) that intrigue in falsely announcing some other number as $P(X)$ would be advantageous for achieving a better score.
+%The particular scoring functions we study in the generic form $S(X,P(X))$ can also be considered as utility functions, $U(X,P(X))$.
+%The principle of asserting numerical values for $P(X)$ in such a way as to maximize your prevision for your score is equivalent to acting in a decision problem so as to maximize your expected utility.
 
 
 
@@ -356,7 +392,7 @@ where $\mathbb{I}$ is the indicator function.
 \end{figure}
 
 
-We interpret the Brier score in the case only three events can happen, the case of a football match.
+We interpret the Brier score in the case where one of three mutually exclusive outcomes happen, the case of a football match.
 The green surface in Figure \ref{fig:simplex} represents the 2-simplex, i.e. the set of points such that $p_1+p_2+p_3=1$ for non-negative values of $p_1$, $p_2$ and $p_3$.
 The triangle representing the simplex has sides of length $\sqrt{2}$ and its height is $\sqrt{6}/2$.
 Drawing a similar equilateral triangle with height 1 and sides $2\sqrt{3}/3$, it is possible to represent all the points of the simplex.
@@ -417,7 +453,7 @@ This new triangle is used to graphically display the predictions as internal poi
 
 \node[label={below:Home wins}] at (0,-0.05) {};
 \node[label={below:Draw}] at (1.1547,-0.05) {};
-\node[label={above:Home loses}] at (0.57735,1.05) {};
+\node[label={above:Home loses}] at (0.57735,1.1) {};
 
 \node[label={below:$(1,0,0)$}] at (0,0.05) {};
 \node[label={below:$(0,1,0)$}] at (1.1547,0.05) {};
@@ -442,9 +478,11 @@ This new triangle is used to graphically display the predictions as internal poi
     \label{fig:norm_stand}
 \end{figure}
 
-The Brier score for the prediction $p=(0.25,0.35,0.40)$ when the home loses is therefore given by
-$d^2=(0-0.25)^2+(0-0.35)^2+(1-0.40)^2=0.545$. If the prediction was
- $p=(0,0,1)$, the score would be 0 instead.
+The Brier score for the prediction $P_X=(0.25,0.35,0.40)$, assuming the home team loses, is therefore given by $d^2=(0-0.25)^2+(0-0.35)^2+(1-0.40)^2=0.545$. 
+If the prediction was $P_X=(0,0,1)$, the score would be zero, the minimum for this rule.
+
+It is useful to consider the score of what we will call the {\it trivial prediction}: $(1/3,1/3,1/3)$.
+This assessment will produce a Brier score of $2/3$, no matter what is the final result of the match, providing, thus, a threshold that a good model should consistently beat, meaning, for the Brier score, that the scores of its predictions should be smaller than $0.667$.  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -452,196 +490,36 @@ $d^2=(0-0.25)^2+(0-0.35)^2+(1-0.40)^2=0.545$. If the prediction was
 \subsection{Logarithmic scoring rule}
 
 The logarithmic  score is given by
-$$S(X;P(X))=- \sum_{i}\mathbb{I}(X=x_i)\log(P(x_i)),$$
+$$S(X;P_X)=- \sum_{i}\mathbb{I}(X=x_i)\ln(P_X(x_i)),$$
 
-This is the negative log likelihood
-of the event that occurred.
+\noindent
+which is the negative log likelihood of the event that occurred.
 
-The logarithmic score for the prediction $p=(0.25,0.35,0.40)$ when the home loses is therefore given by
-$-\log(0.4)\approx 0.91$. If the prediction was
- $p=(0,0,1)$, the score would be $0$ instead.
-
+The logarithmic score for the prediction $P_X=(0.25,0.35,0.40)$, when the home team loses is therefore 
+$-\ln(0.4)\approx 0.91$. 
+If the prediction was $P_X=(0,0,1)$, the score would be zero, once more the minimum of this rule.
+For the logarithmic score, the trivial prediction gives a score of approximately $1.098$.
 
 \subsection{Spherical scoring rule}
 
 The spherical score is given by
-$$S(X;P(X))=- \frac{1}{\sqrt{\sum_i P^2(x_i)}}\sum_{i}\mathbb{I}(X=x_i)P(x_i),$$
+$$S(X;P_X)=- \frac{1}{\sqrt{\sum_i P_X^2(x_i)}}\sum_{i}\mathbb{I}(X=x_i)P_X(x_i),$$
 
-This is the negative likelihood
-of the event that occurred, normalized by the square-root of the assigned probabilities.
+\noindent
+which is the negative likelihood of the event that occurred, normalized by the square-root of the sum of the assigned squared probabilities.
 
-The logarithmic score for the prediction $p=(0.25,0.35,0.40)$ when the home loses is therefore given by
-$-0.4/\sqrt{0.25^2+0.35^2+0.40^2} \approx -0.68$. If the prediction was
- $p=(0,0,1)$, the score would be $-1$ instead.
+The spherical score for the prediction $P_X=(0.25,0.35,0.40)$, assuming the home team loses, is given by
+$-0.4/\sqrt{0.25^2+0.35^2+0.40^2} \approx -0.68$.
+If the prediction was $P_X=(0,0,1)$, the score would be $-1$ instead and, for this rule, the trivial prediction results in a score of approximately $-0.577$.
 
+\subsection{Calibration and proportion of errors}
 
-\subsection{Calibration}
+Besides scoring rules, there are other criteria used to assess the quality of different predictions. One of them is the proportion of errors made by the model or assessor...***COMPLETAR DEFINICAO***.
 
 Probability assertions are said to be well calibrated at the level of probability $p$ if the observed proportion of all propositions that are assessed with probability $p$ equals $p$.
 
-A person's probability assertions are said to be well calibrated at the value $p$ if the limiting frequency of occurrence of events that are assessed with probability $p$, equals $p$.
-
-
-\section{Example}
-
-\red{temos que descrever o que esta aqui (nao li essa secao)}
-
-Gr\^emio $\times$ Atl\'etico-PR (Matchday 20), at Gr\^emio.
-
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{lccccccccc}
-
-\hline
- & \multicolumn{3}{c}{Home} & \multicolumn{3}{c}{Away}& \multicolumn{3}{c}{Overall} \\
-\hline
-\hline
-Team & W & D & L & W & D & L & W & D & L\\
-\hline
-Gr\^emio & 6 & 2 & 1 & 3 & 2 & 5 & 9 & 4 & 6\\
-Atl\'etico-PR & 4 & 4 & 2 & 2 & 3 & 4 & 6 & 7 & 6\\
-\hline
-\end{tabular}
-\caption{Gr\^emio and Atl\'etico-PR counts after 19 matchdays (first round)}
-\end{center}
-\end{table}
-
-
-
-$h_1$=number of matches won by Gr\^emio when playing home
-
-$h_2$=number of matches drawn by Gr\^emio when playing home
-
-$h_3$=number of matches lost by Gr\^emio when playing home
-
-\
-
-$(h_1,h_2,h_3)=(6,2,1)$
-
-
-\[
-p_{1h}=\frac{h_1+\alpha_1}{h+\alpha}=\frac{6+1}{9+3}=\frac{7}{12}=0.583\]
-
-\[
-p_{2h}=\frac{h_2+\alpha_2}{h+\alpha}=\frac{2+1}{9+3}=\frac{3}{12}=0.25\]
-
-\[
-p_{3h}=\frac{h_3+\alpha_3}{h+\alpha}=\frac{1+1}{9+3}=\frac{2}{12}=0.167\]
-
-
-$a_1$=number of matches won by Atl\'etico-PR when playing away
-
-$a_2$=number of matches drawn by Atl\'etico-PR when playing away
-
-$a_3$=number of matches lost by Atl\'etico-PR when playing away
-
-\
-
-$(a_1,a_2,a_3)=(3,2,5)$
-
-
-\[
-p_{1a}=\frac{a_1+\alpha_1}{h+\alpha}=\frac{2+1}{9+3}=\frac{3}{12}=0.25\]
-
-\[
-p_{2a}=\frac{a_2+\alpha_2}{h+\alpha}=\frac{3+1}{9+3}=\frac{4}{12}=0.333\]
-
-\[
-p_{3a}=\frac{a_3+\alpha_3}{h+\alpha}=\frac{4+1}{9+3}=\frac{5}{12}=0.417\]
-
-
-What's the probability that Gr\^emio wins: $p_{1h}=0.583$ or $p_{3a}=0.417$?
-
-What's the probability of a draw: $p_{2h}=0.25$ or $p_{2a}=0.333$?
-
-What's the probability that Gr\^emio loses: $p_{3h}=0.167$ or $p_{1a}=0.25$?
-
-
-Three ways of combining these probabilities are proposed: (I) a mixture with equal weights to both teams;
-
-\[
-\frac{1}{2}\times p_{1h}+\frac{1}{2}\times p_{3a}=\frac{1}{2}\times0.583+\frac{1}{2}\times0.417=0.5
-\]
-
-\noindent
-is the probability that Gr\^emio wins.
-
-
-\[
-\frac{1}{2}\times p_{2h}+\frac{1}{2}\times p_{2a}=\frac{1}{2}\times0.25+\frac{1}{2}\times0.333=0.2917
-\]
-
-\noindent
-is the probability of a draw.
-
-\[
-\frac{1}{2}\times p_{3h}+\frac{1}{2}\times p_{1a}=\frac{1}{2}\times0.167+\frac{1}{2}\times0.25=0.2083
-\]
-
-\noindent
-is the probability that Atl\'etico wins.
-
-
-(II) a mixture with weights (inversely) proportional to the teams rank before the match;
-after 19 matchdays, Gr\^emio was the $6^{th}$ place and Atl\'etico-PR the $11^{th}$:
-
-
-\[w_1 = \frac{1/6}{1/6+1/11}=0.647 ~ ~ ~ ~ ~ w_2 = \frac{1/11}{1/6+1/11}=0.353\]
-
-
-\[
-w_1\times p_{1h}+w_2\times p_{3a}=0.647\times0.583+0.353\times0.417=0.525 (\text{Gr\^emio wins})
-\]
-
-\[
-w_1\times p_{2h}+w_2\times p_{2a}=0.647\times0.25+0.353\times0.333=0.279 (\text{draw})
-\]
-
-\[
-w_1\times p_{1h}+w_2\times p_{3a}=0.647\times0.167+0.353\times0.25=0.196 (\text{Atl\'etico wins})
-\]
-
-
-(III) combine the counts to generate one prediction:
-
-$(h_1,h_2,h_3)=(6,2,1)$ and $(a_1,a_2,a_3)=(2,3,4)$ $\Rightarrow$ $(c_1,c_2,c_3)=(10,5,3)$
-
-
-$c_1=h_1+a_3 \Rightarrow$ number of matches won by Gr\^emio playing home plus matches lost by Atl\'etico playing away.
-
-\[\frac{c_1+\alpha_1}{c+\alpha}=\frac{10+1}{18+3}=0.524
-\]
-
-
-\[\frac{c_2+\alpha_3}{c+\alpha}=\frac{5+1}{18+3}=0.286
-\]
-
-\[\frac{c_3+\alpha_3}{c+\alpha}=\frac{3+1}{18+3}=0.190
-\]
-
-\noindent
-where $c=c_1+c_2+c_3$, $c_2=h_2+a_2$ and $c_3=h_3+a_1$.
-
-Final result: Gr\^emio 1 $\times$ 0 Atl\'etico-PR
-
-\begin{table}[H]
-\begin{center}
-\begin{tabular}{ccccc}
-
-\hline
-Model & Gr\^emio & Draw & Atl\'etico-PR & Score \\
-\hline
-\hline
-BB1 & 0.505 & 0.263 & 0.232 & 0.368 \\
-BB2 & 0.55 & 0.27 & 0.18 & 0.308 \\
-$Mn-Dir_1$ & 0.50 & 0.292 & 0.208 & 0.379 \\
-$Mn-Dir_2$ & 0.525 & 0.279 & 0.196 & 0.342\\
-$Mn-Dir_3$ & 0.524 & 0.286 & 0.190 & 0.345\\
-\hline
-\end{tabular}
-%\caption{Score of the ten first rounds and mean score per match after 190 matches}
-\end{center}
-\end{table}
+***EXPLICAR COMO FOI AJUSTADA A CALIBRAGEM***
+%A person's probability assertions are said to be well calibrated at the value $p$ if the limiting frequency of occurrence of events that are assessed with probability $p$, equals $p$.
 
 
 \section{Results}
@@ -649,7 +527,7 @@ $Mn-Dir_3$ & 0.524 & 0.286 & 0.190 & 0.345\\
 
 We display only the results for the first division of the Brazilian football championship; the second
 division yielded similar results.
-Both divisions have 20 teams that play against each other twice (home and away) and the team with more points after all matches were played is declared champion.
+Both divisions have 20 teams that play against each other twice (home and away) and the team with more points after all matches are played is declared champion.
 The last four are relegated to a minor division and, in first division, the first four play Copa Libertadores (South America champions league) and in second division the first four are promoted to first division.
 Therefore, in each championship there is a total of 380 matches, 190 in each round.
 
@@ -703,9 +581,9 @@ Therefore, in each championship there is a total of 380 matches, 190 in each rou
 
 
 Figure \ref{fig::scores} displays the boxplots of the scores and proportion of errors of the predictive models considered.
-It also shows an horizontal line with the score of the trivial prediction $(1/3,1/3,1/3)$.
+%It also shows an horizontal line with the score of the trivial prediction.
 According to all scoring rules, all methods have similar performance, and they are more accurate than the trivial prediction, displayed in the plots
-as an horizontal line.\footnote{None of the 95\% confidence intervals for the mean score contain the score given by the trivial prediction.} The Brier score the first five matchdays, as well as the total Brier score is also displayed
+as an horizontal line\footnote{None of the 95\% confidence intervals for the mean score contain the score given by the trivial prediction.}. The Brier score for the first five matchdays, as well as the total Brier score is also displayed
 in Table \ref{tab::brier}.
 
 
@@ -745,12 +623,11 @@ The score of the trivial prediction $(1/3,1/3,1/3)$ is 0.667.}
 \end{table}
 
 
-Figure \ref{fig::entropy} presents the boxplots of the entropy of each prediction for the predictive models considered.\footnote{Recall
-that the entropy of a prediction $(p_1,p_2,p_3)$ is given by $- \sum_{i=1}^3 p_i \log{p_i}$}
-Because the entropy values are smaller than 1.09,
-the plots shows that the predictions
-are typically more informative than $(1/3,1/3,1/3)$. Nevertheless, all methods yield similar entropies in average, that is,
-none of them seem to give more informative probabilities.
+Figure \ref{fig::entropy} presents the boxplots of the entropy of each prediction for the predictive models considered\footnote{Recall
+that the entropy of a prediction $(p_1,p_2,p_3)$ is given by $- \sum_{i=1}^3 p_i \log{p_i}$}.
+Because the entropy values are smaller than 1.09, the plots show that the predictions
+are typically more informative than $(1/3,1/3,1/3)$. Nevertheless, all methods yielded similar entropies in average, that is,
+none of them seem to provide more informative probabilities.
 
 \begin{figure}[H]
   \centering
@@ -765,7 +642,7 @@ If these probabilities are close to $p$, one concludes that the methods are well
 Results are displayed in Figure \ref{fig::calibration}.
 Because we typically do not have several predictions with the same assigned probability $p$, we obtain the plot by smoothing the indicator function of whether a given event happened on  the assigned  probability of that event.
 The smoothing is done via smoothing splines \cite{wahba}, with tuning parameters chosen by cross-validation.
-Because the curves we obtained are close to the identity, we conclude that all methods are well-calibrated, except perhaps BB1, in which events with both low and high estimated probabilities happen more often
+Because the curves we obtained are close to the identity ($45^{\text{o}}$ line), we conclude that all methods are well-calibrated, except perhaps BB1, in which events with both low and high estimated probabilities happen more often
 than predicted.
 
 
@@ -781,13 +658,11 @@ confidence bands. Black line is the identity $y=x$.}
 \label{fig::calibration}
 \end{figure}
 
-In order to have a deeper understatement about the probabilities
+In order to have a deeper understanding about the probabilities
 given by each method, Figure \ref{fig::probMandante} displays the
-estimated conditional probability that the home team wins given
-there is no draw. \added[id = luis]{All models assign higher
-probabilities to the home team win, a fact that illustrates that
-they capture well the known fact of home field advantage in soccer
-as well as in other sports \citep{Pollard86, Clarke95, Nevill99}.}
+estimated conditional probability that the home team wins assuming
+the match will not be a tie.
+All models assign higher probabilities to the home team, showing that they capture the well known fact known as home advantage, peculiar in football matches and in other sport competitions\citep{Pollard86, Clarke95, Nevill99}.
 Morever, the outputs from the methods introduced in this paper are
 less dispersed than those from the other models used in the
 literature.
@@ -801,7 +676,7 @@ is no draw. Horizontal line indicates a 50\% probability.}
 
 
 We therefore conclude that all methods have similar predictive power, and none of them is more informative in average.
-Nevertheless, all methods yield better predictions than the non-informative vector of probabilities $(1/3,1/3,1/3)$, and they are well-calibrated.
+Nevertheless, all methods yielded better predictions than the non-informative vector of probabilities $(1/3,1/3,1/3)$, and they are well-calibrated.
 
 
 \red{incluir envoltorio convexo para mostrar que probs estimadas sao relativamente parecidas, talvez colocar os 4, 5 exemplos com maiores envoltorios?}
@@ -816,66 +691,57 @@ Nevertheless, all methods yield better predictions than the non-informative vect
 
 
 %De Finetti used what is called the Brier score, which is just the (squared) Euclidean distance — i.e., the sum of the squared differences between credences and (the 0/1 numerical correlates of) truth values.
+Statistical models devoted to prediction of football matches can be divided in two classes: one class of models predicts the number of goals each team scores \citep{Maher82, Dixon97, Karlis2003} and the other predicts the final outcome (win, draw of defeat of the home team) \citep{Forrest2000, Koning2000, Brillinger2008, Brillinger2009}. 
+For a discussion of these two approaches see \cite{Goddard2005}. 
+All the models considered in this work are part of the second class of models.
 
-We compared the probabilistic predictions of three simple models
-with the ones provided by two more complex models for the second
-round of the 2014 Brazilian football championships of first and
-second divisions. According to standard scoring rules and other
-criteria here adopted to qualify the predictions, our results show
-that the predictive power of all models was quite similar.
+%In the statistical literature, football prediction models can be divided in two main approaches: (i) modeling the number of goals \citep{Maher82, Dixon97, Karlis2003} and (ii) modeling the final outcome (win, draw or lose) of the matches \citep{Forrest2000, Koning2000, Brillinger2008, Brillinger2009}. For a discussion of these two approaches see \cite{Goddard2005}.
+Although our benchmark models were here defined as complex, we can find much more elaborate models in the literature, hindering the estimation and prediction processes.
+Among them, we can cite those based on modeling the match as a stochastic process evolving through time \citep{Dixon98, Volf2009, Titman2015}, those allowing for the team performance parameters to
+change along the season \citep{Rue2000, Crowder2002, Owen2011, Koopman2015} and those modeling dependence between number of goals by means of bivariate count distributions \citep{Dixon97, Karlis2003, McHale2007, McHale2011}.
 
-This work thus indicates that while there has been a boom in the
-literature with the proposal of several fancy and involved models,
-especially in the era of big data, simple models can many times do
-as well as their complex counterparts. This is often unnoticed by
-users of such methods, which leads to the overuse of models that are
-hard to interpret and to implement, and that also require one to
-keep track of several covariates. We would call this phenomenon the
-{\it king's nudity}\footnote{In allusion to Anderson's {\it The
-Emperor's New Clothes}, \cite{emperor}: ``But he isn't wearing
-anything at all!''.}, that is not, of course, always observed. In
-this spirit, since we have explored only the prediction of football
-matches, we would like to study if the same extends to other fields
-such as, for instance, \red{exemplos}
+%Although the benchmark models were here considered complex models, we can find in the literature much more elaborate models, hindering the estimation and prediction process. 
+%Among those, we can cite those based on modeling the match as a stochastic process evolving through time \citep{Dixon98, Volf2009, Titman2015}, those allowing for the team performance parameters to change along the season \citep{Rue2000, Crowder2002, Owen2011, Koopman2015} and those modeling dependence between number of goals by means of bivariate count distributions \citep{Dixon97, Karlis2003, McHale2007, McHale2011}.
 
-If, on the one hand, our findings appear as another supportive example of Ockham's razor,
-on the other they pose several questions about probabilistic prediction of sport events.
-In particular, based on the fact that the models have similar performance, one may ask: is
-there an irreducible ``randomness'' or ``degree of unpredictability'' implicit in these events?
+According to standard scoring rules and other criteria here adopted to qualify the predictions, our findings show that the predictive power of the three simple models was quite similar to the benchmark models.
+%We compared the probabilistic predictions of three simple models with the ones provided by two more complex models for the second round of the 2014 Brazilian football championships of first and second divisions. 
+This work thus indicates that while there has been a boom in the literature with the proposal of several fancy and involved models, especially in the era of big data, simple models can many times do
+as well as their complex counterparts. 
+
+This is often unnoticed by users of such methods, which leads to the overuse of models that are
+hard to interpret and to implement, and that also require one to keep track of several covariates. We would call this phenomenon the {\it king's nudity}\footnote{In allusion to Anderson's {\it The
+Emperor's New Clothes}, \cite{emperor}: ``But he isn't wearing anything at all!''.}, that is not, of course, always observed. 
+In this spirit, since we have explored only the prediction of football matches, we would like to study if the same extends to other fields such as, for instance, weather or economics forecasts.
+
+If, on the one hand, our findings appear as another supportive example of Ockham's razor, on the other they pose several questions about probabilistic prediction of sport events. 
+In particular, based on the fact that the models have similar performance, one may ask: is there an irreducible ``randomness'' or ``degree of unpredictability'' implicit in these events?
 Is this degree an indicator of how tight or leveled is the championship being studied?
 
-A suggestion of future research is to answer these questions by
-considering more championships and models, and  by comparing them
-using other scoring rules. Another direction we would like to
-address is to test other weighting methods in models 1 and 2 here
-proposed, and to evaluate their impact on the predictive power of
-the resulting predictions.
+A suggestion of future research is to answer these questions by considering more championships and models, and by comparing them using other scoring rules. 
+Another direction we would like to address is to test other weighting methods in models 1 and 2 here
+proposed, and to evaluate their impact on the predictive power of the resulting predictions.
 
-The most useful statement of the principle for scientists is "when
-you have two competing theories that make exactly the same
-predictions, the simpler one is the better."
-
-What to infer from known recorded measurements about the values of yet unrecorded measurements is the responsibility of each knowing person.
-There is general agreement in evaluating the evidence that the measured observations provide for yet unmeasured experiences.
-There have been controversies among very respected scientists regarding what conclusions are to be drawn from observations.
+Once more we would like to stress that, when trying to answer all these questions, one must remember perhaps the most practical statement of Ockham's razor: ``when you have two competing theories that make exactly the same predictions, the simpler one is the better.''
+However, what to infer from known recorded measurements about the values of yet unrecorded measurements is the responsibility of each knowing person.
+There is general agreement in evaluating the evidence that measured observations provide for yet unmeasured experiences, but there have been controversies among very respected scientists regarding what conclusions are to be drawn from observations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\acknowledgments{Acknowledgments}
+%\acknowledgments{Acknowledgments}
 
-Main text.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\authorcontributions{Author Contributions}
-
-Main text.
+%Main text.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\conflictofinterests{Conflicts of Interest}
+%\authorcontributions{Author Contributions}
 
-State any potential conflicts of interest here or ``The authors declare no conflict of interest''.
+%Main text.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\conflictofinterests{Conflicts of Interest}
+
+%State any potential conflicts of interest here or ``The authors declare no conflict of interest''.
 
 %=================================================================
 % References: Variant A
@@ -915,7 +781,7 @@ results. {\em Science in China Series A} {\bf 2009}, {\em 52},
 1139-1151.
 
 \bibitem{constantinou}
-Constantinou, A. and Fenton, N. E. Evaluating the Predictive Accuracy of Association Football Forecasting Systems. Unpublished paper.
+Constantinou, A. and Fenton, N. E. Solving the problem of inadequate scoring rules for assessing probabilistic football forecast models. {\em Journal of Quantitative Analysis in Sports} {\bf 2012}, {\em 8}, manuscript 1418.
 
 \bibitem{Clarke95}
 Clarke, S. R.; Norman, J. N. Home ground advantage of individual clubs in English soccer. {\em Journal of the Royal Statistical Society - Series D} {\bf 1995} ,
@@ -955,8 +821,8 @@ League. {\em Journal of the Royal Statistical Society - Series A}
 {\bf 2015}, {\em 178}, 167-186.
 
 \bibitem{lad}
-Lad, F. Operational Subjective Statistical Methods: a mathematical,
-philosophical, and historical introduction. New York: Wiley, 1996.
+Lad, F. {\it Operational Subjective Statistical Methods: a mathematical,
+philosophical, and historical introduction}. New York: Wiley, 1996.
 
 \bibitem{Maher82}
 Maher, M. J. Modelling association football scores. {\em Statistica Neerlandica} {\bf 1982}, {\em 36}, 109-118.
