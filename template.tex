@@ -108,13 +108,13 @@
 $^{1}$ Department of Statistics, Federal University of S\~ao Carlos, Rod. Washington Luis, km 235, S. Carlos, Brazil}
 
 % Contact information of the corresponding author (Add [2] after \corres if there are more than one corresponding author.)
-\corres{e-mail, telephone and fax number of the corresponding author.}
+\corres{marcio.alves.diniz@gmail.com, (+5516) 3351-9387.}
 
 % Abstract (Do not use inserted blank lines, i.e. \\)
-\abstract{This is the abstract section. The abstract should be one section and count less than 200 words.}
+\abstract{We create three simple multinomial-Dirichlet models and compare them to two well-known sophisticated statistical models for association football (soccer) predictions according to their performance in predicting the full-time results for the second round of the 2014 Brazilian first division championship.  The predictive models are compared using three proper scoring rules, the proportion of errors and the calibration assessment. Our results show similar predictive performances for all the five methods, thus discouraging the use of overcomplicated models for match result forecast.}
 
 % Keywords: add 3 to 10 keywords
-\keyword{keyword; keyword; keyword}
+\keyword{predictive inference; probabilistic prediction; Bayesian inference; scoring rules}
 
 % The fields PACS, MSC, and JEL may be left empty or commented out if not applicable
 %\PACS{}
@@ -136,13 +136,13 @@ This is true also in the literature of probabilistic sports predictions, particu
 
 Bothered by such concerns, our goal was to answer the following question: is it possible, using a simple probabilistic model, to predict results of football matches better than more sophisticated or complex models?
 To answer this, we compared two sophisticated models that consider multiple covariates with simple multinomial-Dirichlet models that consider only the number of matches won, tied or lost by each team as inputs.
-The models were tested for the second round of the Brazilian football championships of first and second divisions and compared using standard metrics or scoring rules.
+The models were tested for the second round of the Brazilian football championships of first division and compared using standard metrics or scoring rules.
 We also used other criteria such as the proportion of matches that were predicted ``correctly'' by each model and a measure of calibration, both explained in detail below.
 According to the adopted criteria, the simple models showed a similar predictive performance to the complex ones.
 
 The predictions of the two benchmark models were published on Internet websites before every matchday, and are treated by us as black-box models (BB1 and BB2). 
 We know that\footnote{One of the authors is responsible for one of these models and the other was described in a dissertation. See \cite{arruda2000}.} both models are based on Holgate bivariate Poisson regression considering as explanatory variables the home field advantage, attack and defense strength for each team, and provide the probabilities of all possible outcomes (home team wins, draws or loses) for each match.
-Because both models are based on an elaborate parametric assumptions, they are suitable for the comparison we are proposing: simple versus complex models\footnote{To be precise we would have to define what is a ``simple'' model and what is a ``complex'' model. Based on the opening quotations, one may say that the number of parameters defines the complexity of a model, which is not exactly the definition we will use, since we consider other criteria, like the interpretation of explanatory variables and mathematical structure of the statistical model.}.
+Because both models are based on elaborate parametric assumptions, they are suitable for the comparison we are proposing: simple versus complex models\footnote{To be precise we would have to define what is a ``simple'' model and what is a ``complex'' model. Based on the opening quotations, one may say that the number of parameters defines the complexity of a model, which is not exactly the definition we will use, since we consider other criteria, like the interpretation of explanatory variables and mathematical structure of the statistical model.}.
 
 
 There are several ways to score or classify predictions of categorical events that assume one result out of a discrete set of mutually exclusive possible outcomes, like football matches.
@@ -151,7 +151,7 @@ We decided to score the previsions for each match in terms of their distances fr
 
 This paper is organized as follows.
 Section \ref{sec::experimental} describes the proposed models, Section \ref{sec::scoring} presents the scoring rules and criteria used in this work to classify the models.
-Section \ref{sec::results} reports the performance of the models predicting 380 matches comprising the second half of Brazilian championships of first and second divisions.
+Section \ref{sec::results} reports the performance of the models predicting 190 matches comprising the second half of the Brazilian championship of first division.
 In Section \ref{sec::remarks} we discuss the results and close with proposals for future research.
 
 
@@ -161,71 +161,113 @@ In Section \ref{sec::remarks} we discuss the results and close with proposals fo
 \label{sec::experimental}
 %% Only for the journal Gels: Please place the Experimental Section after the Conclusions
 
-In this section we present the probabilistic justification for the three proposed models and the predictive distribution for the outcomes of an upcoming match of some team $A$ (home team) versus $B$ (away team). 
-The main idea is to combine the past performance of both teams in different ways in order to predict the outcome of the match. 
-The predictions of the two benchmark models were published before each matchday at \url{http://chancedegol.uol.com.br} and \url{http://www.previsaoesportiva.com.br}.
+In the literature, statistical models devoted to the prediction of
+football matches can be divided in two classes: models that make
+assumptions about the number of goals each team scores
+\citep{Maher82, Dixon97, Karlis2003} and models that make
+assumptions about the categorical final outcome (win, draw or defeat
+of the home team) \citep{Forrest2000, Koning2000, Brillinger2008,
+Brillinger2009}. For a discussion of these two approaches see
+\cite{Goddard2005}. The benchmark models considered in this work are
+part of the first approach, while the models proposed by us are part
+of the second one.
+
+In this section we present the probabilistic justification for the
+three proposed models and the predictive distribution of an upcoming
+match of team $A$ (home team) versus $B$ (away team). The main idea
+is to combine the past performance of both teams in different ways
+in order to predict the outcome of the match. The predictions of the
+two benchmark models were published before each matchday at
+\url{http://chancedegol.uol.com.br} and
+\url{http://www.previsaoesportiva.com.br}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\red{nao olhei o resto desta secao}
-
 \subsection{Multinomial-Dirichlet}
+\label{sec::Mn_Dir}
 
-We want to compute the probability that team $A$ will win, draw or lose the match against team $B$ given that it has won, tied and lost a certain number of matches and to obtain this conditional probability we will use the Bayesian approach.
-Therefore, the result of the next match of team $A$, denoted by $X$, is a categorical random quantity that may assume only three modes; win ($W$), draw ($D$) or loss ($L$).
-If we denote the probability of $W$, by $\theta_1$, of $D$ by $\theta_2$ and of $L$ by $\theta_3=1-\theta_1-\theta_2$ where $\theta_1+\theta_2\leq 1$, the probability mass function of such random quantity is
+We adopt a Bayesian approach to calculate the prediction probabilities of an upcoming match of team $T$ ($A$ or $B$) based on its past performance, i.e, the number of matches it has won, tied and lost.
+
+Let us consider the outcome of each match of team $T$ as a categorical random quantity $X$ that may assume only the values $1$, $2$, $3$, where $1$ means win ($W$), $2$ draw ($D$) and $3$ loss ($L$).
+Denoting by $\theta_1, \theta_2$ and $\theta_3$ ($\theta_3 = 1-\theta_1 - \theta_2$), the probabilities of win, draw and loss, respectively, the probability mass function of $X$ is
 
 \[
-P(X=x|\theta)=\theta_1^{\mathbb{I}(x=W)}\theta_2^{\mathbb{I}(x=D)}(1-\theta_1-\theta_2)^{\mathbb{I}(x=L)}
+P(X=x | \boldsymbol{\theta}) = \theta_1^{\mathbb{I}_{\{1\}}(x)}
+\theta_2^{\mathbb{I}_{\{2\}}(x)}(1 - \theta_1 -
+\theta_2)^{{\mathbb{I}_{\{3\}}}(x)}, \qquad x \in \mathcal{X},
 \]
 
 \noindent
-where $\mathcal{X}=\{W,D,L\}$ is the sample space of $X$; $\mathbb{I}(x=i)$ is the indicator function, that takes value 1 if $x$ equals $i= W, D, L$ and 0 otherwise and $\theta=\{(\theta_1,\theta_2)\in\Re^2:\theta_1+\theta_2\leq1 ~ \text{and} ~ \theta_i\geq0 ~ \text{for} ~ i=1, 2\}$ is the two-dimension simplex.
+where $\mathcal{X}=\{1,2,3\}$ is the support of $X$,
+$\mathbb{I}_{\{i\}}(x)$ is the indicator function that assumes the
+value 1 if $x$ equals $i$ and 0 otherwise, and $\boldsymbol{\theta}
+= (\theta_1, \theta_2)$ belogns to $\boldsymbol{\Theta} =
+\{(\theta_1,\theta_2)\in [0,1]^2: \theta_1+\theta_2 \leq 1 \}$, the 2-simplex.
 
-Assuming that the matches of team $A$, given $\theta$, are i.i.d. with the above categorical distribution, the sum of $n$ such random quantities has multinomial distribution with parameters $\theta$ and $n$, i.e. the vector of matches won, drawn or lost by some team, denoted by $(M_1,M_2,M_3)$, has multinomial distribution with parameters $n$ and $\theta$.
-
-\[
-P(M_1=n_1,M_2=n_2,M_3=n_3|\theta,n)= \frac{n!}{n_1!n_2!(n-n_1-n_2)!}\theta_1^{n_1}\theta_2^{n_2}(1-\theta_1-\theta_2)^{n-n_1-n_2}
-\]
-
-\noindent
-when $n_1+n_2+n_3=n$ and zero otherwise. 
-The numbers $n_1$, $n_2$ and $n_3$ are non-negative integers representing, respectively, the number of matches won, tied or lost by team $A$.
-
-Our goal is to compute $P(X_{n+1}=x|M_1=n_1,M_2=n_2,M_3=n_3)$, for $x\in\mathcal{X}$.
-Using Bayesian inference these probabilities are easily computed: if the prior for $\theta$ is Dirichlet with parameter vector $(\alpha_1,\alpha_2,\alpha_3)$, denoted $\mathcal{D}(\alpha_1,\alpha_2,\alpha_3)$, its probability density function is
+Assuming that $n$ matches of team $T$, given $\boldsymbol{\theta}$, are i.i.d. quantities with the above categorical distribution, and denoting by $M_1$, $M_2$ and $M_3$ the number of matches won, tied or lost by team $T$, the random vector $(M_1, M_2, M_2)$ has multinomial distribution with parameters $n$ and $\boldsymbol{\theta}$ given by
 
 \[
-f(\theta|\alpha)=\frac{\Gamma(\alpha_1+\alpha_2+\alpha_3)}{\Gamma(\alpha_1)\Gamma(\alpha_2)\Gamma(\alpha_3)}\theta_1^{\alpha_1-1}\theta_2^{\alpha_2-1}(1-\theta_1-\theta_2)^{\alpha_3-1}
+P(M_1=n_1,M_2=n_2,M_3=n_3| n, \boldsymbol{\theta})=
+\frac{n!}{n_1!n_2!(n-n_1-n_2)!}\theta_1^{n_1}\theta_2^{n_2}(1-\theta_1-\theta_2)^{n-n_1-n_2},
 \]
+\noindent 
+where $n_1 + n_2 + n_3 = n$.
 
-\noindent
-for $\alpha_1$, $\alpha_2$, $\alpha_3 > 0$, then the posterior is $\mathcal{D}(n_1+\alpha_1,n_2+\alpha_2,n_3+\alpha_3)$, and hence
+Our goal is to compute the predictive posterior distribution of the
+upcoming match, $X_{n+1}$, that is,
+$P(X_{n+1}=x|M_1=n_1,M_2=n_2,M_3=n_3)$, $x\in\mathcal{X}$. Using
+Bayesian inference this probability can be easily computed as
+follows. Suppose that $\boldsymbol{\theta}$ has Dirichlet prior distribution
+with parameter $(\alpha_1,\alpha_2,\alpha_3)$, denoted
+$\mathcal{D}(\alpha_1,\alpha_2,\alpha_3)$, with density function
+\[
+\pi(\boldsymbol{\theta}|\alpha)=\frac{\Gamma(\alpha_1+\alpha_2+\alpha_3)}{\Gamma(\alpha_1)\Gamma(\alpha_2)\Gamma(\alpha_3)}\theta_1^{\alpha_1-1}\theta_2^{\alpha_2-1}(1-\theta_1-\theta_2)^{\alpha_3-1}
+\]
+\noindent for $\alpha_1$, $\alpha_2$, $\alpha_3 > 0$, then the
+posterior distribution of $\boldsymbol{\theta}$ is
+$\mathcal{D}(n_1+\alpha_1,n_2+\alpha_2,n_3+\alpha_3)$. Thus, the
+predictive distribution of $X_{n + 1}$ is given by the
+integral
+$$
+P(X_{n + 1} = x | M_1 = n_1, M_2 = n_2, M_3 = n_3) = \int_{\boldsymbol{\Theta}} P(X_{n
++ 1} = x | \boldsymbol{\theta}) \pi(\boldsymbol{\theta} | M_1 = n_1, M_2 = n_2, M_3
+= n_3) d\boldsymbol{\theta},
+$$
+which leads to the following probabilities of win, tie and loss:
+\begin{align*}
+P(X_{n+1} = 1 | M_1=n_1,M_2=n_2,M_3=n_3) &=
+\frac{n_1+\alpha_1}{n+\alpha}\\
+& \\
+P(X_{n+1} = 2 | M_1=n_1,M_2=n_2,M_3=n_3) &=
+\frac{n_2+\alpha_1}{n+\alpha} \\
+& \\
+P(X_{n+1} = 1 | M_1=n_1, M_2=n_2, M_3=n_3) &=
+\frac{n_3+\alpha_1}{n+\alpha}
+\end{align*}
+\noindent where $\alpha=\alpha_1+\alpha_2+\alpha_3$.
 
-\[P(X_{n+1}=W|M_1=n_1,M_2=n_2,M_3=n_3)=\frac{n_1+\alpha_1}{n+\alpha};\]
-
-\noindent
-where $\alpha=\alpha_1+\alpha_2+\alpha_3$.
 In this work we used the uniform prior on the 2-simplex, i.e. $\mathcal{D}(1,1,1)$. 
-This is not a restrictive prior because, since we modeled just the second round of the championships, the counts of the first round were used to update this prior---thanks to the conjugacy property of Dirichlet priors---and we may say the actual prior we used is therefore the number of matches won, tied or lost by each team added by one.
-If we had started in the first round, this prior would not be give a good predictive performance but in this case we could use team rankings such the ones provided by federations and leagues to assess a more realistic prior for each team.
+This is not a restrictive prior because, since we predicted only the second round of the championship, the counts of the first round were used to update this prior---thanks to the conjugacy property of Dirichlet priors---and we may say the actual prior we used is therefore the number of matches won, tied or lost by each team added by one.
+If we had started in the first round, this prior would not give a good predictive performance but in this case we could use team rankings such the ones provided by federations and leagues to assess a more realistic prior for each team.
 
 Before explain and illustrate the proposed models with an example, we make two further remarks.
-The first one is that we will consider the matches played home and away, by each team, separately.
-This way the models can detect the different performances teams usually have when playing home and away.
-The second one is the following: each team (home and visitor) has, usually, different counts of matches won, tied or lost and, therefore, the predicted probabilities obtained conditioning on such counts are different.
-This means that we have two probabilities that the home team wins: one given its counts and the other given the counts of its opponent.
-To solve this problem, two of our models will be convex mixtures of Dirichlet distributions, the posterior distribution of each team playing against each other.
+The first one is that we will consider the matches played home and away, by each team, separately in order to take into account the different performances under those conditions.
+The second remark is that the prediction of an upcoming match between $A$ and $B$ can be done using
+the past performance of either team $A$ or $B$.
+To solve this problem, a compromise between the two predictive distributions was adopted. 
+The next subsections \ref{sec::Mn_Dir1}, \ref{sec::Mn_Dir2} and \ref{sec::Mn_Dir3} present three different possible solutions.
 
 \subsection{Model One: Multinomial-Dirichet $1$}
+\label{sec::Mn_Dir1}
 
-Our first model is a simple mixture of two Dirichlets distributions: one is the posterior of the home team and the other is the posterior of the visiting team and both distributions are considered with equal weight.
-Each team has two posteriors, one regarding its performance when playing home and one when playing away.
-Then, considering where the match is played, the relevant distributions are mixed.
+The model $Mn-Dir_1$ is defined as a mixture with equal weights of two Dirichlet distributions: the posterior distributions of teams $A$ and $B$. 
+Since teams $A$ and $B$ are the home and away teams, respectively, the two posterior distributions to be mixed are: (i) one considering only the matches $A$ played at home; (ii) another considering only the matches $B$ played away. 
+The relevant past performance of teams $A$ and $B$ will be summarized, respectively, by the count vectors ${\bf h} = (h_1, h_2, h_3)$ (team $A$ at home) and ${\bf a} = (a_1, a_2, a_3)$ (team $B$ away), representing the numbers of matches won, tied and lost, respectively.
 
-Consider, for example, the match Gr\^emio versus Atl\'etico-PR played for matchday 20, at Gr\^emio stadium.
-Table \ref{tab:counts} displays the performances of both teams, home and away, after 19 matches: 
-with these counts, Gr\^emio has as posterior, for matches played home, a $\mathcal{D}(7,3,2)$ and Atl\'etico has a $\mathcal{D}(3,4,5)$ as posterior for matches played away, recalling that both priors were $\mathcal{D}(1,1,1)$. 
+For instance, consider the match Gr\^emio versus Atl\'etico-PR played for matchday 20, at Gr\^emio stadium. Table \ref{tab:counts} displays the performances of both teams, home and away, after 19
+matches. The relevant vector of counts to be used are ${\bf h}=(h_1,h_2,h_3)=(6,2,1)$ and ${\bf a}=(a_1,a_2,a_3)=(2,3,4)$. 
+Therefore, Gr\^emio has a $\mathcal{D}(7,3,2)$ posterior for matches played at home and Atl\'etico has a $\mathcal{D}(3,4,5)$ posterior for matches played as visitor, recalling that both priors were
+$\mathcal{D}(1,1,1)$.
 
 \begin{table}[!h]
 \begin{center}
@@ -245,53 +287,65 @@ Atl\'etico-PR & 4 & 4 & 2 & 2 & 3 & 4 & 6 & 7 & 6\\
 \end{center}
 \end{table}
 
-The first model will give, as probability that Gr\^emio wins, a mixture with equal weights of the predictive probabilities provided by $\mathcal{D}(7,3,2)$ and $\mathcal{D}(3,4,5)$, i.e.
-
-\[P(X_{n+1}=W|{\bf h}, {\bf a})=\frac{1}{2}\left(\frac{h_1+\alpha_1}{h+\alpha}\right)+\frac{1}{2}\left(\frac{a_3+\alpha_3}{a+\alpha}\right)=0.5\]
-
-\noindent
-where the vector ${\bf h}=(h_1,h_2,h_3)=(6,2,1)$ represents the number of matches won, tied or lost by Gr\^emio played in its stadium and $h=h_1+h_2+h_3$.
-Similarly, ${\bf a}=(a_1,a_2,a_3)=(2,3,4)$ represents the number of matches Atl\'etico won, tied or lost playing away before matchday 20 and $a=a_1+a_2+a_3$.
-
-Analogously, the probabilities of a draw and defeat of the home team are given by:
-
-\[P(X_{n+1}=D|{\bf h}, {\bf a})=\frac{1}{2}\left(\frac{h_2+\alpha_2}{h+\alpha}\right)+\frac{1}{2}\left(\frac{a_2+\alpha_2}{a+\alpha}\right)\simeq0.2917,\]
-
-\[P(X_{n+1}=L|{\bf h}, {\bf a})=\frac{1}{2}\left(\frac{h_3+\alpha_3}{h+\alpha}\right)+\frac{1}{2}\left(\frac{a_1+\alpha_1}{a+\alpha}\right)\simeq0.2083.\]
+Thus, considering $X_{n + 1}$ the random outcome of this match with
+respect to the home team (Gr\^{e}mio), the predictive probabilities
+of $X_{n + 1}$ is obtained by equally weighting the two predictive
+distributions, resulting
+\begin{align*}
+P(X_{n+1}=1|{\bf h}, {\bf a}) &=
+\frac{1}{2}\left(\frac{h_1+\alpha_1}{h+\alpha}\right)+\frac{1}{2}\left(\frac{a_3+\alpha_3}{a+\alpha}\right)=0.5
+\\
+P(X_{n+1}=2|{\bf h}, {\bf a}) &=
+\frac{1}{2}\left(\frac{h_2+\alpha_2}{h+\alpha}\right)+\frac{1}{2}\left(\frac{a_2+\alpha_2}{a+\alpha}\right)\simeq0.2917, \\
+P(X_{n+1}=3|{\bf h}, {\bf a}) &= \frac{1}{2}
+\left(\frac{h_3+\alpha_3}{h+\alpha}\right)+\frac{1}{2}\left(\frac{a_1+\alpha_1}{a+\alpha}\right)\simeq0.2083.
+\end{align*}
+\noindent where $h=h_1+h_2+h_3$ and $a=a_1+a_2+a_3$.
 
 \subsection{Model Two: Multinomial-Dirichlet $2$}
+\label{sec::Mn_Dir2}
 
-The only difference between the first and the second models is the weights used to mix the posteriors.
-While the first model mixed the posteriors with equal weights, the second weights the posteriors of each team according to their ranks before the match is played.
-In the illustrative example, we know that after 19 matchdays, Gr\^emio was the $6^{th}$ place and Atl\'etico-PR the $11^{th}$.
-Therefore the weights will be
-
-\[w_1 = \frac{1/6}{1/6+1/11}=0.647 ~ ~ ~ ~ ~ w_2 = \frac{1/11}{1/6+1/11}=0.353\]
-
-\noindent
-for the Gr\^emio and Atl\'etico posteriors, respectively, and the probability that Gr\^emio wins is
-
-\[P(X_{n+1}=W|{\bf h}, {\bf a})=0.647\left(\frac{h_1+\alpha_1}{h+\alpha}\right)+0.353\left(\frac{a_3+\alpha_3}{a+\alpha}\right)=0.525,\]
-
-\noindent
-the other probabilities being computed similarly.
+The model $Mn-Dir_2$ is very similar to model $Mn-Dir_1$, but the
+weights used to mix the posterior distributions are not the same.
+Model $Mn-Dir_2$ weights the predictive distributions according to
+the team ranks just before the match is played. In the illustrative
+example, we know that after 19 matchdays, Gr\^emio was the $6^{th}$
+place and Atl\'etico-PR the $11^{th}$. Therefore, we shall consider
+the weights
+\[w_1 = \frac{1/6}{1/6+1/11}=0.647 ~ ~ ~ ~ ~\text{and} ~ ~ ~ w_2 = \frac{1/11}{1/6+1/11}=0.353\]
+\noindent for the Gr\^emio and Atl\'etico predicitive distributions,
+respectively. Thus, the winning probability for Gr\^emio is
+calculated as
+\[P(X_{n+1}= 1|{\bf h}, {\bf a})=0.647\left(\frac{h_1+\alpha_1}{h+\alpha}\right)+0.353\left(\frac{a_3+\alpha_3}{a+\alpha}\right)=0.525,\]
+\noindent and the other probabilities are computed similarly.
 
 \subsection{Model 3: Multinomial-Dirichlet 3}
+\label{sec::Mn_Dir3}
 
-The last model we propose is not a mixture of two posteriors.
-To obtain one probability for both teams, we combine the counts of matches of both teams in the following way: add the number of matches won by the home team played in its own stadium with the number of matches lost by the visitor team played away, add the number of draws the home team obtained playing home and the number of draws the visitor team obtained playing away and, finally, add the number of matches the home team lost playing in its domains and the number of matches the visitor team won playing away.
+Model $Mn-Dir_3$ is essentially different from the
+last two, because it combines the two different count vectors ${\bf
+h} = (h_1, h_2, h_3)$ and ${\bf a} = (a_1, a_2, a_3)$ instead of the
+predictive distributions. The main idea is to add the information
+contained in both vectors. From the point of view of team $A$, this can
+be done by considering a win of team $B$ as a ``negative event'' and a
+loss of team $B$ as a ``positive event'', while a draw is
+considered an ``indifferent event''. Applying this reasoning,
+we define the combined vector ${\bf c} = (c_1, c_2, c_3)$ by $c_1 =
+h_1 + a_3$, $h_2 = h_2 + a_2$, and $h_3 = h_3 + a_1$. Then, assuming that the vector ${\bf c} = (c_1, c_2, c_3)$, given $\boldsymbol{\theta}$, has multinomial distribution with parameters $n$ and
+$\boldsymbol{\theta}$, the predictive distribution for $X_{n + 1}$ can
+be obtained by the methods explained in subsection
+\ref{sec::Mn_Dir}.
 
-It is important to highlight that this model implicitly uses the strong assumption that the matches of the home team, when playing in its stadium, and the matches of the visitor team, when playing away, are independent and identically distributed.
+It is important to highlight that this model implicitly uses the strong assumption that, given $\boldsymbol{\theta}$, the matches of the home team, when playing in its stadium, and the matches of the visitor team, when playing away, are independent and identically distributed (reversing the result outcomes for team $B$).
 
-Considering the example we gave above, the counts of Gr\^emio and Atl\'etico are combined as described resulting in a vector ${\bf c}=(c_1,c_2,c_3)=(10,5,3)$, which leads to a posterior $\mathcal{D}(11,6,4)$ if $\mathcal{D}(1,1,1)$ is the prior.
+Considering the example above, the combined vector ${\bf c}$ is given by ${\bf c}=(c_1,c_2,c_3)=(10,5,3)$, which leads to a posterior $\mathcal{D}(11,6,4)$ when considering the prior $\mathcal{D}(1,1,1)$
 Therefore, the probability that Gr\^emio wins is
 
-\[P(X_{n+1}=W|{\bf c})=\frac{c_1+\alpha_1}{c+\alpha}\simeq0.524
+\[P(X_{n+1}=1|{\bf c})=\frac{c_1+\alpha_1}{c+\alpha}\simeq0.524
 \]
 
 \noindent
-where $c=c_1+c_2+c_3$, $c_2=h_2+a_2$, $c_3=h_3+a_1$ and the other probabilities are computed similarly.
-
+where $c=c_1+c_2+c_3$. The probabilities of drawing and losing are computed similarly.
 
 \section{Scoring rules and calibration}
 \label{sec::scoring}
@@ -395,7 +449,7 @@ where $\mathbb{I}$ is the indicator function.
 We interpret the Brier score in the case where one of three mutually exclusive outcomes happen, the case of a football match.
 The green surface in Figure \ref{fig:simplex} represents the 2-simplex, i.e. the set of points such that $p_1+p_2+p_3=1$ for non-negative values of $p_1$, $p_2$ and $p_3$.
 The triangle representing the simplex has sides of length $\sqrt{2}$ and its height is $\sqrt{6}/2$.
-Drawing a similar equilateral triangle with height 1 and sides $2\sqrt{3}/3$, it is possible to represent all the points of the simplex.
+Drawing a similar equilateral triangle with height 1 and sides $2\sqrt{3}/3$, it is possible to represent all points of the simplex.
 This new triangle is used to graphically display the predictions as internal points because the sum of the distances of every point inside it to each side, representing the probability of each event, is always one.
 
 \begin{figure}[!ht]
@@ -481,7 +535,7 @@ This new triangle is used to graphically display the predictions as internal poi
 The Brier score for the prediction $P_X=(0.25,0.35,0.40)$, assuming the home team loses, is therefore given by $d^2=(0-0.25)^2+(0-0.35)^2+(1-0.40)^2=0.545$. 
 If the prediction was $P_X=(0,0,1)$, the score would be zero, the minimum for this rule.
 
-It is useful to consider the score of what we will call the {\it trivial prediction}: $(1/3,1/3,1/3)$.
+It is useful to consider the score of what we will call {\it trivial prediction}: $(1/3,1/3,1/3)$.
 This assessment will produce a Brier score of $2/3$, no matter what is the final result of the match, providing, thus, a threshold that a good model should consistently beat, meaning, for the Brier score, that the scores of its predictions should be smaller than $0.667$.  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -514,16 +568,16 @@ If the prediction was $P_X=(0,0,1)$, the score would be $-1$ instead and, for th
 
 \subsection{Calibration and proportion of errors}
 
-Besides scoring rules, there are other criteria used to assess the quality of different predictions. Here we explore to of them.
+Besides scoring rules, there are other criteria used to assess the quality of different predictions. Here we explore two of them.
 
-The first one is the proportion of errors made by the model or assessor. This is simply the proportion of mistakes made when considering the highest probability guess.
-More precisely, the proportion of errors of a given model $P_X$ is given by
-$$\frac{1}{n}\sum_{j=1}^n \mathbb{I}\left(X_j \neq \arg \max_{i} P_X(x_{j,i})\right),$$
-where $X_j$ is the outcome of the $j$-th game and $P_X(x_{j,i})$ is the probability attributed to event $i$ for the $j$-th game.
+The first one is the proportion of errors made by the model or assessor. This is simply the proportion of mistakes made when considering the highest probability assessment.
+More precisely, the proportion of errors of a given prediction $P_X$ is defined by
+$$\frac{1}{n}\sum_{j=1}^n \mathbb{I}\left(X_j \neq \arg \max_{x} P_X(x_{j})\right),$$
+where $X_j$ is the outcome of the $j$-th match and $P_X(x_{j})$ is the probability attributed to result $x\in\mathcal{X}=\{1,2,3\}$ for the $j$-th match.
 
 The second concept we use is that of calibration \cite{Dawid}. Probability assertions are said to be well calibrated at the level of probability $p$ if the observed proportion of all propositions that are assessed with probability $p$ equals $p$.
-Because we typically do not have several predictions with the same assigned probability $p$, we obtain the plot by smoothing the indicator function of whether a given event happened on  the assigned  probability of that event.
-That is, we regress $\mathbb{I}(A_i)$ over $P_X(A_i)$ for each event $A_i$, i.e., each possible outcome of each match
+
+Because we typically do not have several predictions with the same assigned probability $p$, we obtain a plot by smoothing the indicator function of whether a given result happened as a function of the assigned probability of that result, that is, we regress $\mathbb{I}(A_i)$ over $P_X(A_i)$ for each event $A_i$, i.e., each possible outcome of each match
 that occurred.
 The smoothing is done via smoothing splines \cite{wahba}, with tuning parameters chosen by cross-validation.
 
@@ -534,8 +588,8 @@ The smoothing is done via smoothing splines \cite{wahba}, with tuning parameters
 \section{Results}
 \label{sec::results}
 
-We display only the results for the first division of the Brazilian football championship; the second
-division yielded similar results.
+We display only the results for the first division of the Brazilian football championship; 
+we also analyzed the results for the second division, which yield similar conclusions.
 Both divisions have 20 teams that play against each other twice (home and away) and the team with more points after all matches are played is declared champion.
 The last four are relegated to a minor division and, in first division, the first four play Copa Libertadores (South America champions league) and in second division the first four are promoted to first division.
 Therefore, in each championship there is a total of 380 matches, 190 in each round.
@@ -619,7 +673,7 @@ Logarithmic & 0.98 (0.03) & 0.99 (0.03) & 1.02 (0.03)  & 1.02 (0.03)  & 1.02 (0.
 Spherical &  -0.64 (0.02)& -0.64 (0.02)& -0.62 (0.02)& -0.63 (0.02)& -0.63 (0.02)& -0.58\\
 \hline
 \end{tabular}
-\caption{Mean scores and their standard errors after 190 matches.}
+\caption{Mean scores and their standard errors for 190 matches of first division.}
 \label{tab::brier}
 \end{center}
 \end{table}
@@ -627,8 +681,8 @@ Spherical &  -0.64 (0.02)& -0.64 (0.02)& -0.62 (0.02)& -0.63 (0.02)& -0.63 (0.02
 
 Figure \ref{fig::entropy} presents the boxplots of the entropy of each prediction for the predictive models considered\footnote{Recall
 that the entropy of a prediction $(p_1,p_2,p_3)$ is given by $- \sum_{i=1}^3 p_i \log{p_i}$}.
-Because the entropy values are smaller than 1.09, the plots show that the predictions
-are typically more informative than $(1/3,1/3,1/3)$. Nevertheless, all methods yielded similar entropies in average, that is,
+Since the entropy values are smaller than 1.09, the plots show that the predictions
+are typically more informative than the trivial prediction. Nevertheless, all methods yielded similar entropies in average, that is,
 none of them seem to provide more informative probabilities.
 
 \begin{figure}[H]
@@ -639,7 +693,7 @@ none of them seem to provide more informative probabilities.
 \end{figure}
 
 
-We evaluate how reasonable were the predictions by assessing the calibration of the methods considered, i.e., by evaluating how often events which have assigned probability $p$ (for each $0<p<1$) happened (Section \ref{sec::scoring}).
+We also evaluated how reasonable were the predictions by assessing the calibration of the methods considered, i.e., by evaluating how often events which have assigned probability $p$ (for each $0<p<1$) happened (Section \ref{sec::scoring}).
 If these probabilities are close to $p$, one concludes that the methods are well-calibrated.
 Results are displayed in Figure \ref{fig::calibration}.
 Because the curves we obtained are close to the identity ($45^{\text{o}}$ line), we conclude that all methods are well-calibrated, except perhaps BB1, in which events with both low and high estimated probabilities happen more often
@@ -676,10 +730,7 @@ is no draw. Horizontal line indicates a 50\% probability.}
 
 
 We therefore conclude that all methods have similar predictive power, and none of them is more informative in average.
-Nevertheless, all methods yielded better predictions than the non-informative vector of probabilities $(1/3,1/3,1/3)$, and they are well-calibrated.
-
-
-
+Nevertheless, all methods yielded better predictions than the trivial prediction, and they are well-calibrated.
 
 \section{Final remarks}
 \label{sec::remarks}
@@ -690,9 +741,6 @@ Nevertheless, all methods yielded better predictions than the non-informative ve
 
 
 %De Finetti used what is called the Brier score, which is just the (squared) Euclidean distance — i.e., the sum of the squared differences between credences and (the 0/1 numerical correlates of) truth values.
-Statistical models devoted to prediction of football matches can be divided in two classes: one class of models predicts the number of goals each team scores \citep{Maher82, Dixon97, Karlis2003} and the other predicts the final outcome (win, draw of defeat of the home team) \citep{Forrest2000, Koning2000, Brillinger2008, Brillinger2009}. 
-For a discussion of these two approaches see \cite{Goddard2005}. 
-All the models considered in this work are part of the second class of models.
 
 %In the statistical literature, football prediction models can be divided in two main approaches: (i) modeling the number of goals \citep{Maher82, Dixon97, Karlis2003} and (ii) modeling the final outcome (win, draw or lose) of the matches \citep{Forrest2000, Koning2000, Brillinger2008, Brillinger2009}. For a discussion of these two approaches see \cite{Goddard2005}.
 Although our benchmark models were here defined as complex, we can find much more elaborate models in the literature, hindering the estimation and prediction processes.
