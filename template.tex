@@ -190,7 +190,6 @@ We adopt a Bayesian approach to calculate the prediction probabilities of an upc
 
 Let us consider the outcome of each match of team $T$ as a categorical random quantity $X$ that may assume only the values $1$, $2$, $3$, where $1$ means win ($W$), $2$ draw ($D$) and $3$ loss ($L$).
 Denoting by $\theta_1, \theta_2$ and $\theta_3$ ($\theta_3 = 1-\theta_1 - \theta_2$), the probabilities of win, draw and loss, respectively, the probability mass function of $X$ is
-
 \[
 P(X=x | \boldsymbol{\theta}) = \theta_1^{\mathbb{I}_{\{1\}}(x)}
 \theta_2^{\mathbb{I}_{\{2\}}(x)}(1 - \theta_1 -
@@ -205,7 +204,6 @@ value 1 if $x$ equals $i$ and 0 otherwise, and $\boldsymbol{\theta}
 \{(\theta_1,\theta_2)\in [0,1]^2: \theta_1+\theta_2 \leq 1 \}$, the 2-simplex.
 
 Assuming that $n$ matches of team $T$, given $\boldsymbol{\theta}$, are i.i.d. quantities with the above categorical distribution, and denoting by $M_1$, $M_2$ and $M_3$ the number of matches won, tied or lost by team $T$, the random vector $(M_1, M_2, M_2)$ has multinomial distribution with parameters $n$ and $\boldsymbol{\theta}$ given by
-
 \[
 P(M_1=n_1,M_2=n_2,M_3=n_3| n, \boldsymbol{\theta})=
 \frac{n!}{n_1!n_2!(n-n_1-n_2)!}\theta_1^{n_1}\theta_2^{n_2}(1-\theta_1-\theta_2)^{n-n_1-n_2},
@@ -247,15 +245,17 @@ P(X_{n+1} = 1 | M_1=n_1, M_2=n_2, M_3=n_3) &=
 \noindent where $\alpha=\alpha_1+\alpha_2+\alpha_3$.
 
 In this work we used the uniform prior on the 2-simplex, i.e. $\mathcal{D}(1,1,1)$. 
-This is not a restrictive prior because, since we predicted only the second round of the championship, the counts of the first round were used to update this prior---thanks to the conjugacy property of Dirichlet priors---and we may say the actual prior we used is therefore the number of matches won, tied or lost by each team added by one.
-If we had started in the first round, this prior would not give a good predictive performance but in this case we could use team rankings such the ones provided by federations and leagues to assess a more realistic prior for each team.
+This is not a restrictive prior because, since we predicted only the second round of the championship, the counts of the first round were used to update this prior---thanks to the conjugacy property of Dirichlet priors---and we may say that the actual prior we used is therefore the number of matches won, tied or lost by each team added by one.
+If we had started our predictions in the first round, this prior would not have given 
+a good predictive performance, but in this case we could have used team rankings such the ones provided by federations and leagues to assess a more realistic prior for each team instead.
 
-Before explain and illustrate the proposed models with an example, we make two further remarks.
-The first one is that we will consider the matches played home and away, by each team, separately in order to take into account the different performances under those conditions.
+Before we explain and illustrate the proposed models with an example, we make two further remarks.
+The first one is that we will separately consider home and away games for each team. This will allow us to take into account the different performances under those conditions.
 The second remark is that the prediction of an upcoming match between $A$ and $B$ can be done using
 the past performance of either team $A$ or $B$.
 To solve this problem, a compromise between the two predictive distributions was adopted. 
 The next subsections \ref{sec::Mn_Dir1}, \ref{sec::Mn_Dir2} and \ref{sec::Mn_Dir3} present three different possible solutions.
+
 
 \subsection{Model One: Multinomial-Dirichet $1$}
 \label{sec::Mn_Dir1}
@@ -266,8 +266,8 @@ The relevant past performance of teams $A$ and $B$ will be summarized, respectiv
 
 For instance, consider the match Gr\^emio versus Atl\'etico-PR played for matchday 20, at Gr\^emio stadium. Table \ref{tab:counts} displays the performances of both teams, home and away, after 19
 matches. The relevant vector of counts to be used are ${\bf h}=(h_1,h_2,h_3)=(6,2,1)$ and ${\bf a}=(a_1,a_2,a_3)=(2,3,4)$. 
-Therefore, Gr\^emio has a $\mathcal{D}(7,3,2)$ posterior for matches played at home and Atl\'etico has a $\mathcal{D}(3,4,5)$ posterior for matches played as visitor, recalling that both priors were
-$\mathcal{D}(1,1,1)$.
+Therefore, Gr\^emio has a $\mathcal{D}(7,3,2)$ posterior for matches played at home and Atl\'etico has a $\mathcal{D}(3,4,5)$ posterior for matches played as visitor (recall that both priors were
+$\mathcal{D}(1,1,1)$).
 
 \begin{table}[!h]
 \begin{center}
@@ -338,9 +338,8 @@ be obtained by the methods explained in subsection
 
 It is important to highlight that this model implicitly uses the strong assumption that, given $\boldsymbol{\theta}$, the matches of the home team, when playing in its stadium, and the matches of the visitor team, when playing away, are independent and identically distributed (reversing the result outcomes for team $B$).
 
-Considering the example above, the combined vector ${\bf c}$ is given by ${\bf c}=(c_1,c_2,c_3)=(10,5,3)$, which leads to a posterior $\mathcal{D}(11,6,4)$ when considering the prior $\mathcal{D}(1,1,1)$
-Therefore, the probability that Gr\^emio wins is
-
+Considering the example above, the combined vector ${\bf c}$ is given by ${\bf c}=(c_1,c_2,c_3)=(10,5,3)$, which leads to a posterior $\mathcal{D}(11,6,4)$ when considering the prior $\mathcal{D}(1,1,1)$.
+The probability that Gr\^emio wins is therefore	
 \[P(X_{n+1}=1|{\bf c})=\frac{c_1+\alpha_1}{c+\alpha}\simeq0.524
 \]
 
@@ -567,6 +566,7 @@ $-0.4/\sqrt{0.25^2+0.35^2+0.40^2} \approx -0.68$.
 If the prediction was $P_X=(0,0,1)$, the score would be $-1$ instead and, for this rule, the trivial prediction results in a score of approximately $-0.577$.
 
 \subsection{Calibration and proportion of errors}
+\label{sec::calib}
 
 Besides scoring rules, there are other criteria used to assess the quality of different predictions. Here we explore two of them.
 
@@ -577,8 +577,12 @@ where $X_j$ is the outcome of the $j$-th match and $P_X(x_{j})$ is the probabili
 
 The second concept we use is that of calibration \cite{Dawid}. Probability assertions are said to be well calibrated at the level of probability $p$ if the observed proportion of all propositions that are assessed with probability $p$ equals $p$.
 
-Because we typically do not have several predictions with the same assigned probability $p$, we obtain a plot by smoothing the indicator function of whether a given result happened as a function of the assigned probability of that result, that is, we regress $\mathbb{I}(A_i)$ over $P_X(A_i)$ for each event $A_i$, i.e., each possible outcome of each match
-that occurred.
+Because we typically do not have several predictions with the same assigned probability $p$, we obtain a plot by smoothing (i.e., regressing) the indicator function of whether a given result happened as a function of the probability assigned for that result.
+That is, we estimate the probability that a event occurs given its assigned probability.
+%, that is, we regress  
+%$$\{ \mathbb{I}_{\{i\}}(X_j) \}_{j=1,\ldots,n;i=1,2,3} \mbox{ over } \{P_X(x_j)\}_{j=1,\ldots,n;i=1,2,3}$$
+% for each event $A_i$, i.e., each possible outcome of each match
+%that occurred.
 The smoothing is done via smoothing splines \cite{wahba}, with tuning parameters chosen by cross-validation.
 
 
@@ -679,11 +683,13 @@ Spherical &  -0.64 (0.02)& -0.64 (0.02)& -0.62 (0.02)& -0.63 (0.02)& -0.63 (0.02
 \end{table}
 
 
-Figure \ref{fig::entropy} presents the boxplots of the entropy of each prediction for the predictive models considered\footnote{Recall
-that the entropy of a prediction $(p_1,p_2,p_3)$ is given by $- \sum_{i=1}^3 p_i \log{p_i}$}.
+Figure \ref{fig::entropy} presents the boxplots of the entropy of each prediction for the predictive models considered.\footnote{Recall
+that the entropy of a prediction $(p_1,p_2,p_3)$ is given by $- \sum_{i=1}^3 p_i \log{p_i}$}
 Since the entropy values are smaller than 1.09, the plots show that the predictions
 are typically more informative than the trivial prediction. Nevertheless, all methods yielded similar entropies in average, that is,
 none of them seem to provide more informative probabilities.
+
+
 
 \begin{figure}[H]
   \centering
@@ -693,11 +699,20 @@ none of them seem to provide more informative probabilities.
 \end{figure}
 
 
-We also evaluated how reasonable were the predictions by assessing the calibration of the methods considered, i.e., by evaluating how often events which have assigned probability $p$ (for each $0<p<1$) happened (Section \ref{sec::scoring}).
+We also evaluated how reasonable were the predictions by assessing the calibration of the methods considered, i.e., by evaluating how often events which have assigned probability $p$ (for each $0<p<1$) happened (Section \ref{sec::calib}).
 If these probabilities are close to $p$, one concludes that the methods are well-calibrated.
 Results are displayed in Figure \ref{fig::calibration}.
 Because the curves we obtained are close to the identity ($45^{\text{o}}$ line), we conclude that all methods are well-calibrated, except perhaps BB1, in which events with both low and high estimated probabilities happen more often
 than predicted.
+
+In order to have a deeper understanding about the probabilities
+given by each method, Figure \ref{fig::probMandante} displays the
+estimated conditional probability that the home team wins assuming
+the match will not be a tie.
+All models assign higher probabilities to the home team, showing that they capture the well known fact known as home advantage, peculiar in football matches and in other sport competitions \cite{Pollard86, Clarke95, Nevill99}.
+Morever, the outputs from the methods introduced in this paper are
+less dispersed than those from the other models used in the
+literature.
 
 
 \begin{figure}[H] \centering
@@ -712,14 +727,6 @@ confidence bands. Black line is the identity $y=x$.}
 \label{fig::calibration}
 \end{figure}
 
-In order to have a deeper understanding about the probabilities
-given by each method, Figure \ref{fig::probMandante} displays the
-estimated conditional probability that the home team wins assuming
-the match will not be a tie.
-All models assign higher probabilities to the home team, showing that they capture the well known fact known as home advantage, peculiar in football matches and in other sport competitions\citep{Pollard86, Clarke95, Nevill99}.
-Morever, the outputs from the methods introduced in this paper are
-less dispersed than those from the other models used in the
-literature.
 
 \begin{figure}[H] \centering
 \includegraphics[page=11,scale=0.4]{futebolComparacaoModelosForPaper.pdf}
