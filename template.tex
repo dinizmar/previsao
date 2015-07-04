@@ -351,30 +351,35 @@
 	A way of doing this is by using proper scoring rules, where
 	the score may be interpreted as a numerical measure of how inaccurate was a given probabilistic prediction.
 	
-	Formally, let $X$ be a random variable indicating
-	the result of a given match. Hence, $X$ assumes a value in $\{1,2,3\}$. Moreover, let $P$ denote one's probabilistic prediction
-	about $X$, i.e., $P$ is such that $\sum_{x=1}^3P(X=x)=1$ and
-    $P(X=x)\geq0$ for all $x$ in $\{1,2,3\}$.
+	Formally, let $X$ be a random variable
+	taking values in $\mathcal{X}=\{1,2,3\}$ indicating
+	the outcome of the match, with 1 standing for home win, 2 for draw and 3 for away win.  Moreover, let $P=(P_1,P_2,P_3)$ denote one's probabilistic prediction
+	about $X$, i.e., $P$ lies in the 2-simplex set $\Delta_2=\{(p_1,p_2,p_3):p_1+p_2+p_3=1, \ p_1,p_2,p_3\geq0\}$ (see Figure
+	\ref{fig:simplex}). 	
 	A scoring rule is a function 
-	that assigns a real number (score) $S(x,P)$ to each combination $(x,P)$, where $x$ denotes each possible outcome of the match.
-	For a given $x$ in $\{1,2,3\}$, the score  $S(x,P)$ is minimum when $P$ is degenerate distribution on $x$, i.e., when $P(X=x)=1$.  
-	Thus, the best score (i.e., the score with the smallest value) is achieved when the probabilistic prediction for the outcome of the game is a degenerate  distribution
-  on the observed outcome of that match, i.e., a perfect prediction.\footnote{A scoring rule can also be defined to be such that a \emph{large} value of the score indicates good forecasts.}
+	that assigns a real number (score) $S(x,P)$ to each $x \in \mathcal{X}$
+	and $P \in \Delta_2$ 
+	such that 
+	for any given $x$ in $\mathcal{X}$, the score  $S(x,P)$ is minimized when $P$ is 
+	$(1,0,0)$, $(0,1,0)$ or $(0,0,1)$ depending if $x$ is 1, 2 or 3, respectively.
+	The score $S(x,P)$ can be thought as
+	a penalty to be paid when one assigns the 
+	probabilistic prediction $P$ and outcome
+	$x$ occurs. Also, the ``best"\footnote{A scoring rule can also be defined to be such that a \emph{large} value of the score indicates good forecasts.} possible score (i.e., the smallest score value) is achieved when the probabilistic prediction for the outcome of the game is perfect.
 	%Most of the scoring rules also exhibit an arbitrary normalizing feature such as $S(x,P_X)=0$ for each $x$.
 	
-	Although many functions satisfy the criteria for a scoring rule specified above, 
-	not all scoring rules encourage honesty and accuracy in assessing numerical values for their predictions.
-	Those that do encourage a fair assessment are named \emph{proper scoring rules} \cite{lad}, which we describe in the sequence.
+	Although many functions can satisfy the above scoring rule definition, not all of them encourage honesty and accuracy when assigning a prediction to an event. Those that do enable a fair probabilistic assignment are named \emph{proper scoring rules} \cite{lad}, which we describe in the sequence.
 	
-	Say a model's probabilistic prediction for $X$ is $P^*.$ A proper scoring rule is a scoring rule $S$ such that the probabilistic prediction $P$ that minimizes 
-	$$E_{P^*}[S(X,P)]=\sum_{x=1}^3 S(x,P)P^*(X=x)$$
-	 is $P^*$  itself.
-	In other words, if one imagines 
-	a penalty $S(x,P)$ is received 
-	when $x$ happens then, 
-	if $S$ is a proper scoring rule, the lowest expected penalty is obtained by reporting the model's  uncertainty about $X$, $P^*$.
-	The use of a proper scoring rule thus encourages the forecaster to use $P^*$
-	as his probabilistic prediction for the outcome of the game, $X$, rather than some other quantity. 
+	
+	Say a model's probabilistic prediction for $X$ is $P^*=(P_1^*,P_2^*,P_3^*).$ A proper scoring rule $S$ is a scoring rule  such that the mean score value 
+	$$E_{P^*}[S(X,P)]=\sum_{x=1}^3 S(x,P)P^*_x$$
+	 is minimized when $P=P^*$.
+	In other words, if one announces
+	$P$ as his probabilistic prediction
+	and $S$ as a scoring rule, the lowest
+	expected penalty is obtained by reporting the correct model's  uncertainty about $X$, $P^*$.
+	Thus, the use of a proper scoring rule encourages the forecaster to announce $P^*$ (the correct one)
+	as his probabilistic prediction  rather than some other quantity. 
 	%Moreover, this method automatically leads to an overall comparison between the outcomes of different personal evaluations concerned with the same totality of events and, therefore, the accumulated score may be considered a concrete measure of success of each model.
 	
 	In what follows, we describe in detail three proper scoring rules we use to asses the various models considered.
@@ -388,9 +393,9 @@
 	
 	\subsection{Brier scoring rule}
 	
-	Let $P$ be a probabilistic prediction  for $X$.
+	Let $P=(P_1,P_2,P_3)$ be a probabilistic prediction  for $X$.
 	The Brier score for a given outcome $x\in\{1,2,3\}$ is given by
-	$$S(x,P)= \sum_{i=1}^3\mathbb{I}(x=i)(1- P(X=i))^2+\sum_{i=1}^3\mathbb{I}(x\neq i)P^2(X=i),$$
+	$$S(x,P)= \sum_{i=1}^3\mathbb{I}(x=i)(1- P_i)^2+\sum_{i=1}^3\mathbb{I}(x\neq i)P^2_i,$$
 	where $\mathbb{I}$ is the indicator function.
 	
 	
@@ -528,13 +533,12 @@
 		\label{fig:norm_stand}
 	\end{figure}
 	
-	The Brier score for the probabilistic prediction
-	$$P(X=1)=0.25, P(X=2)=0.35, P(X=3)=0.40,$$ 
+	The Brier score for the probabilistic prediction $P=(0.25,0.35,0.40)$
 	assuming the home team loses, is therefore given by $d^2=(0-0.25)^2+(0-0.35)^2+(1-0.40)^2=0.545$. 
-	On the other hand, the prediction $P(X=3)=1$ achieves score  zero, the minimum for this rule.
+	On the other hand, the prediction $P=(0,0,1)$ achieves score  zero, the minimum for this rule.
 	
 	It is useful to consider the score of what we will call {\it trivial prediction}:
-	$$P(X=1)=1/3, P(X=2)=1/3, P(X=3)=1/3.$$
+	$P=(1/3,1/3,1/3)$.
 	This assessment will produce a Brier score of $2/3$, no matter what is the final result of the match, providing, thus, a threshold that a good model should consistently beat, meaning, for the Brier score, that the scores of its predictions should be smaller than $0.667$.  
 	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -543,31 +547,30 @@
 	\subsection{Logarithmic scoring rule}
 	
 	The logarithmic  score is given by
-	$$S(x,P)=- \sum_{i=1}^3\mathbb{I}(x=i)\ln(P(X=i)),$$
+	$$S(x,P)=- \sum_{i=1}^3\mathbb{I}(x=i)\ln(P_i),$$
 	
 	\noindent
 	which is the negative log likelihood of the event that occurred.
 	
 	The logarithmic score for the prediction 
-		$$P(X=1)=0.25, P(X=2)=0.35, P(X=3)=0.40,$$ 
+	$P=(0.25,0.35,0.40)$
 		 when the home team loses is therefore 
 	$-\ln(0.4)\approx 0.91$. 
-	On the other hand, the prediction $P(X=3)=1$ achieves score zero, once again the minimum of this rule.
+	On the other hand, the prediction $P=(0,0,1)$ achieves score zero, once again the minimum of this rule.
 	Moreover, for the logarithmic score, the trivial prediction gives a score of approximately $1.098$.
 	
 	\subsection{Spherical scoring rule}
 	
 	The spherical score is given by
-	$$S(x,P)=- \frac{1}{\sqrt{\sum_{i=1}^3 P^2(X=i)}}\sum_{i=1}^3\mathbb{I}(x=x_i)P(X=i),$$
+	$$S(x,P)=- \frac{1}{\sqrt{\sum_{i=1}^3 P^2_i}}\sum_{i=1}^3\mathbb{I}(x=x_i)P_i,$$
 	
 	\noindent
 	which is the negative likelihood of the event that occurred, normalized by the square-root of the sum of the assigned squared probabilities.
 	
 	The spherical score for the prediction 
-		$$P(X=1)=0.25, P(X=2)=0.35, P(X=3)=0.40,$$ 
-		 assuming the home team loses, is given by
+		$P=(0.25,0.35,0.40)$ assuming the home team loses, is given by
 	$-0.4/\sqrt{0.25^2+0.35^2+0.40^2} \approx -0.68$.
-	On the other hand, the prediction $P(X=3)=1$ achieves score  $-1$ instead and, for this rule, the trivial prediction results in a score of approximately $-0.577$.
+	On the other hand, the prediction $P=(0,0,1)$ achieves score  $-1$ instead and, for this rule, the trivial prediction results in a score of approximately $-0.577$.
 	
 	\subsection{Calibration and proportion of errors}
 	\label{sec::calib}
@@ -575,14 +578,16 @@
 	Besides scoring rules, there are other criteria used to assess the quality of different predictions. Here we explore two of them.
 	
 	The first one is the proportion of errors made by the model or assessor. This is simply the proportion of mistakes made when considering the highest probability assessment.
-	More precisely, the proportion of errors of a given probabilistic prediction $P$ is defined by
-	$$\frac{1}{n}\sum_{j=1}^n \mathbb{I}\left(X_j \neq \arg \max_{x \in \{1,2,3\}} P(X_j=x)\right),$$
+	More precisely, the proportion of errors of a a sequence of probabilistic predictions for $n$ games, $P^{(1)},\ldots,P^{(n)}$
+	with
+		$P^{(j)}=(P^{(j)}_1,P^{(j)}_2,P^{(j)}_3)$, is defined by
+	$$\frac{1}{n}\sum_{j=1}^n \mathbb{I}\left(X_j \neq \arg \max_{x \in \{1,2,3\}} P^{(j)}_x\right),$$
 	where $X_j$ is the outcome of the $j$-th match.
 	
 	The second concept we use is that of calibration \cite{Dawid}. Probability assertions are said to be well calibrated at the level of probability $p$ if the observed proportion of all propositions that are assessed with probability $p$ equals $p$.
 	
 	Because we typically do not have several predictions with the same assigned probability $p$, we obtain a plot by smoothing (i.e., regressing) the indicator function of whether a given result happened as a function of the probability assigned for that result.
-	That is, we estimate the probability that a event occurs given its assigned probability.
+	That is, we estimate the probability that an event occurs given its assigned probability.
 	%, that is, we regress  
 	%$$\{ \mathbb{I}_{\{i\}}(X_j) \}_{j=1,\ldots,n;i=1,2,3} \mbox{ over } \{P_X(x_j)\}_{j=1,\ldots,n;i=1,2,3}$$
 	% for each event $A_i$, i.e., each possible outcome of each match
