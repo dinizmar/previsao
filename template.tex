@@ -149,11 +149,11 @@
 	
 	There are several ways to score or classify predictions of categorical events that assume one result out of a discrete set of mutually exclusive possible outcomes, like football matches.
 	See \cite{constantinou} for a brief survey of such measures applied to football.
-	We decided to score the previsions for each match in terms of their distances from the truth, i.e. the verified event, once it has occurred, and chose the most used distances in the literature: Brier \cite{brier1950}, logarithmic and spherical.
+	We decided to score the predictions for each match in terms of their distances from the truth, i.e. the verified event, once it has occurred, and chose the most used distances in the literature: Brier \cite{brier1950}, logarithmic and spherical.
 	
 	This paper is organized as follows.
 	Section \ref{sec::experimental} describes the proposed models, Section \ref{sec::scoring} presents the scoring rules and criteria used in this work to classify the models.
-	Section \ref{sec::results} reports the performance of the models predicting 190 matches comprising the second half of the Brazilian championship of first division.
+	Section \ref{sec::results} reports the performance of the models predicting 190 matches comprising the second round of the Brazilian championship of first division--each team plays 19 matches each round, since the championship has 20 teams.
 	In Section \ref{sec::remarks} we discuss the results and close with proposals for future research.
 	
 	
@@ -375,7 +375,7 @@
 	The score $S(x,P)$ can be thought as
 	a penalty to be paid when one assigns the 
 	probabilistic prediction $P$ and outcome
-	$x$ occurs. Also, the ``best"\footnote{A scoring rule can also be defined to be such that a \emph{large} value of the score indicates good forecasts.} possible score (i.e., the smallest score value) is achieved when the probabilistic prediction for the outcome of the game is perfect.
+	$x$ occurs. Also, the ``best''\footnote{A scoring rule can also be defined to be such that a \emph{large} value of the score indicates good forecasts.} possible score (i.e., the smallest score value) is achieved when the probabilistic prediction for the outcome of the game is perfect.
 	%Most of the scoring rules also exhibit an arbitrary normalizing feature such as $S(x,P_X)=0$ for each $x$.
 	
 	Although many functions can satisfy the above scoring rule definition, not all of them encourage honesty and accuracy when assigning a prediction to an event. Those that do enable a fair probabilistic assignment are named \emph{proper scoring rules} \cite{lad}, which we describe in the sequence.
