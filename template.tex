@@ -187,74 +187,85 @@
 	\subsection{Multinomial-Dirichlet}
 	\label{sec::Mn_Dir}
 	
-	We adopt a Bayesian approach to calculate the prediction probabilities of an upcoming match of \added[id=danilo]{a} team \replaced[id=danilo]{$t$}{$T$} \deleted[id = danilo]{($A$ or $B$)} based on its past performance, i.e\added[id=danilo]{.}, the number of matches it has won, tied and lost.
-	
-	Let us consider the outcome of \replaced[id=danilo]{a given}{each} match of team \replaced[id=danilo]{$t$}{$T$} as a categorical random quantity $X$ that may assume only the values $1$ \added[id=danilo]{(if team $t$ wins)}, $2$ \added[id=danilo]{(if a draw occurs)}, $3$ \added[id=danilo]{(if team $t$ loses)}, \deleted[id=danilo]{where $1$ means win ($W$), $2$ draw ($D$) and $3$ loss ($L$)}.
-	Denoting by $\theta_1, \theta_2$ and $\theta_3$ ($\theta_3 = 1-\theta_1 - \theta_2$), the probabilities of win, draw and loss, respectively, the probability mass function of $X$ is
-	\[
-	P(X=x | \boldsymbol{\theta}) = \theta_1^{\mathbb{I}_{\{1\}}(x)}
-	\theta_2^{\mathbb{I}_{\{2\}}(x)}(1 - \theta_1 -
-	\theta_2)^{{\mathbb{I}_{\{3\}}}(x)}, \qquad x \in \mathcal{X},
-	\]
-	
-	\noindent
-	where $\mathcal{X}=\{1,2,3\}$ is the support of $X$,
-	$\mathbb{I}_{\{i\}}(x)$ is the indicator function that assumes the
-	value 1 if $x$ equals $i$ and 0 otherwise, and $\boldsymbol{\theta}
-	= (\theta_1, \theta_2)$ \replaced[id=danilo]{belongs}{belogns} to $\boldsymbol{\Theta} =
-	\{(\theta_1,\theta_2)\in [0,1]^2: \theta_1+\theta_2 \leq 1 \}$, the 2-simplex.
-	
-	Assuming that \added[id=danilo]{the outcomes from} $n$ matches of team \replaced[id=danilo]{$t$}{$T$}, given $\boldsymbol{\theta}$, are i.i.d. quantities with the above categorical distribution, and denoting by $M_1$, $M_2$ and $M_3$ the number of matches won, tied or lost by team \replaced[id=danilo]{$t$}{$T$}, the random vector $(M_1, M_2, M_2)$ has multinomial distribution with parameters $n$ and $\boldsymbol{\theta}$ given by
-	\[
-	P(M_1=n_1,M_2=n_2,M_3=n_3| n, \boldsymbol{\theta})=
-	\frac{n!}{n_1!n_2!(n-n_1-n_2)!}\theta_1^{n_1}\theta_2^{n_2}(1-\theta_1-\theta_2)^{n-n_1-n_2},
-	\]
-	\noindent 
-	where $n_1 + n_2 + n_3 = n$.
-	
-	Our goal is to compute the predictive posterior distribution of the
-	upcoming match, $X_{n+1}$, that is,
-	$P(X_{n+1}=x|M_1=n_1,M_2=n_2,M_3=n_3)$, $x\in\mathcal{X}$. Using
-	Bayesian inference this probability can be easily computed as
-	follows. Suppose that $\boldsymbol{\theta}$ has Dirichlet prior distribution
-	with parameter $(\alpha_1,\alpha_2,\alpha_3)$, denoted
-	$\mathcal{D}(\alpha_1,\alpha_2,\alpha_3)$, with density function
-	\[
-	\pi(\boldsymbol{\theta}|\replaced[id=danilo]{\boldsymbol{\alpha}}{\alpha})=\frac{\Gamma(\alpha_1+\alpha_2+\alpha_3)}{\Gamma(\alpha_1)\Gamma(\alpha_2)\Gamma(\alpha_3)}\theta_1^{\alpha_1-1}\theta_2^{\alpha_2-1}(1-\theta_1-\theta_2)^{\alpha_3-1}
-	\]
-	\noindent for $\alpha_1$, $\alpha_2$, $\alpha_3 > 0$, then the
-	posterior distribution of $\boldsymbol{\theta}$ is
-	$\mathcal{D}(n_1+\alpha_1,n_2+\alpha_2,n_3+\alpha_3)$. Thus, the
-	predictive distribution of $X_{n + 1}$ is given by the
-	integral
-	$$
-	P(X_{n + 1} = x | M_1 = n_1, M_2 = n_2, M_3 = n_3) = \int_{\boldsymbol{\Theta}} P(X_{n
-		+ 1} = x | \boldsymbol{\theta}) \pi(\boldsymbol{\theta} | M_1 = n_1, M_2 = n_2, M_3
-	= n_3) d\boldsymbol{\theta},
-	$$
-	which leads to the following probabilities of win, tie and loss:
-	\begin{align*}
-	P(X_{n+1} = 1 | M_1=n_1,M_2=n_2,M_3=n_3) &=
-	\frac{n_1+\alpha_1}{n+\replaced[id=danilo]{\alpha_{\bullet}}{\alpha}}\\
-	& \\
-	P(X_{n+1} = 2 | M_1=n_1,M_2=n_2,M_3=n_3) &=
-	\frac{n_2+\alpha_1}{n+\replaced[id=danilo]{\alpha_{\bullet}}{\alpha}} \\
-	& \\
-	P(X_{n+1} = 1 | M_1=n_1, M_2=n_2, M_3=n_3) &=
-	\frac{n_3+\alpha_1}{n+\replaced[id=danilo]{\alpha_{\bullet}}{\alpha}}
-	\end{align*}
-	\noindent where $\replaced[id=danilo]{\alpha_{\bullet}}{\alpha} =\alpha_1+\alpha_2+\alpha_3$.
-	
-	 
-	 \replaced[id=danilo]{In this work, we are interested in checking the predictive performance of the Multinomial-Dirichlet model for the second round of the championship given the results from the first round. In order to do so, we use full time results from the first round as historical data for construction of the Dirichlet prior. Predictions are carried out by using a Bayes information updating mechanism: first, we assign a uniform prior on  $\boldsymbol{\theta}$ over the 2-simplex, i.e. $\mathcal{D}(1, 1, 1)$, and combine this prior with the first-round data, obtaining a posterior Dirichlet distribution through conjugacy that represents the information about $\boldsymbol{\theta}$ up to the first round; then, the posterior of the first round becomes the prior for the second round, which will be combined with the second round matches up to date in order to yield predictive distributions for future games.}{In this work we used the uniform prior on the 2-simplex, i.e. $\mathcal{D}(1,1,1)$. This is not a restrictive prior because, since we predicted only the second round of the championship, the counts of the first round were used to update this prior---thanks to the conjugacy property of Dirichlet priors---and we may say that the actual prior we used is therefore the number of matches won, tied or lost by each team added by one. If we had started our predictions in the first round, this prior would not have given a good predictive performance, but in this case we could have used team rankings such the ones provided by federations and leagues to assess a more realistic prior for each team instead.}\footnote{On the other hand, the two black-box models make predictions from a frequentist perspective; BB1 uses scores of every match in the previous two years, while BB2 uses the match scores of the current championship only.}
-	
-	Before we explain and illustrate the proposed models with an example, we make two further remarks.
-	The first one is that we will separately consider home and away games for each team. This will allow us to take into account the different performances under those conditions.
-	The second remark is that the prediction of an upcoming match between \added[id=danilo]{two teams} $A$ and $B$ can be done using
-	the past performance of either team $A$ or $B$.
-	To solve this problem, a compromise between the two predictive distributions was adopted. 
-	The next subsections \ref{sec::Mn_Dir1}, \ref{sec::Mn_Dir2} and \ref{sec::Mn_Dir3} present three different possible solutions.
-	
+		We adopt a Bayesian approach to calculate the prediction probabilities of an upcoming match of a team $t$ based on its past performance, i.e., the number of matches it has won, tied and lost.
+		
+		Let us consider the outcome of a given match of team $t$ as a categorical random quantity $X$ that may assume only the values $1$ (if team $t$ wins), $2$ (if a draw occurs), $3$ (if team $t$ loses).
+		Denoting by $\theta_1, \theta_2$ and $\theta_3$ (where $\theta_3 = 1-\theta_1 - \theta_2$), the probabilities of win, draw and loss, respectively, the probability mass function of $X$ is
+		\[
+		P(X=x | \boldsymbol{\theta}) = \theta_1^{\mathbb{I}_{\{1\}}(x)}
+		\theta_2^{\mathbb{I}_{\{2\}}(x)}(1 - \theta_1 -
+		\theta_2)^{{\mathbb{I}_{\{3\}}}(x)}, \qquad x \in \mathcal{X},
+		\]
+		
+		\noindent
+		where $\mathcal{X}=\{1,2,3\}$ is the support of $X$,
+		$\mathbb{I}_{\{i\}}(x)$ is the indicator function that assumes the
+		value 1 if $x$ equals $i$ and 0 otherwise, and $\boldsymbol{\theta}
+		= (\theta_1, \theta_2)$ belongs to $\boldsymbol{\Theta} =
+		\{(\theta_1,\theta_2)\in [0,1]^2: \theta_1+\theta_2 \leq 1 \}$, the 2-simplex.
+		
+		Assuming that the outcomes from $n$ matches of team $t$, given $\boldsymbol{\theta}$, are i.i.d. quantities with the above categorical distribution, and denoting by $M_1$, $M_2$ and $M_3$ the number of matches won, tied or lost by team $t$, the random vector $(M_1, M_2, M_2)$ has multinomial distribution with parameters $n$ and $\boldsymbol{\theta}$ given by
+		\[
+		P(M_1=n_1,M_2=n_2,M_3=n_3| n, \boldsymbol{\theta})=
+		\frac{n!}{n_1!n_2!(n-n_1-n_2)!}\theta_1^{n_1}\theta_2^{n_2}(1-\theta_1-\theta_2)^{n-n_1-n_2},
+		\]
+		\noindent 
+		where $n_1 + n_2 + n_3 = n$.
+		
+		Our goal is to compute the predictive posterior distribution of the
+		upcoming match, $X_{n+1}$, that is,
+		$P(X_{n+1}=x|M_1=n_1,M_2=n_2,M_3=n_3)$, $x\in\mathcal{X}$. Using
+		Bayesian inference this probability can be easily computed as
+		follows. Suppose that $\boldsymbol{\theta}$ has Dirichlet prior distribution
+		with parameter $(\alpha_1,\alpha_2,\alpha_3)$, denoted
+		$\mathcal{D}(\alpha_1,\alpha_2,\alpha_3)$, with density function
+		\[
+		\pi(\boldsymbol{\theta}|\boldsymbol{\alpha})=\frac{\Gamma(\alpha_1+\alpha_2+\alpha_3)}{\Gamma(\alpha_1)\Gamma(\alpha_2)\Gamma(\alpha_3)}\theta_1^{\alpha_1-1}\theta_2^{\alpha_2-1}(1-\theta_1-\theta_2)^{\alpha_3-1}
+		\]
+		\noindent for $\alpha_1$, $\alpha_2$, $\alpha_3 > 0$, then the
+		posterior distribution of $\boldsymbol{\theta}$ is
+		$\mathcal{D}(n_1+\alpha_1,n_2+\alpha_2,n_3+\alpha_3)$. Thus, the
+		predictive distribution of $X_{n + 1}$ is given by the
+		integral
+		$$
+		P(X_{n + 1} = x | M_1 = n_1, M_2 = n_2, M_3 = n_3) = \int_{\boldsymbol{\Theta}} P(X_{n
+			+ 1} = x | \boldsymbol{\theta}) \pi(\boldsymbol{\theta} | M_1 = n_1, M_2 = n_2, M_3
+		= n_3) d\boldsymbol{\theta},
+		$$
+		which leads to the following probabilities of win, tie and loss:
+		\begin{align*}
+			P(X_{n+1} = 1 | M_1=n_1,M_2=n_2,M_3=n_3) &=
+			\frac{n_1+\alpha_1}{n+\alpha_{\bullet}}\\
+			& \\
+			P(X_{n+1} = 2 | M_1=n_1,M_2=n_2,M_3=n_3) &=
+			\frac{n_2+\alpha_2}{n+\alpha_{\bullet}} \\
+			& \\
+			P(X_{n+1} = 3 | M_1=n_1, M_2=n_2, M_3=n_3) &=
+			\frac{n_3+\alpha_3}{n+\alpha_{\bullet}}
+		\end{align*}
+		\noindent where $\alpha_{\bullet} =\alpha_1+\alpha_2+\alpha_3$.
+		
+		
+		In this work, we are interested in checking the predictive performance of the Multinomial-Dirichlet 
+		model for the result of every single match in the second round of the championship given the results 
+		of all the previous matches observed in the same tournament. Predictions 
+		are carried out by using a Bayes information updating mechanism. First, we use full-time 
+		results from the first round as historical data for construction of the Dirichlet prior: we assign a uniform prior on  
+		$\boldsymbol{\theta}$ over the 2-simplex, i.e. $\mathcal{D}(1, 1, 1)$, and combine this prior with 
+		the first-round data, obtaining a posterior Dirichlet distribution through conjugacy that represents 
+		the information about $\boldsymbol{\theta}$ up to the first round. Then, the posterior of the first 
+		round becomes the prior for the second round, which, for every matchday in the second round, will be combined with all the observed second-round matches 
+		up to that matchday in order to yield posterior predictive distributions. Note that, on the other hand, the two 
+		black-box models make predictions from a frequentist perspective; BB1 uses scores of every match 
+		in the previous two years, while BB2 uses the match scores of the current championship only.
+		
+		Before we explain and illustrate the proposed models with an example, we make two further remarks.
+		The first one is that we will separately consider home and away games for each team. This will allow us to take into account the different performances under those conditions.
+		The second remark is that the prediction of an upcoming match between two teams $A$ and $B$ can be done using
+		the past performance of either team $A$ or $B$.
+		To solve this problem, a compromise between the two predictive distributions was adopted. 
+		The next subsections \ref{sec::Mn_Dir1}, \ref{sec::Mn_Dir2} and \ref{sec::Mn_Dir3} present three different possible solutions.
+		
 	\subsection{Model One: Multinomial-Dirichet $1$}
 	\label{sec::Mn_Dir1}
 	
@@ -290,15 +301,15 @@
 	of $X_{n + 1}$ is obtained by equally weighting the two predictive
 	distributions, resulting
 	\begin{align*}
-	P(X_{n+1}=1|{\bf h}, {\bf a}) &=
-	\frac{1}{2}\left(\frac{h_1+\alpha_1}{\replaced[id=danilo]{h_{\bullet}+\alpha_{\bullet}}{h+\alpha}}\right)+\frac{1}{2}\left(\frac{a_3+\alpha_3}{\replaced[id=danilo]{a_{\bullet}+\alpha_{\bullet}}{a+\alpha}}\right)=0.5
-	\\
-	P(X_{n+1}=2|{\bf h}, {\bf a}) &=
-	\frac{1}{2}\left(\frac{h_2+\alpha_2}{\replaced[id=danilo]{h_{\bullet}+\alpha_{\bullet}}{h+\alpha}}\right)+\frac{1}{2}\left(\frac{a_2+\alpha_2}{\replaced[id=danilo]{a_{\bullet}+\alpha_{\bullet}}{a+\alpha}}\right)\simeq0.2917, \\
-	P(X_{n+1}=3|{\bf h}, {\bf a}) &= \frac{1}{2}
-	\left(\frac{h_3+\alpha_3}{\replaced[id=danilo]{h_{\bullet}+\alpha_{\bullet}}{h+\alpha}}\right)+\frac{1}{2}\left(\frac{a_1+\alpha_1}{\replaced[id=danilo]{a_{\bullet}+\alpha_{\bullet}}{a+\alpha}}\right)\simeq0.2083.
+		P(X_{n+1}=1|{\bf h}, {\bf a}) &=
+		\frac{1}{2}\left(\frac{h_1+\alpha_1}{h_{\bullet}+\alpha_{\bullet}}\right)+\frac{1}{2}\left(\frac{a_3+\alpha_3}{a_{\bullet}+\alpha_{\bullet}}\right)=0.5
+		\\
+		P(X_{n+1}=2|{\bf h}, {\bf a}) &=
+		\frac{1}{2}\left(\frac{h_2+\alpha_2}{h_{\bullet}+\alpha_{\bullet}}\right)+\frac{1}{2}\left(\frac{a_2+\alpha_2}{a_{\bullet}+\alpha_{\bullet}}\right)\simeq0.2917, \\
+		P(X_{n+1}=3|{\bf h}, {\bf a}) &= \frac{1}{2}
+		\left(\frac{h_3+\alpha_3}{h_{\bullet}+\alpha_{\bullet}}\right)+\frac{1}{2}\left(\frac{a_1+\alpha_1}{a_{\bullet}+\alpha_{\bullet}}\right)\simeq0.2083.
 	\end{align*}
-	\noindent where $\replaced[id=danilo]{h_{\bullet}}{h}=h_1+h_2+h_3$ and $\replaced[id=danilo]{a_{\bullet}}{a}=a_1+a_2+a_3$.
+	\noindent where $h_{\bullet}=h_1+h_2+h_3$ and $a_{\bullet}=a_1+a_2+a_3$.
 	
 	\subsection{Model Two: Multinomial-Dirichlet $2$}
 	\label{sec::Mn_Dir2}
@@ -307,14 +318,14 @@
 	weights used to mix the posterior distributions are not the same.
 	Model $Mn-Dir_2$ weights the predictive distributions according to
 	the team ranks just before the match is played. In the illustrative
-	example, we know that after 19 matchdays, Gr\^emio was the $6^{th}$
-	place and Atl\'etico-PR the $11^{th}$. Therefore, we shall consider
+	example, we know that after 19 matchdays, Gr\^emio was the $6^{\footnotesize\mbox{th}}$
+	place and Atl\'etico-PR the $11^{\footnotesize\mbox{th}}$. Therefore, we shall consider
 	the weights
 	\[w_1 = \frac{1/6}{1/6+1/11}=0.647 ~ ~ ~ ~ ~\text{and} ~ ~ ~ w_2 = \frac{1/11}{1/6+1/11}=0.353\]
 	\noindent for the Gr\^emio and Atl\'etico predicitive distributions,
 	respectively. Thus, the winning probability for Gr\^emio is
 	calculated as
-	\[P(X_{n+1}= 1|{\bf h}, {\bf a})=0.647\left(\frac{h_1+\alpha_1}{\replaced[id=danilo]{h_{\bullet}+\alpha_{\bullet}}{h+\alpha}}\right)+0.353\left(\frac{a_3+\alpha_3}{\replaced[id=danilo]{a_{\bullet}+\alpha_{\bullet}}{a+\alpha}}\right)=0.525,\]
+	\[P(X_{n+1}= 1|{\bf h}, {\bf a})=0.647\left(\frac{h_1+\alpha_1}{h_{\bullet}+\alpha_{\bullet}}\right)+0.353\left(\frac{a_3+\alpha_3}{a_{\bullet}+\alpha_{\bullet}}\right)=0.525,\]
 	\noindent and the other probabilities are computed similarly.
 	
 	\subsection{Model Three: Multinomial-Dirichlet 3}
@@ -329,7 +340,7 @@
 	loss of team $B$ as a ``positive event'', while a draw is
 	considered an ``indifferent event''. Applying this reasoning,
 	we define the combined vector ${\bf c} = (c_1, c_2, c_3)$ by $c_1 =
-	h_1 + a_3$, $h_2 = h_2 + a_2$, and $h_3 = h_3 + a_1$. Then, assuming that the vector ${\bf c} = (c_1, c_2, c_3)$, given $\boldsymbol{\theta}$, has multinomial distribution with parameters $n$ and
+	h_1 + a_3$, $c_2 = h_2 + a_2$, and $c_3 = h_3 + a_1$. Then, assuming that the vector ${\bf c} = (c_1, c_2, c_3)$, given $\boldsymbol{\theta}$, has multinomial distribution with parameters $n$ and
 	$\boldsymbol{\theta}$, the predictive distribution for $X_{n + 1}$ can
 	be obtained by the methods explained in subsection
 	\ref{sec::Mn_Dir}.
@@ -338,12 +349,12 @@
 	
 	Considering the example above, the combined vector ${\bf c}$ is given by ${\bf c}=(c_1,c_2,c_3)=(10,5,3)$, which leads to a posterior $\mathcal{D}(11,6,4)$ when considering the prior $\mathcal{D}(1,1,1)$.
 	The probability that Gr\^emio wins is therefore	
-	\[P(X_{n+1}=1|{\bf c})=\frac{c_1+\alpha_1}{\replaced[id=danilo]{c_{\bullet}+\alpha_{\bullet}}{c+\alpha}}\simeq0.524
+	\[P(X_{n+1}=1|{\bf c})=\frac{c_1+\alpha_1}{c_{\bullet}+\alpha_{\bullet}}\simeq0.524
 	\]
 	
 	\noindent
-	where $\replaced[id=danilo]{c_{\bullet}}{c}=c_1+c_2+c_3$. The probabilities of drawing and losing are computed similarly.
-	
+	where $c_{\bullet}=c_1+c_2+c_3$. The probabilities of drawing and losing are computed similarly.
+
 	\section{Scoring rules and calibration}
 	\label{sec::scoring}
 	
