@@ -151,7 +151,7 @@ We decided to score the previsions for each match in terms of their distances fr
 
 This paper is organized as follows.
 Section \ref{sec::experimental} describes the proposed models, Section \ref{sec::scoring} presents the scoring rules and criteria used in this work to classify the models.
-Section \ref{sec::results} reports the performance of the models predicting 190 matches comprising the second half of the Brazilian championship of first division.
+Section \ref{sec::results} reports the performance of the models predicting 190 matches comprising the second round of the Brazilian championship of first division.
 In Section \ref{sec::remarks} we discuss the results and close with proposals for future research.
 
 
@@ -239,7 +239,7 @@ P(X_{n+1} = 1 | M_1=n_1,M_2=n_2,M_3=n_3) &=
 P(X_{n+1} = 2 | M_1=n_1,M_2=n_2,M_3=n_3) &=
 \frac{n_2+\alpha_1}{n+\alpha} \\
 & \\
-P(X_{n+1} = 1 | M_1=n_1, M_2=n_2, M_3=n_3) &=
+P(X_{n+1} = 3 | M_1=n_1, M_2=n_2, M_3=n_3) &=
 \frac{n_3+\alpha_1}{n+\alpha}
 \end{align*}
 \noindent where $\alpha=\alpha_1+\alpha_2+\alpha_3$.
@@ -577,8 +577,7 @@ where $X_j$ is the outcome of the $j$-th match and $P_X(x_{j})$ is the probabili
 
 The second concept we use is that of calibration \cite{Dawid}. Probability assertions are said to be well calibrated at the level of probability $p$ if the observed proportion of all propositions that are assessed with probability $p$ equals $p$.
 
-Because we typically do not have several predictions with the same assigned probability $p$, we obtain a plot by smoothing (i.e., regressing) the indicator function of whether a given result happened as a function of the probability assigned for that result.
-That is, we estimate the probability that a event occurs given its assigned probability.
+Because we typically do not have several predictions with the same assigned probability $p$, we obtain a plot by smoothing (i.e., regressing) the indicator function of whether a given result happened as a function of the probability assigned for that result, that is, we estimate the probability that a event occurs given its assigned probability.
 %, that is, we regress  
 %$$\{ \mathbb{I}_{\{i\}}(X_j) \}_{j=1,\ldots,n;i=1,2,3} \mbox{ over } \{P_X(x_j)\}_{j=1,\ldots,n;i=1,2,3}$$
 % for each event $A_i$, i.e., each possible outcome of each match
@@ -841,8 +840,7 @@ Constantinou, A. and Fenton, N. E. Solving the problem of inadequate scoring rul
 Clarke, S. R.; Norman, J. N. Home ground advantage of individual clubs in English soccer. {\em Journal of the Royal Statistical Society - Series D} {\bf 1995} ,
 {\em 44}, 509-521.
 
-\bibitem{Crowder2002} Crowder, M.; Dixon, M.; Ledford, A.; Robinson, M. Dynamic modelling and prediction of English
-Football League matches for betting {\em Journal of the Royal
+\bibitem{Crowder2002} Crowder, M.; Dixon, M.; Ledford, A.; Robinson, M. Dynamic modelling and prediction of English Football League matches for betting. {\em Journal of the Royal
 Statistical Society - Series D} {\bf 2002}, {\em 51}, 157-168.
 
 \bibitem{Dawid} Dawid, A. P. The well-calibrated Bayesian. 
@@ -892,7 +890,7 @@ Statistica Neerlandica} {\bf 2007}, {\em 61}, 432-445.
 \bibitem{McHale2011}
 McHale, I.; Scarf, P. Modelling the dependence of goals scored by
 opposing teams in international soccer matches. {\em Statistical
-Modelling} {\bf 2011}, {\em 11}, 219–236.
+Modelling} {\bf 2011}, {\em 11}, 219-236.
 
 \bibitem{Nevill99}
 Nevill, A. M.; Holder, R. L. Home advantage in sport. {\em Sports
