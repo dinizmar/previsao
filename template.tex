@@ -113,7 +113,7 @@
 \corres{marcio.alves.diniz@gmail.com, (+5516) 3351-9387.}
 
 % Abstract (Do not use inserted blank lines, i.e. \\)
-\abstract{We create three simple multinomial-Dirichlet models and compare them to two well-known sophisticated statistical models for association football (soccer) predictions according to their performance in predicting the full-time results for the second round of the 2014 Brazilian first division championship.  The predictive models are compared using three proper scoring rules, the proportion of errors and the calibration assessment. Our results show similar predictive performances for all the five methods, thus discouraging the use of overcomplicated models for match result forecast.}
+\abstract{We create three simple multinomial-Dirichlet models and compare them to two well-known sophisticated statistical models for association football (soccer) predictions according to their performance in predicting the full-time results for the second round of the 2014 Brazilian first division championship. The predictive models are compared using three proper scoring rules, the proportion of errors and the calibration assessment. Our results show similar predictive performances for all the five methods, thus discouraging the use of overcomplicated models for match result forecast.}
 
 % Keywords: add 3 to 10 keywords
 \keyword{predictive inference; probabilistic prediction; Bayesian inference; scoring rules}
@@ -134,17 +134,19 @@
 
     The famous saying of John von Neumann: {\it ``With four parameters I can fit an elephant, and with five I can make him wiggle his trunk''} is a perhaps just a humorous version of Ockham's razor:
     {\it``Entities are not to be multiplied without necessity''}, but illustrates very well a principle that is not often followed by researchers, especially when building predictive models.
-    This is true also in the literature of probabilistic sports predictions, particularly regarding models devoted to football or soccer (henceforth, football) predictions.
+    This is true also in the literature of probabilistic sports predictions, particularly regarding models devoted to football or soccer {\color{red}(henceforth, football)} predictions.
 
     Bothered by such concerns, our goal was to answer the following question: is it possible, using a simple probabilistic model, to predict results of football matches better than more sophisticated or complex models?
     To answer this, we compared two sophisticated models that consider multiple covariates with simple multinomial-Dirichlet models that consider only the number of matches won, tied or lost by each team as inputs.
-    The models were tested for the second round of the Brazilian football championships of first division and compared using standard metrics or scoring rules.
+    The models were tested for the second round of the Brazilian football championship of first division and compared using standard metrics or scoring rules.
     We also used other criteria such as the proportion of matches that were predicted ``correctly'' by each model and a measure of calibration, both explained in detail below.
     According to the adopted criteria, the simple models showed a similar predictive performance to the complex ones.
 
     The predictions of the two benchmark models were published on Internet websites before every matchday, and are treated by us as black-box models (BB1 and BB2).
-    Since one of the authors is responsible for one of these models and the other was described in a dissertation \citep{arruda2000}, we know that both models are based on Holgate bivariate Poisson regression considering as explanatory variables the home field advantage, attack and defense strength for each team, and provide the probabilities of all possible outcomes (home team wins, draws or loses) for each match.
-    Because both models are based on elaborate parametric assumptions, they are suitable for the comparison we are proposing: simple versus complex models. To be precise, we would have to define what is a ``simple'' model and what is a ``complex'' model. Based on the opening quotations, one may say that the number of parameters defines the complexity of a model, which is not exactly the definition we will use, since we consider other criteria, like the interpretation of explanatory variables and mathematical structure of the statistical model.
+    {\color{red} Since one of the authors is responsible for one of these models and the other was described in a dissertation \citep{arruda2000}}, we know that both models are based on Holgate bivariate Poisson regression considering as explanatory variables the home field advantage, attack and defense strength of each team, and provide the probabilities of all possible outcomes (home team wins, draws or loses) for each match.
+    Because both models are based on elaborate parametric assumptions, they are suitable for the comparison we are proposing: simple versus complex models. 
+
+    {\color{red} To be precise, we would have to define what is a ``simple'' model and what is a ``complex'' model. Based on the opening quotations, one may say that the number of parameters defines the complexity of a model, which is not exactly the definition we will use, since we consider other criteria, like the interpretation of explanatory variables and mathematical structure of the statistical model.}
 
 
     There are several ways to score or classify predictions of categorical events that assume one result out of a discrete set of mutually exclusive possible outcomes, like football matches.
@@ -153,7 +155,7 @@
 
     This paper is organized as follows.
     Section \ref{sec::experimental} describes the proposed models, Section \ref{sec::scoring} presents the scoring rules and criteria used in this work to classify the models.
-    Section \ref{sec::results} reports the performance of the models predicting 190 matches comprising the second round of the Brazilian championship of first division--each team plays 19 matches each round, since the championship has 20 teams.
+    Section \ref{sec::results} reports the performance of the models predicting 190 matches comprising the second round of the Brazilian championship of first division---{\color{red}each team plays 19 matches each round, since the championship has 20 teams.}
     In Section \ref{sec::remarks} we discuss the results and close with proposals for future research.
 
 
@@ -181,12 +183,12 @@
     \url{http://www.previsaoesportiva.com.br}.
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \subsection{Benchmark Models}
+    {\color{red} \subsection{Benchmark Models}
     \label{sec::Benchmark}
 
-    The benchmark models assume that the number of goals $(Y_1, Y2)$ scored respectively by teams A (home team) and B (away
-    team) follows a bivariate Poisson distribution \citep{Holgate64} with parameters $(\lambda_1, \lambda_2, \lambda_3)$,
-    which has p.m.f given by
+    The benchmark models assume that the number of goals $(Y_1, Y2)$ scored respectively by teams $A$ (home team) and $B$ (away
+    team) has a bivariate Poisson distribution \citep{Holgate64} with parameters $(\lambda_1, \lambda_2, \lambda_3)$,
+    which has probability mass function given by
 \begin{equation*}
 P(Y_1 = y_1, Y_2 = y_2 | \lambda_1, \lambda_2, \lambda_3) =
 \exp\{-(\lambda_1 + \lambda_2 + \lambda_3)\}
@@ -195,7 +197,7 @@ P(Y_1 = y_1, Y_2 = y_2 | \lambda_1, \lambda_2, \lambda_3) =
 \end{equation*}
 for $\lambda_1, \lambda_2 > 0$ and $\lambda_3 \geq 0$.
 
-Both marginal distributions of $(Y_1, Y_2)$ follow Poisson
+Both marginal distributions of $(Y_1, Y_2)$ has Poisson
 distributions with dependence parameter $\lambda_3 \geq 0$. If
 $\lambda_3 = 0$ the marginal distributions are independent, while if
 $\lambda_3 > 0$ the marginal distributions are positively
@@ -214,14 +216,14 @@ adopt the following log-linear link functions
 \log(\lambda_2) &= \mu + \text{ATT}_B - \text{DEF}_A,
 \end{align*}
 where $\mu$ is a parameter representing the average number of goals
-in a match, $\text{ATT}_k$ is the offensive strength of team k,
-$\text{DEF}_k$ is the defensive strength of team k and $\gamma$ is
-the home advantage for team A, $k = A, B$.
+in a match, $\text{ATT}_k$ is the offensive strength of team $k$,
+$\text{DEF}_k$ is the defensive strength of team $k$ and $\gamma$ is
+the home advantage for team $A$, $k = A, B$.
 
-The prediction for an upcoming match-day is obtained by fitting the
+The prediction for an upcoming matchday is obtained by fitting the
 model to all the observed scores up to the previous match-day and
 then summing up the probabilities of all scores relevant to the win,
-draw and loss outcomes of future matches.
+draw and loss outcomes of future matches.}
 
     \subsection{Multinomial-Dirichlet}
     \label{sec::Mn_Dir}
@@ -285,7 +287,7 @@ draw and loss outcomes of future matches.
         \noindent where $\alpha_{\bullet} =\alpha_1+\alpha_2+\alpha_3$.
 
 
-        In this work, we are interested in checking the predictive performance of the Multinomial-Dirichlet
+        {\color{red} In this work, we are interested in checking the predictive performance of the Multinomial-Dirichlet
         model for the result of every single match in the second round of the championship given the results
         of all the previous matches observed in the same tournament. Predictions
         are carried out by using a Bayes information updating mechanism. First, we use full-time
@@ -296,10 +298,10 @@ draw and loss outcomes of future matches.
         round becomes the prior for the second round, which, for every matchday in the second round, will be combined with all the observed second-round matches
         up to that matchday in order to yield posterior predictive distributions. Note that, on the other hand, the two
         black-box models make predictions from a frequentist perspective; BB1 uses scores of every match
-        in the previous two years, while BB2 uses the match scores of the current championship only.
+        in the previous two years, while BB2 uses the match scores of the current championship only.}
 
         Before we explain and illustrate the proposed models with an example, we make two further remarks.
-        The first one is that we will separately consider home and away games for each team. This will allow us to take into account the different performances under those conditions.
+        The first one is that we will separately consider home and away games for each team, allowing us to take into account the different performances under these conditions.
         The second remark is that the prediction of an upcoming match between two teams $A$ and $B$ can be done using
         the past performance of either team $A$ or $B$.
         To solve this problem, a compromise between the two predictive distributions was adopted.
@@ -394,7 +396,7 @@ draw and loss outcomes of future matches.
     \noindent
     where $c_{\bullet}=c_1+c_2+c_3$. The probabilities of drawing and losing are computed similarly.
 
-    \section{Scoring rules and calibration}
+    {\color{red}\section{Scoring rules and calibration}
     \label{sec::scoring}
 
     One way of fairly rank the various predictive models is by using proper scoring rules, where
@@ -415,10 +417,8 @@ draw and loss outcomes of future matches.
     a penalty to be paid when one assigns the
     probabilistic prediction $P$ and outcome
     $x$ occurs. Also, the ``best'' possible score (i.e., the smallest score value) is achieved when the probabilistic prediction for the outcome of the game is perfect. A scoring rule may also be defined to be such that a large value of the score indicates good forecasts.
-        %Most of the scoring rules also exhibit an arbitrary normalizing feature such as $S(x,P_X)=0$ for each $x$.
-
+        
     Although many functions can satisfy the above scoring rule definition, not all of them encourage honesty and accuracy when assigning a prediction to an event. Those that do enable a fair probabilistic assignment are named \emph{proper scoring rules} \cite{lad}, which we describe in the sequence.
-
 
     Say a model's probabilistic prediction for $X$ is $P^*=(P_1^*,P_2^*,P_3^*).$ A proper scoring rule $S$ is a scoring rule  such that the mean score value
     $$E_{P^*}[S(X,P)]=\sum_{x=1}^3 S(x,P)P^*_x$$
@@ -428,7 +428,7 @@ draw and loss outcomes of future matches.
     and uses $S$ as scoring rule, the lowest
     expected penalty is obtained by reporting the correct model's  uncertainty about $X$, $P^*$.
     Thus, the use of a proper scoring rule encourages the forecaster to announce $P^*$ (the correct one)
-    as his probabilistic prediction  rather than some other quantity.
+    as his probabilistic prediction  rather than some other quantity.}
     %Moreover, this method automatically leads to an overall comparison between the outcomes of different personal evaluations concerned with the same totality of events and, therefore, the accumulated score may be considered a concrete measure of success of each model.
 
     In what follows, we describe in detail three proper scoring rules we use to asses the various models considered.
@@ -741,8 +741,8 @@ draw and loss outcomes of future matches.
     \end{table}
 
 
-    Figure \ref{fig::entropy} presents the boxplots of the entropy of each prediction for the predictive models considered. Recall
-        that the entropy of a prediction $(p_1,p_2,p_3)$ is given by $- \sum_{i=1}^3 p_i \log{p_i}$.
+    Figure \ref{fig::entropy} presents the boxplots of the entropy of each prediction for the predictive models considered. {\color{red} Recall
+        that the entropy of a prediction $(p_1,p_2,p_3)$ is given by $- \sum_{i=1}^3 p_i \log{p_i}$.}
     Since the entropy values are smaller than 1.09, the plots show that the predictions
     are typically more informative than the trivial prediction. Nevertheless, all methods yielded similar entropies in average, that is,
     none of them seem to provide more informative probabilities.
@@ -801,7 +801,7 @@ draw and loss outcomes of future matches.
     \label{sec::remarks}
 
     Although our benchmark models were here defined as complex, we can find much more elaborate models in the literature, hindering the estimation and prediction processes.
-    Among them, we can cite those based on modeling the match as a stochastic process evolving through time \citep{Dixon98, Volf2009, Titman2015}, those allowing for the team performance parameters to change along the season \citep{Rue2000, Crowder2002, Owen2011, Koopman2015} and those modeling dependence between number of goals by means of bivariate count distributions \citep{Dixon97, Karlis2003, McHale2007, McHale2011}. Models that predict the number of goals have more specific objectives than those prediciting the final outcomes and therefore require more elaborate modeling, justifying the complexity of such models. 
+    Among them, we can cite those based on modeling the match as a stochastic process evolving through time \citep{Dixon98, Volf2009, Titman2015}, those allowing for the team performance parameters to change along the season \citep{Rue2000, Crowder2002, Owen2011, Koopman2015} and those modeling dependence between number of goals by means of bivariate count distributions \citep{Dixon97, Karlis2003, McHale2007, McHale2011}. {\color{red} Models that predict the number of goals have more specific objectives than those prediciting the final outcomes and therefore require more elaborate modeling, justifying the complexity of such models}. 
 
     According to standard scoring rules and other criteria here adopted to qualify the predictions, our findings show that the predictive power of the three simple models was quite similar to the benchmark models.
     %We compared the probabilistic predictions of three simple models with the ones provided by two more complex models for the second round of the 2014 Brazilian football championships of first and second divisions.
@@ -809,7 +809,7 @@ draw and loss outcomes of future matches.
     as well as their complex counterparts.
 
     This is often unnoticed by users of such methods, which leads to the overuse of models that are
-    hard to interpret and to implement, and that also require one to keep track of several covariates. We would call this phenomenon the {\it king's nudity} in allusion to Anderson's {\it The Emperor's New Clothes}, \cite{emperor}: ``But he isn't wearing anything at all!''. However, this is not always the case. In this spirit, since we have explored only the prediction of football matches, we would like to study if the same extends to other fields such as, for instance, weather or economics forecasts.
+    hard to interpret and to implement, and that also require one to keep track of several covariates. We would call this phenomenon the {\it king's nudity} {\color{red} in allusion to Anderson's {\it The Emperor's New Clothes}, \cite{emperor}: ``But he isn't wearing anything at all!''}. However, this is not always the case. In this spirit, since we have explored only the prediction of football matches, we would like to study if the same extends to other fields such as, for instance, weather or economics forecasts.
 
     If, on the one hand, our findings appear as another supportive example of Ockham's razor, on the other they pose several questions about probabilistic prediction of sport events.
     In particular, based on the fact that the models have similar performance, one may ask: is there an irreducible ``randomness'' or ``degree of unpredictability'' implicit in these events?
