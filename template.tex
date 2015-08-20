@@ -23,6 +23,9 @@
 \newcommand{\green}[1]{\textbf{\color{green} ***ATT*** #1}}
 
 
+
+\definecolor{darkgreen}{RGB}{15,127,0}
+
 \usepackage{changes}
 \definechangesauthor[name={Rafael}, color=blue]{raf}
 \setremarkmarkup{(#2)}
@@ -761,6 +764,34 @@ predictions while maintaining predictive power. This  discourages the use of the
 	\end{figure}
 	
 	
+	{\color{darkgreen}Our analyses therefore show that, marginally, all methods yield similar scores in average, i.e., they have similar predictive power. A related question
+	is whether, at each match, the performance of the methods is also similar. Figure \ref{fig::scores2} displays pairwise comparisons
+	of the various score between the five models we investigate. All methods present
+	a reasonable agreement among each other. Evidently, the Multinomial-Dirichlet models
+	are the ones where there is largest agreement. To formally test the hypotheses that the models yield the same scores in average for
+	each match,
+	we use Friedman's rank sum test. All p-values are not significant at the level 5\% (Brier: 0.077; Spherical: 0.055; Proportion
+	of errors: 0.655), except for the logarithmic
+	score, which has p-value of 0.021. Post-hoc analyses show that the differences are in Mn-Dir$_1$ versus BB2 (p=0.031),
+	Mn-Dir$_2$ versus BB1 (p=0.043), and Mn-Dir$_3$ versus BB1 (p=0.030). These results thus indicate that BB1 and BB2
+	are similar to each other in terms of predictive power, while the performance of Mn-Dir models differ from the BB's \emph{for each match}.
+	We therefore conclude that while the models we investigate may yield different scores for each
+	match according to some metrics, the overall scores are similar. That is, while in some matches Mn-Dir models
+	have better results, for others BB models have better performance. However, in the long term, all methods have similar accuracy.
+	}
+	
+	
+		\begin{figure}[H]
+			\centering
+			\includegraphics[page=13,scale=0.48]{futebolComparacaoModelosForPaper.pdf}
+			\includegraphics[page=14,scale=0.48]{futebolComparacaoModelosForPaper.pdf}\\
+			\caption{Pairwise comparison of the various scores. Left plot: upper right plots display Brier Scores;
+			lower left plots display Logarithmic Scores. Right plot: upper right plots display proportion of agreements
+			between methods; lower left  plots display Spherical Scores. Red line represents the identity $x=y$.}
+			\label{fig::scores2}
+		\end{figure}
+		
+		
 	We also evaluated how reasonable were the predictions by assessing the calibration of the methods considered, i.e., by evaluating how often events which have assigned probability $p$ (for each $0<p<1$) happened (Section \ref{sec::calib}).
 	If these probabilities are close to $p$, one concludes that the methods are well-calibrated.
 	Results are displayed in Figure \ref{fig::calibration}.
@@ -798,8 +829,10 @@ predictions while maintaining predictive power. This  discourages the use of the
 	\end{figure}
 	
 	
-	We therefore conclude that all methods have similar predictive power, and none of them is more informative in average.
-	Nevertheless, all methods yielded better predictions than the trivial prediction, and they are well-calibrated.
+	{\color{darkgreen}We therefore conclude that 
+	although the accuracy of each method may depend on the specific characteristics of each match,
+	all methods have similar predictive power, and none of them is more informative  in average. 
+    Moreover, all methods yielded better predictions than the trivial prediction, and they were all well-calibrated.}
 	
 	\section{Final remarks}
 	\label{sec::remarks}
@@ -820,11 +853,11 @@ Contrary to the simple multinomial models we propose,	some of these approaches a
 	easy to explain; they simply involve counts of losses, wins and draws!
 	They allow us to offer simple explanations to the football fans about the predictions that were made.} 
 	
-{\color{blue}The fact that simple models are often as effective as their competitors is often unnoticed by users of such methods, which leads to the overuse of models that are often
+{\color{blue}The fact that simple models are often as effective as their competitors in average is often unnoticed by users of such methods, which leads to the overuse of models that are often
 	hard to interpret and to implement, and that also require one to keep track of several covariates. We would call this phenomenon the {\it king's nudity}  in allusion to Anderson's {\it The Emperor's New Clothes}, \cite{emperor}: ``But he isn't wearing anything at all!''. In this spirit, since we have explored only the prediction of football matches in the specific case o Brazilian football championship, we would like to study if the same extends to other fields such as, for instance, weather or economics forecasts.}
 		
 		If, on the one hand, our findings appear as another supportive example of Ockham's razor, on the other they pose several questions about probabilistic prediction of sport events.
-		In particular, based on the fact that the models have similar performance, one may ask: is there an irreducible ``randomness'' or ``degree of unpredictability'' implicit in these events?
+		In particular, based on the fact that the models have similar {\color{darkgreen}predictive power in average}, one may ask: is there an irreducible ``randomness'' or ``degree of unpredictability'' implicit in these events?
 		Is this degree an indicator of how tight or leveled is the championship being studied?
 		
 		A suggestion of future research is to answer these questions by considering more championships and models, and by comparing them using other scoring rules.
