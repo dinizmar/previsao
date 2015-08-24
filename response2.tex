@@ -1,0 +1,85 @@
+\documentclass[11pt]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath, graphicx, layout, verbatim}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{color}
+\usepackage{natbib}
+\usepackage{verbatim}
+\usepackage{subfig}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[pagebackref,colorlinks=true,urlcolor=blue,citecolor=blue	,linkcolor=blue]{hyperref}
+\textheight25cm \footskip0.5cm \topmargin-1.5cm \headsep0.2cm
+\oddsidemargin-0.5cm \evensidemargin-0.5cm
+ \marginparwidth0cm \marginparsep = 0pt
+\textwidth16cm
+
+\onehalfspacing
+\usepackage{cite}
+\usepackage{url}
+\urlstyle{rm}
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+\def\x{{\vec{x}}}
+
+
+
+\def\G{{\mathbb G}}
+ \newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+    \def\independenT#1#2{\mathrel{\setbox0\hbox{$#1#2$}%
+    \copy0\kern-\wd0\mkern4mu\box0}} 
+
+ \def\X{***ATT***}
+\newcommand{\red}[1]{\textbf{\color{red} ***ATT*** #1}}
+
+
+\title{Response to Reviewer 2}
+\date{}
+
+\begin{document}
+
+%the paper and
+%hope to have answered the questions that were raised. 
+
+
+\maketitle
+
+First of all, we would like to apologize to the referee for the miscommunication that happened at the first round. We had not received the pdf with the comments, but only the paper with some parts highlighted in yellow. We thought that point 2 was about the the word ``prevision'', but we were wrong. We now address the first review in full details.
+
+\
+
+\hspace{4mm} \textbf{Reviewer:} \textit{
+	This is a very nicely written and clear article. It is does not set out to be particularly innovative, and that is clearly stated in the paper and the abstract. What is stated is that a Bayesian analysis (multinomial Dirichlet) of team win-loss-and-tie records for both home and away games is as good a predictor as the ``black-box'' predictors based on more complex models and data sets: and this seems to be true from the analysis presented.}
+
+\vspace{2mm}
+\textbf{Response:} We thank the referee for taking the time reviewing the paper. Below we list our detailed response to the referee's questions.\\
+
+\vspace{6mm}
+
+\hspace{4mm} \textbf{Reviewer:} 
+	{\it 1. First paragraph page 4 needs a standard reference in support of the uniform Dirichlet. Agresti (2012) ``Analysis of Ordinal Categorical Data'' coverers this well and sites the historical work of Good (1965) and Lindley's text book (1964). There are similar supporting reference issues for for Section 2.1. There may be a better authoritative and ``web available'' reference, but I could not find one in a quick search.}
+
+\vspace{2mm}
+\textbf{Response: we have included standard references in the suggested Section (now 2.2). They are highlighted in dark green. Besides the books of Agresti and Good, we also cite Bayesian Theory (1994), by Bernardo and Smith, an authoritative reference for the multinomial-Dirichlet model.} 
+
+\vspace{6mm}
+
+\hspace{4mm} \textbf{Reviewer:} \textit{2. My suspicion is that a slightly different way of looking at the data summarized in
+Table 2 and Figure 3 on page 9 and 10 would show that here is a ``statistically significant'' difference between these methods (We will leave the definition of practical significance
+to the sports writers, team managers and the bettors.). To simplify the analysis consider only Brier score and the probability predictors BB1 and Mn-Dr3. For each of the 190 matches there is an effect due to the match (home-away, quality of the two teams, etc.); and an effect due to the differences in the probability predictors. We are only interested in testing for the predictor effect. The variability reported in Figure 3 and Table 2
+incudes variation across in all 190 matches, which will tend to obscure the ``predictor effect''. In this setup the obvious analysis is a paired comparison of Brier sore of BB1 vs the Brier Score for Mn-Dr3 across all 190 pairs (matches). Assuming the differences
+are normally distributed this would be a paired t-test. A nonparametric test would be the paired sign test or sign-rank test. An x-y scatter plot (with the x=y line drawn) of Brier scores for all 190 matches would graphically summarize the analysis. Some form of
+these pairwise plots should be included in the paper, even if the above statistical analysis indicates no significant differences.
+For the analysis of all five predictors the matches are random blocks and there are methods similar to the paired t (randomized block) and sign test (Kendalls W) in this case.}
+
+\vspace{2mm}
+{\bf Response: the referee is correct in point out that our previous analyses did not include formal paired hypotheses tests concerning the performance of the models. We have now included pairwise comparisons (both statistical tests and graphical analyses), and changed the text accordingly; the new material is highlighted in dark green. Please let us know whether the new version is more sound.
+
+We are grateful to the referee for all the insightful comments that helped to improve the paper. We hope to have addressed all his/her concerns. Please feel free to contact us in case something is still not clear, or if new concerns arise.} 
+
+
+\end{document}
